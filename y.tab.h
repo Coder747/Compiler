@@ -47,55 +47,59 @@ extern int yydebug;
   {
     SEMICOLON = 258,
     TYPE_INT = 259,
-    OPERATOR_PLUS = 260,
-    OPEARTOR_MINUS = 261,
-    OPERATOR_MULTIPLY = 262,
-    OPERATOR_DIVIDE = 263,
-    OPERATOR_ASSIGNMENT = 264,
-    ARGUMENT_OPENBRACKER = 265,
-    ARGUMENT_CLOSEBRACKET = 266,
-    VALUE_INT = 267,
-    IDENTIFIER = 268,
-    ID = 269,
-    NUM = 270,
-    IF = 271,
-    THEN = 272,
-    LE = 273,
-    GE = 274,
-    EQ = 275,
-    NE = 276,
-    OR = 277,
-    AND = 278,
-    ELSE = 279,
-    L = 280,
-    G = 281
+    TYPE_STRING = 260,
+    OPERATOR_PLUS = 261,
+    OPEARTOR_MINUS = 262,
+    OPERATOR_MULTIPLY = 263,
+    OPERATOR_DIVIDE = 264,
+    OPERATOR_ASSIGNMENT = 265,
+    ARGUMENT_OPENBRACKET = 266,
+    ARGUMENT_CLOSEBRACKET = 267,
+    VALUE_INT = 268,
+    VALUE_STRING = 269,
+    IDENTIFIER = 270,
+    ID = 271,
+    NUM = 272,
+    IF = 273,
+    THEN = 274,
+    LE = 275,
+    GE = 276,
+    EQ = 277,
+    NE = 278,
+    OR = 279,
+    AND = 280,
+    ELSE = 281,
+    L = 282,
+    G = 283
   };
 #endif
 /* Tokens.  */
 #define SEMICOLON 258
 #define TYPE_INT 259
-#define OPERATOR_PLUS 260
-#define OPEARTOR_MINUS 261
-#define OPERATOR_MULTIPLY 262
-#define OPERATOR_DIVIDE 263
-#define OPERATOR_ASSIGNMENT 264
-#define ARGUMENT_OPENBRACKER 265
-#define ARGUMENT_CLOSEBRACKET 266
-#define VALUE_INT 267
-#define IDENTIFIER 268
-#define ID 269
-#define NUM 270
-#define IF 271
-#define THEN 272
-#define LE 273
-#define GE 274
-#define EQ 275
-#define NE 276
-#define OR 277
-#define AND 278
-#define ELSE 279
-#define L 280
-#define G 281
+#define TYPE_STRING 260
+#define OPERATOR_PLUS 261
+#define OPEARTOR_MINUS 262
+#define OPERATOR_MULTIPLY 263
+#define OPERATOR_DIVIDE 264
+#define OPERATOR_ASSIGNMENT 265
+#define ARGUMENT_OPENBRACKET 266
+#define ARGUMENT_CLOSEBRACKET 267
+#define VALUE_INT 268
+#define VALUE_STRING 269
+#define IDENTIFIER 270
+#define ID 271
+#define NUM 272
+#define IF 273
+#define THEN 274
+#define LE 275
+#define GE 276
+#define EQ 277
+#define NE 278
+#define OR 279
+#define AND 280
+#define ELSE 281
+#define L 282
+#define G 283
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -106,7 +110,7 @@ union YYSTYPE
 
     char* string;
 
-#line 110 "y.tab.h" /* yacc.c:1909  */
+#line 114 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

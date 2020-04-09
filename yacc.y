@@ -16,8 +16,9 @@ void yyerror(char *s);
 %start program
 
 
-%token SEMICOLON TYPE_INT OPERATOR_PLUS OPEARTOR_MINUS OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT ARGUMENT_OPENBRACKER ARGUMENT_CLOSEBRACKET
+%token SEMICOLON TYPE_INT TYPE_STRING OPERATOR_PLUS OPEARTOR_MINUS OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT ARGUMENT_OPENBRACKET ARGUMENT_CLOSEBRACKET
 %token <string> VALUE_INT
+%token <string> VALUE_STRING
 %token <string> IDENTIFIER
 %token ID NUM IF THEN LE GE EQ NE OR AND ELSE
 
@@ -37,7 +38,7 @@ code : code line {printf("code: code line --> Line Number (%d) \n", yylineno);}
      ;
 
 line        : IDENTIFIER OPERATOR_ASSIGNMENT exp SEMICOLON
-        //x=5 or x=y
+            //x=5 or x=y
             | datatype IDENTIFIER SEMICOLON
             | ifstatment
             | error SEMICOLON  
@@ -91,7 +92,6 @@ datatype : TYPE_INT
 value : IDENTIFIER
       | VALUE_INT
       ;
-      
 %%
 
 void yyerror(char *s){

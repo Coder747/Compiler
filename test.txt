@@ -1,3 +1,4 @@
-int x;
-x = 5;
-if x==5 x=4;
+rakam x 5alsana
+x = 5 5alsana
+shoflykeda x>5
+    x = 2 5alsana
