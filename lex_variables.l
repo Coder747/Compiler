@@ -9,7 +9,6 @@ void yyerror(char *);
 %}
 
 %%
-
 ; 		return SEMICOLON;
 int 	return TYPE_INT;
 if		return IF;
