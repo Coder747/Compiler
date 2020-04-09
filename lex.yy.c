@@ -510,12 +510,13 @@ char *yytext;
 #line 3 "lex_variables.l"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 int count=0;
 void yyerror(char *);
 #include "y.tab.h"
-#line 518 "lex.yy.c"
 #line 519 "lex.yy.c"
+#line 520 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -732,9 +733,9 @@ YY_DECL
 		}
 
 	{
-#line 11 "lex_variables.l"
+#line 12 "lex_variables.l"
 
-#line 738 "lex.yy.c"
+#line 739 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -803,116 +804,116 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 12 "lex_variables.l"
+#line 13 "lex_variables.l"
 return SEMICOLON;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 13 "lex_variables.l"
+#line 14 "lex_variables.l"
 return TYPE_INT;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 14 "lex_variables.l"
+#line 15 "lex_variables.l"
 return TYPE_STRING;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 15 "lex_variables.l"
+#line 16 "lex_variables.l"
 return IF;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 16 "lex_variables.l"
+#line 17 "lex_variables.l"
 return ELSE;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 17 "lex_variables.l"
+#line 18 "lex_variables.l"
 return L;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 18 "lex_variables.l"
+#line 19 "lex_variables.l"
 return G;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 19 "lex_variables.l"
+#line 20 "lex_variables.l"
 return LE;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 20 "lex_variables.l"
+#line 21 "lex_variables.l"
 return GE;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 21 "lex_variables.l"
+#line 22 "lex_variables.l"
 return EQ;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 22 "lex_variables.l"
+#line 23 "lex_variables.l"
 return NE;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 23 "lex_variables.l"
+#line 24 "lex_variables.l"
 return OR;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 24 "lex_variables.l"
+#line 25 "lex_variables.l"
 return AND;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 26 "lex_variables.l"
+#line 27 "lex_variables.l"
 return OPERATOR_PLUS;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 27 "lex_variables.l"
+#line 28 "lex_variables.l"
 return OPERATOR_ASSIGNMENT;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 29 "lex_variables.l"
-{yylval.string = strdup(yytext); return VALUE_INT;}
+#line 30 "lex_variables.l"
+{yylval.string = atoi(yytext); return VALUE_INT;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 30 "lex_variables.l"
+#line 31 "lex_variables.l"
 {yylval.string = strdup(yytext); return VALUE_STRING;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 31 "lex_variables.l"
+#line 32 "lex_variables.l"
 {yylval.string = strdup(yytext); return IDENTIFIER;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 33 "lex_variables.l"
+#line 34 "lex_variables.l"
 ;
 	YY_BREAK
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 35 "lex_variables.l"
+#line 36 "lex_variables.l"
 printf("\n");
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 37 "lex_variables.l"
+#line 38 "lex_variables.l"
 printf("Invalid Character at line number: %d. Character: %s\n",yylineno,strdup(yytext));
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 39 "lex_variables.l"
+#line 40 "lex_variables.l"
 ECHO;
 	YY_BREAK
-#line 916 "lex.yy.c"
+#line 917 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1929,7 +1930,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 39 "lex_variables.l"
+#line 40 "lex_variables.l"
 
 
 int yywrap(void){

@@ -31,14 +31,14 @@ void yyerror(char *s);
 
 %%
 
-program : code {printf("\nprogram: Code \n\n");};
+program : code {printf("\nProgram End \n\n");};
 
 code : code line {printf("code: code line --> Line Number (%d) \n", yylineno);}
      |           {printf("code: Epsilon   --> Line Number (%d) \n", yylineno); $$=NULL;}
      ;
 
 line        : IDENTIFIER OPERATOR_ASSIGNMENT exp SEMICOLON
-            //x=5 or x=y
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT exp SEMICOLON
             | datatype IDENTIFIER SEMICOLON
             | ifstatment
             | error SEMICOLON  
@@ -87,10 +87,12 @@ exp : value
     ;
     
 datatype : TYPE_INT
+         | TYPE_STRING
          ;
 
 value : IDENTIFIER
-      | VALUE_INT
+      | VALUE_INT       {printf("value: VALUE_INT(%d)\n",$1);}
+      | VALUE_STRING
       ;
 %%
 
@@ -104,7 +106,7 @@ int main (void)
     if(yyin == NULL)
         printf("Error NULL \n");
     else{
-        printf("--> Parsing: \n\n");
+        printf("Parsing... \n\n");
         yyparse();
     }
     fclose(yyin);

@@ -2,6 +2,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 int count=0;
 void yyerror(char *);
@@ -26,7 +27,7 @@ walla			return ELSE;
 \+		return OPERATOR_PLUS;
 \=		return OPERATOR_ASSIGNMENT;
 
-[0-9]+										{yylval.string = strdup(yytext); return VALUE_INT;}
+[0-9]+										{yylval.string = atoi(yytext); return VALUE_INT;}
 \"(([a-zA-Z0-9_ ])|\\[a-zA-Z])+\"			{yylval.string = strdup(yytext); return VALUE_STRING;}
 [a-zA-Z_]([a-zA-Z_]|[0-9])* 				{yylval.string = strdup(yytext); return IDENTIFIER;}
 
