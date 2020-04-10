@@ -1,8 +1,9 @@
-rakam x 5alsana
-gomla s 5alsana
-s = "hello" 5alsana
-x = 5 5alsana
-shoflykeda x>5
-    x = 2 5alsana
-walla
-    s = "bye" 5alsana
+rakam x =5 5alsana 
+gomla s = "hello" 5alsana
+x=7 5alsana
+s= "world" 5alsana
+shoflykeda x==5 
+x=8 5alsana
+
+
+

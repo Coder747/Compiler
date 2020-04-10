@@ -29,7 +29,7 @@ void yyerror(char *s);
 %left L G LE GE EQ NE
 %left OPERATOR_PLUS OPEARTOR_MINUS
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
-%type <string> code line datatype value ifstatment statment E2 C
+%type <string> code line datatype value_i value_s ifstatment statment E2 C
 
 %%
 
@@ -39,11 +39,14 @@ code : code line {printf("code: code line --> Line Number (%d) \n", yylineno);}
      |           {printf("code: Epsilon   --> Line Number (%d) \n", yylineno); $$=NULL;}
      ;
 
-line        : IDENTIFIER OPERATOR_ASSIGNMENT value SEMICOLON
-            {printf("line: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value(%s) SEMICOLON(%s)\n",$1,$2,$3,$4);$$=$1;}
-
-            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value SEMICOLON
-            {printf("line: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value(%s) SEMICOLON(%s)\n",$1,$2,$3,$4,$5);$$=$1;}
+line        : IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
+            {printf("line: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) SEMICOLON(%s)\n",$1,$2,$3,$4);$$=$1;}
+            |IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
+            {printf("line: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) SEMICOLON(%s)\n",$1,$2,$3,$4);$$=$1;}
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
+            {printf("line: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) SEMICOLON(%s)\n",$1,$2,$3,$4,$5);$$=$1;}
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
+            {printf("line: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) SEMICOLON(%s)\n",$1,$2,$3,$4,$5);$$=$1;}
             | datatype IDENTIFIER SEMICOLON
             {printf("line: datatype(%s) IDENTIFIER(%s) SEMICOLON(%s)\n",$1,$2,$3);$$=$1;}
             | ifstatment
@@ -67,7 +70,7 @@ statment    : ifstatment
             ;
 
 C           : IDENTIFIER OPERATOR_ASSIGNMENT C
-            {printf("C: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) C(%d)\n",$1,$2,$3);$$=$1;}
             | C OPERATOR_PLUS C
             {printf("C: C(%s) OPERATOR_PLUS(%s) C(%s)\n",$1,$2,$3);$$=$1;}
             | C OPEARTOR_MINUS C
@@ -92,8 +95,13 @@ C           : IDENTIFIER OPERATOR_ASSIGNMENT C
             {printf("C: C(%s) OR(%s) C(%s)\n",$1,$2,$3);$$=$1;}
             | C AND C
             {printf("C: C(%s) AND(%s) C(%s)\n",$1,$2,$3);$$=$1;}
-            | value
-            {printf("C: value(%s)\n",$1);$$=$1;}
+            |IDENTIFIER 
+            {printf("E2: IDENTIFIER(%s)\n",$1);$$=$1;}
+            | value_i
+            {printf("C: value_i(%d)\n",$1);$$=$1;}
+            | value_s
+            {printf("C: value_s(%s)\n",$1);$$=$1;}
+            ;
 
 E2          : C L C
             {printf("E2: C(%s) L(%s) C(%s)\n",$1,$2,$3),$$=$1;}
@@ -111,7 +119,12 @@ E2          : C L C
             {printf("E2: C(%s) OR(%s) C(%s)\n",$1,$2,$3),$$=$1;}
             | C AND C
             {printf("E2: C(%s) AND(%s) C(%s)\n",$1,$2,$3),$$=$1;}
-            | value
+            |IDENTIFIER 
+            {printf("E2: IDENTIFIER(%s)\n",$1);$$=$1;}
+            | value_i
+            {printf("E2: value_i(%d)\n",$1);$$=$1;}
+            | value_s
+            {printf("E2: value_s(%s)\n",$1);$$=$1;}
             ;
 
 
@@ -122,10 +135,11 @@ datatype : TYPE_INT
          {printf("datatype: TYPE_STRING(%s)\n",$1),$$=$1;}
          ;
 
-value : IDENTIFIER      {printf("value: IDENTIFIER(%s)\n",$1);}
-      | VALUE_INT       {printf("value: VALUE_INT(%d)\n",$1);}
-      | VALUE_STRING    {printf("value: VALUE_STRING(%s)\n",$1);}
-      ;
+value_i : VALUE_INT       {printf("value: VALUE_INT(%d)\n",$1);$$=$1;}
+        ;
+
+value_s : VALUE_STRING    {printf("value: VALUE_STRING(%s)\n",$1);$$=$1;}
+        ;
 %%
 
 void yyerror(char *s){
