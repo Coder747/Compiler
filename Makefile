@@ -9,5 +9,4 @@ run: lex.yy.c
 	./a.out
 
 clean:
-	rm -rf *.c
-	rm -rf *.out
+	clear && printf '\e[3J'
