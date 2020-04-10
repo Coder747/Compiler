@@ -16,18 +16,19 @@ void yyerror(char *s);
 %start program
 
 
-%token SEMICOLON TYPE_INT TYPE_STRING OPERATOR_PLUS OPEARTOR_MINUS OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT ARGUMENT_OPENBRACKET ARGUMENT_CLOSEBRACKET
+%token <string> SEMICOLON 
+%token <string> TYPE_INT TYPE_STRING OPERATOR_PLUS OPEARTOR_MINUS OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT ARGUMENT_OPENBRACKET ARGUMENT_CLOSEBRACKET
 %token <string> VALUE_INT
 %token <string> VALUE_STRING
 %token <string> IDENTIFIER
-%token ID NUM IF THEN LE GE EQ NE OR AND ELSE
+%token <string> IF THEN LE GE EQ NE OR AND ELSE
 
 %right '='
 %left AND OR
 %left L G LE GE EQ NE
 %left OPERATOR_PLUS OPEARTOR_MINUS
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
-%type <string> code line exp datatype value
+%type <string> code line datatype value ifstatment statment E2 C
 
 %%
 
@@ -37,23 +38,31 @@ code : code line {printf("code: code line --> Line Number (%d) \n", yylineno);}
      |           {printf("code: Epsilon   --> Line Number (%d) \n", yylineno); $$=NULL;}
      ;
 
-line        : IDENTIFIER OPERATOR_ASSIGNMENT exp SEMICOLON
-            | datatype IDENTIFIER OPERATOR_ASSIGNMENT exp SEMICOLON
+line        : IDENTIFIER OPERATOR_ASSIGNMENT value SEMICOLON
+            {printf("line: IDENTIFIER(%s) OPERATOR_ASSIGNMENT value(%s) SEMICOLON(%s)\n",$1,$3,$4);$$=$1;}
+
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value SEMICOLON
+            {printf("line: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT value(%s) SEMICOLON(%s)\n",$1,$2,$4,$5);$$=$1;}
             | datatype IDENTIFIER SEMICOLON
+            {printf("line: datatype(%s) IDENTIFIER(%s) SEMICOLON(%s)\n",$1,$2,$3);$$=$1;}
             | ifstatment
-            | error SEMICOLON  
-            | 
+            {printf("line: ifstatment(%s)\n",$1);$$=$1;}
+            | error SEMICOLON   
             ;
 
 
 
         
 ifstatment  : IF E2 statment SEMICOLON ELSE statment SEMICOLON
+            {printf("ifstatment: IF (%s) E2(%s) statment(%s) SEMICOLON(%s) ELSE(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$3,$4,$5,$6,$7);$$=$1;}
             | IF E2 statment SEMICOLON
+            {printf("ifstatment: IF(%s) E2(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$3,$4);$$=$1;}
             ;
 
 statment    : ifstatment
+            {printf("statment: ifstatment(%s)",$1);$$=$1;}
             | C
+            {printf("statment: C(%s)",$1);$$=$1;}
             ;
 
 C           : IDENTIFIER OPERATOR_ASSIGNMENT C
@@ -69,7 +78,7 @@ C           : IDENTIFIER OPERATOR_ASSIGNMENT C
             | C NE C
             | C OR C
             | C AND C
-            | exp
+            | value
             ;
 
 E2          : C L C
@@ -80,19 +89,18 @@ E2          : C L C
             | C NE C
             | C OR C
             | C AND C
-            | exp
+            | value
             ;
 
-exp : value 
-    ;
+
     
 datatype : TYPE_INT
          | TYPE_STRING
          ;
 
-value : IDENTIFIER
+value : IDENTIFIER      {printf("value: VALUE_INT(%d)\n",$1);}
       | VALUE_INT       {printf("value: VALUE_INT(%d)\n",$1);}
-      | VALUE_STRING
+      | VALUE_STRING    {printf("value: VALUE_STRING(%s)\n",$1);}
       ;
 %%
 

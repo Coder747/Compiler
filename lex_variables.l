@@ -10,22 +10,22 @@ void yyerror(char *);
 %}
 
 %%
-5alsana 		return SEMICOLON;
-rakam 			return TYPE_INT;
-gomla   		return TYPE_STRING;
-shoflykeda		return IF;
-walla			return ELSE;
-"<"				return L;
-">"				return G;
-"<="    		return LE;
-">="    		return GE;
-"=="    		return EQ;
-"!="    		return NE;
-"||"    		return OR;
-"&&"    		return AND;
+5alsana 		{yylval.string = strdup(yytext); return SEMICOLON;}
+rakam 			{yylval.string = strdup(yytext); return TYPE_INT;}
+gomla   		{yylval.string = strdup(yytext); return TYPE_STRING;}
+shoflykeda		{yylval.string = strdup(yytext); return IF;}
+walla			{yylval.string = strdup(yytext); return ELSE;}
+"<"				{yylval.string = strdup(yytext); return L;}
+">"				{yylval.string = strdup(yytext); return G;}
+"<="    		{yylval.string = strdup(yytext); return LE;}
+">="    		{yylval.string = strdup(yytext); return GE;}
+"=="    		{yylval.string = strdup(yytext); return EQ;}
+"!="    		{yylval.string = strdup(yytext); return NE;}
+"||"    		{yylval.string = strdup(yytext); return OR;}
+"&&"    		{yylval.string = strdup(yytext); return AND;}
 
-\+		return OPERATOR_PLUS;
-\=		return OPERATOR_ASSIGNMENT;
+\+				{yylval.string = strdup(yytext); return OPERATOR_PLUS;}
+\=				{yylval.string = strdup(yytext); return OPERATOR_ASSIGNMENT;}
 
 [0-9]+										{yylval.string = atoi(yytext); return VALUE_INT;}
 \"(([a-zA-Z0-9_ ])|\\[a-zA-Z])+\"			{yylval.string = strdup(yytext); return VALUE_STRING;}
