@@ -29,7 +29,7 @@ void yyerror(char *s);
 %left L G LE GE EQ NE
 %left OPERATOR_PLUS OPEARTOR_MINUS
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
-%type <string> code line datatype value_i value_s ifstatment statment E2 C
+%type <string> code line datatype value_i value_s ifstatment statment C
 
 %%
 
@@ -57,10 +57,10 @@ line        : IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
 
 
         
-ifstatment  : IF E2 statment SEMICOLON ELSE statment SEMICOLON
-            {printf("ifstatment: IF (%s) E2(%s) statment(%s) SEMICOLON(%s) ELSE(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$3,$4,$5,$6,$7);$$=$1;}
-            | IF E2 statment SEMICOLON
-            {printf("ifstatment: IF(%s) E2(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$3,$4);$$=$1;}
+ifstatment  : IF C statment SEMICOLON ELSE statment SEMICOLON
+            {printf("ifstatment: IF (%s) C(%s) statment(%s) SEMICOLON(%s) ELSE(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$3,$4,$5,$6,$7);$$=$1;}
+            | IF C statment SEMICOLON
+            {printf("ifstatment: IF(%s) C(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$3,$4);$$=$1;}
             ;
 
 statment    : ifstatment
@@ -70,69 +70,43 @@ statment    : ifstatment
             ;
 
 C           : IDENTIFIER OPERATOR_ASSIGNMENT C
-            {printf("C: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) C(%d)\n",$1,$2,$3);$$=$1;}
+            {printf("C: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) C(%d)\n",$1,$2,$3);}
             | C OPERATOR_PLUS C
-            {printf("C: C(%s) OPERATOR_PLUS(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) OPERATOR_PLUS(%s) C(%d)\n",$1,$2,$3);}
             | C OPEARTOR_MINUS C
-            {printf("C: C(%s) OPEARTOR_MINUS(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) OPEARTOR_MINUS(%s) C(%d)\n",$1,$2,$3);$$=$1;}
             | C OPERATOR_MULTIPLY C
-            {printf("C: C(%s) OPERATOR_MULTIPLY(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) OPERATOR_MULTIPLY(%s) C(%d)\n",$1,$2,$3);}
             | C OPERATOR_DIVIDE C
-            {printf("C: C(%s) OPERATOR_DIVIDE(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) OPERATOR_DIVIDE(%s) C(%d)\n",$1,$2,$3);}
             | C L C
-            {printf("C: C(%s) L(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) L(%s) C(%d)\n",$1,$2,$3);}
             | C G C
-            {printf("C: C(%s) G(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) G(%s) C(%d)\n",$1,$2,$3);$$=$1;}
             | C LE C
-            {printf("C: C(%s) LE(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) LE(%s) C(%d)\n",$1,$2,$3);$$=$1;}
             | C GE C
-            {printf("C: C(%s) GE(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) GE(%s) C(%d)\n",$1,$2,$3);$$=$1;}
             | C EQ C
-            {printf("C: C(%s) EQ(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) EQ(%s) C(%d)\n",$1,$2,$3);}
             | C NE C
-            {printf("C: C(%s) NE(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) NE(%s) C(%d)\n",$1,$2,$3);}
             | C OR C
-            {printf("C: C(%s) OR(%s) C(%s)\n",$1,$2,$3);$$=$1;}
+            {printf("C: C(%d) OR(%s) C(%d)\n",$1,$2,$3);}
             | C AND C
-            {printf("C: C(%s) AND(%s) C(%s)\n",$1,$2,$3);$$=$1;}
-            |IDENTIFIER 
-            {printf("E2: IDENTIFIER(%s)\n",$1);$$=$1;}
+            {printf("C: C(%d) AND(%s) C(%d)\n",$1,$2,$3);}
             | value_i
-            {printf("C: value_i(%d)\n",$1);$$=$1;}
-            | value_s
-            {printf("C: value_s(%s)\n",$1);$$=$1;}
-            ;
-
-E2          : C L C
-            {printf("E2: C(%s) L(%s) C(%s)\n",$1,$2,$3),$$=$1;}
-            | C G C
-            {printf("E2: C(%s) G(%s) C(%s)\n",$1,$2,$3),$$=$1;}
-            | C LE C
-            {printf("E2: C(%s) LE(%s) C(%s)\n",$1,$2,$3),$$=$1;}
-            | C GE C
-            {printf("E2: C(%s) GE(%s) C(%s)\n",$1,$2,$3),$$=$1;}
-            | C EQ C
-            {printf("E2: C(%s) EQ(%s) C(%s)\n",$1,$2,$3),$$=$1;}
-            | C NE C
-            {printf("E2: C(%s) NE(%s) C(%s)\n",$1,$2,$3),$$=$1;}
-            | C OR C
-            {printf("E2: C(%s) OR(%s) C(%s)\n",$1,$2,$3),$$=$1;}
-            | C AND C
-            {printf("E2: C(%s) AND(%s) C(%s)\n",$1,$2,$3),$$=$1;}
+            {printf("C: value_i(%d)\n",$1);}
             |IDENTIFIER 
-            {printf("E2: IDENTIFIER(%s)\n",$1);$$=$1;}
-            | value_i
-            {printf("E2: value_i(%d)\n",$1);$$=$1;}
-            | value_s
-            {printf("E2: value_s(%s)\n",$1);$$=$1;}
+            {printf("C: IDENTIFIER(%s)\n",$1);$$=$1;}
             ;
 
 
     
 datatype : TYPE_INT
-         {printf("datatype: TYPE_INT(%s)\n",$1),$$=$1;}
+         {printf("datatype: TYPE_INT(%s)\n",$1);$$=$1;}
          | TYPE_STRING
-         {printf("datatype: TYPE_STRING(%s)\n",$1),$$=$1;}
+         {printf("datatype: TYPE_STRING(%s)\n",$1);$$=$1;}
          ;
 
 value_i : VALUE_INT       {printf("value: VALUE_INT(%d)\n",$1);$$=$1;}
