@@ -478,10 +478,10 @@ static const yytype_int8 yyrhs[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    36,    36,    38,    39,    42,    44,    46,    52,    55,
-      58,    61,    65,    67,    68,    69,    72,    73,    76,    78,
-      80,    82,    84,    86,    88,    90,    92,    94,    98,   100,
-     102,   104,   106,   108,   110,   112,   114,   116,   120,   123,
-     126,   129,   132,   136,   138,   142,   145
+      58,    61,    66,    68,    69,    70,    73,    74,    77,    79,
+      81,    83,    85,    87,    89,    91,    93,    95,    99,   101,
+     103,   105,   107,   109,   111,   113,   115,   117,   121,   124,
+     127,   130,   133,   137,   139,   143,   146
 };
 #endif
 
@@ -1492,152 +1492,152 @@ yyreduce:
     break;
 
   case 12:
-#line 66 "yacc.y"
+#line 67 "yacc.y"
     {printf("statment: ifstatment(%s)",(yyvsp[(1) - (1)].string));}
     break;
 
   case 18:
-#line 77 "yacc.y"
+#line 78 "yacc.y"
     {printf("C_int: C_int(%d) L(%s) C_int(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 19:
-#line 79 "yacc.y"
+#line 80 "yacc.y"
     {printf("C_int: C_int(%d) G(%s) C_int(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 20:
-#line 81 "yacc.y"
+#line 82 "yacc.y"
     {printf("C_int: C_int(%d) LE(%s) C_int(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 21:
-#line 83 "yacc.y"
+#line 84 "yacc.y"
     {printf("C_int: C_int(%d) GE(%s) C_int(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 22:
-#line 85 "yacc.y"
+#line 86 "yacc.y"
     {printf("C_int: C_int(%d) EQ(%s) C_int(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 23:
-#line 87 "yacc.y"
+#line 88 "yacc.y"
     {printf("C_int: C_int(%d) NE(%s) C_int(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 24:
-#line 89 "yacc.y"
+#line 90 "yacc.y"
     {printf("C_int: C_int(%d) OR(%s) C_int(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 25:
-#line 91 "yacc.y"
+#line 92 "yacc.y"
     {printf("C_int: C_int(%d) AND(%s) C_int(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 26:
-#line 93 "yacc.y"
+#line 94 "yacc.y"
     {printf("C_int: value_i(%d)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 27:
-#line 95 "yacc.y"
+#line 96 "yacc.y"
     {printf("C_int: IDENTIFIER(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 28:
-#line 99 "yacc.y"
+#line 100 "yacc.y"
     {printf("C_string: C_string(%s) L(%s) C_string(%s)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 29:
-#line 101 "yacc.y"
+#line 102 "yacc.y"
     {printf("C_string: C_string(%s) G(%s) C_string(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 30:
-#line 103 "yacc.y"
+#line 104 "yacc.y"
     {printf("C_string: C_string(%s) LE(%s) C_string(%s)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 31:
-#line 105 "yacc.y"
+#line 106 "yacc.y"
     {printf("C_string: C_string(%s) GE(%s) C_string(%s)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 32:
-#line 107 "yacc.y"
+#line 108 "yacc.y"
     {printf("C_string: C_string(%s) EQ(%s) C_string(%s)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 33:
-#line 109 "yacc.y"
+#line 110 "yacc.y"
     {printf("C_string: C_string(%s) NE(%s) C_string(%s)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 34:
-#line 111 "yacc.y"
+#line 112 "yacc.y"
     {printf("C_string: C_string(%s) OR(%s) C_string(%s)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 35:
-#line 113 "yacc.y"
+#line 114 "yacc.y"
     {printf("C_string: C_string(%s) AND(%s) C_string(%s)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 36:
-#line 115 "yacc.y"
+#line 116 "yacc.y"
     {printf("C_string: value_s(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 37:
-#line 117 "yacc.y"
+#line 118 "yacc.y"
     {printf("C_string: IDENTIFIER(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 38:
-#line 121 "yacc.y"
+#line 122 "yacc.y"
     {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) \n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));}
     break;
 
   case 39:
-#line 124 "yacc.y"
+#line 125 "yacc.y"
     {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) \n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string));(yyval.string)=(yyvsp[(1) - (3)].string);}
     break;
 
   case 40:
-#line 127 "yacc.y"
+#line 128 "yacc.y"
     {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) \n",(yyvsp[(1) - (4)].string),(yyvsp[(2) - (4)].string),(yyvsp[(3) - (4)].string),(yyvsp[(4) - (4)].string));}
     break;
 
   case 41:
-#line 130 "yacc.y"
+#line 131 "yacc.y"
     {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) \n",(yyvsp[(1) - (4)].string),(yyvsp[(2) - (4)].string),(yyvsp[(3) - (4)].string),(yyvsp[(4) - (4)].string));}
     break;
 
   case 42:
-#line 133 "yacc.y"
+#line 134 "yacc.y"
     {printf("exp: datatype(%s) IDENTIFIER(%s) \n",(yyvsp[(1) - (2)].string),(yyvsp[(2) - (2)].string));}
     break;
 
   case 43:
-#line 137 "yacc.y"
+#line 138 "yacc.y"
     {printf("datatype: TYPE_INT(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 44:
-#line 139 "yacc.y"
+#line 140 "yacc.y"
     {printf("datatype: TYPE_STRING(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 45:
-#line 142 "yacc.y"
+#line 143 "yacc.y"
     {printf("value: VALUE_INT(%d)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 46:
-#line 145 "yacc.y"
+#line 146 "yacc.y"
     {printf("value: VALUE_STRING(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
@@ -1857,7 +1857,7 @@ yyreturn:
 }
 
 
-#line 147 "yacc.y"
+#line 148 "yacc.y"
 
 
 void yyerror(char *s){

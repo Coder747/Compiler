@@ -55,7 +55,7 @@ ifstatment  : IF C_int CURLY_OPEN  statments SEMICOLON CURLY_CLOSE ELSE CURLY_OP
             | IF C_int CURLY_OPEN statments SEMICOLON CURLY_CLOSE
             {printf("ifstatment: IF(%s) C_int(%d) statment(%s) SEMICOLON(%s)\n",$1,$2,$3,$4);}
 
-            |IF C_string CURLY_OPEN statments SEMICOLON CURLY_CLOSE ELSE CURLY_OPEN statments SEMICOLON CURLY_CLOSE
+            | IF C_string CURLY_OPEN statments SEMICOLON CURLY_CLOSE ELSE CURLY_OPEN statments SEMICOLON CURLY_CLOSE
             {printf("ifstatment: IF (%s) C_string(%s) statment(%s) SEMICOLON(%s) ELSE(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$4,$5,$7,$9,$10);}
 
             | IF C_string CURLY_OPEN statments SEMICOLON CURLY_CLOSE

@@ -10,6 +10,11 @@ shoflykeda x==5
     a=4 5alsana
     q=3 5alsana
 }
-
+walla
+{
+    x=9 5alsana
+    y=7 5alsana
+    z=1 5alsana
+}
 
 
