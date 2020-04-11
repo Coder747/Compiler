@@ -18,11 +18,11 @@ void yyerror(char *s);
 
 
 %token <string> SEMICOLON 
-%token <string> TYPE_INT TYPE_STRING OPERATOR_PLUS OPEARTOR_MINUS OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE
-%token <string> VALUE_INT BOOL TYPE_FLOAT
+%token <string> TYPE_INT TYPE_STRING TYPE_FLOAT TYPE_BOOL OPERATOR_PLUS OPEARTOR_MINUS OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE
+%token <string> VALUE_INT BOOL
 %token <string> VALUE_STRING
 %token <string> IDENTIFIER CONST 
-%token <string> IF SWITCH CASE BREAK COLON DEFAULT L G LE GE EQ NE OR AND ELSE WHILE
+%token <string> IF SWITCH CASE BREAK COLON DEFAULT REPEAT UNTIL L G LE GE EQ NE OR AND ELSE WHILE
 
 %right OPERATOR_ASSIGNMENT
 %left AND OR
@@ -72,6 +72,11 @@ case        : CASE Condition COLON statments
 break       : BREAK SEMICOLON
             {printf("break: BREAK SEMICOLON lineNumber(%d)\n",yylineno);}
             ;
+
+repuntil    : REPEAT CURLY_OPEN statments UNTIL Condition CURLY_CLOSE
+            {printf("repuntil: REPEAT CURLY_OPEN statments UNTIL Condition CURLY_CLOSE lineNumber(%d)\n",yylineno);}
+            ;
+
 
 
 Whileloop   : WHILE Condition CURLY_OPEN statments CURLY_CLOSE
@@ -149,6 +154,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
 
             | switchcase
             {printf("exp: switchcase() lineNumber(%d)\n",yylineno);}
+            | repuntil
+            {printf("exp: repuntil() lineNumber(%d)\n",yylineno);}
             ;
         
 datatype : TYPE_INT

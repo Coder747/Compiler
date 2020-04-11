@@ -1,4 +1,4 @@
-rakam x =5 5alsana 
+sabet rakam x =5 5alsana 
 gomla s = "hello" 5alsana
 x=7 5alsana
 s= "world" 5alsana
@@ -43,6 +43,16 @@ garabkeda x>5
     eksar 5alsana
 
    
+}
+
+karar{
+
+    peace = 5 5alsana
+    freedom = 100 5alsana
+    justice = "george" 5alsana
+    and_security = 100 5alsana
+
+    le7ad george == "justice"
 }
 
 
