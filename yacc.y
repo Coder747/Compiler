@@ -22,14 +22,14 @@ void yyerror(char *s);
 %token <string> VALUE_INT
 %token <string> VALUE_STRING
 %token <string> IDENTIFIER
-%token <string> IF THEN L G LE GE EQ NE OR AND ELSE
+%token <string> IF L G LE GE EQ NE OR AND ELSE WHILE
 
 %right '='
 %left AND OR
 %left L G LE GE EQ NE
 %left OPERATOR_PLUS OPEARTOR_MINUS
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
-%type <string> code line datatype value_i value_s ifstatment statment C_int C_string exp statments
+%type <string> code line datatype value_i value_s ifstatment statment C_int C_string exp statments Whileloop
 
 %%
 
@@ -39,39 +39,38 @@ code : code line {printf("code: code line --> Line Number (%d) \n", yylineno);}
      |           {printf("code: Epsilon   --> Line Number (%d) \n", yylineno); $$=NULL;}
      ;
 
-line        : exp SEMICOLON
-            {printf("line: exp(%s)\n",$1);$$=$1;}
-            | ifstatment
-            {printf("line: ifstatment(%s)\n",$1);$$=$1;}
+line        : exp
+            {printf("line: exp(%s)\n",$1);}
             | error SEMICOLON   
             ;
 
 
+Whileloop   : WHILE C_int CURLY_OPEN statments CURLY_CLOSE
+            {printf("Whileloop: WHILE(%s) C_int( %d ) CURLY_OPEN( %s ) statments(%s) CURLY_CLOSE( %s ) lineNumber(%d)\n" ,$1,$2,$3,$4,$5,yylineno);}
+            | WHILE C_string CURLY_OPEN statments CURLY_CLOSE
+            {printf("Whileloop: WHILE(%s) C_string(%s) CURLY_OPEN( %s ) statments(%s) CURLY_CLOSE( %s ) lineNumber(%d)\n" ,$1,$2,$3,$4,$5,yylineno);}
+            ;
 
       
-ifstatment  : IF C_int CURLY_OPEN  statments SEMICOLON CURLY_CLOSE ELSE CURLY_OPEN statments SEMICOLON CURLY_CLOSE
-            {printf("ifstatment: IF (%s) C_int(%d) statment(%s) SEMICOLON(%s) ELSE(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$4,$5,$7,$9,$10);}
+ifstatment  : IF C_int CURLY_OPEN statments CURLY_CLOSE ELSE CURLY_OPEN statments CURLY_CLOSE
+            {printf("ifstatment: IF (%s) C_int(%d) CURLY_OPEN( %s ) statment(%s) CURLY_CLOSE( %s ) ELSE(%s) CURLY_OPEN( %s ) statment(%s) CURLY_CLOSE( %s ) lineNumber(%d)\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,yylineno);}
 
-            | IF C_int CURLY_OPEN statments SEMICOLON CURLY_CLOSE
-            {printf("ifstatment: IF(%s) C_int(%d) statment(%s) SEMICOLON(%s)\n",$1,$2,$3,$4);}
+            | IF C_int CURLY_OPEN statments  CURLY_CLOSE
+            {printf("ifstatment: IF(%s) C_int(%d) CURLY_OPEN( %s ) statment(%s) CURLY_CLOSE( %s )\n",$1,$2,$3,$4,$5,yylineno);}
 
-            | IF C_string CURLY_OPEN statments SEMICOLON CURLY_CLOSE ELSE CURLY_OPEN statments SEMICOLON CURLY_CLOSE
-            {printf("ifstatment: IF (%s) C_string(%s) statment(%s) SEMICOLON(%s) ELSE(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$4,$5,$7,$9,$10);}
+            | IF C_string CURLY_OPEN statments CURLY_CLOSE ELSE CURLY_OPEN statments CURLY_CLOSE
+            {printf("ifstatment: IF (%s) C_string(%s) CURLY_OPEN( %s ) statment(%s) CURLY_CLOSE( %s ) ELSE(%s) CURLY_OPEN( %s ) statment(%s) CURLY_CLOSE( %s ) lineNumber(%d)\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,yylineno);}
 
-            | IF C_string CURLY_OPEN statments SEMICOLON CURLY_CLOSE
-            {printf("ifstatment: IF(%s) C_string(%s) statment(%s) SEMICOLON(%s)\n",$1,$2,$3,$4);;}
+            | IF C_string CURLY_OPEN statments  CURLY_CLOSE
+            {printf("ifstatment: IF(%s) C_string(%s) CURLY_OPEN( %s ) statment(%s) CURLY_CLOSE( %s )\n",$1,$2,$3,$4,$5,yylineno);}
             ;
 
 
-statment    : ifstatment
-            {printf("statment: ifstatment(%s)",$1);}
-            |exp
-            |C_int
-            |C_string
+statment    :exp
             ;
 
 statments    : statment
-             |statments SEMICOLON statment
+             |statments statment
              ;
 
 C_int       : C_int L C_int
@@ -118,20 +117,24 @@ C_string    : C_string L C_string
             {printf("C_string: IDENTIFIER(%s)\n",$1);}
             ;
 
-exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i 
-            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) \n",$1,$2,$3);}
+exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
+            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumer(%d) \n",$1,$2,$3,yylineno);}
 
-            |IDENTIFIER OPERATOR_ASSIGNMENT value_s 
-            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) \n",$1,$2,$3);$$=$1;}
+            |IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
+            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) \n",$1,$2,$3);}
 
-            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i 
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) \n",$1,$2,$3,$4);}
 
-            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_s 
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) \n",$1,$2,$3,$4);}
 
-            | datatype IDENTIFIER 
+            | datatype IDENTIFIER SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) \n",$1,$2);}
+            | ifstatment
+            {printf("exp: ifstatment(%s)\n",$1);}
+            | Whileloop
+            {printf("exp: Whileloop(%s)\n",$1);}
             ;
         
 datatype : TYPE_INT

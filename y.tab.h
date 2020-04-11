@@ -53,16 +53,16 @@
      VALUE_STRING = 269,
      IDENTIFIER = 270,
      IF = 271,
-     THEN = 272,
-     L = 273,
-     G = 274,
-     LE = 275,
-     GE = 276,
-     EQ = 277,
-     NE = 278,
-     OR = 279,
-     AND = 280,
-     ELSE = 281
+     L = 272,
+     G = 273,
+     LE = 274,
+     GE = 275,
+     EQ = 276,
+     NE = 277,
+     OR = 278,
+     AND = 279,
+     ELSE = 280,
+     WHILE = 281
    };
 #endif
 /* Tokens.  */
@@ -80,16 +80,16 @@
 #define VALUE_STRING 269
 #define IDENTIFIER 270
 #define IF 271
-#define THEN 272
-#define L 273
-#define G 274
-#define LE 275
-#define GE 276
-#define EQ 277
-#define NE 278
-#define OR 279
-#define AND 280
-#define ELSE 281
+#define L 272
+#define G 273
+#define LE 274
+#define GE 275
+#define EQ 276
+#define NE 277
+#define OR 278
+#define AND 279
+#define ELSE 280
+#define WHILE 281
 
 
 

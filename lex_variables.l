@@ -15,6 +15,7 @@ rakam 			{yylval.string = strdup(yytext); return TYPE_INT;}
 gomla   		{yylval.string = strdup(yytext); return TYPE_STRING;}
 shoflykeda		{yylval.string = strdup(yytext); return IF;}
 walla			{yylval.string = strdup(yytext); return ELSE;}
+talama			{yylval.string = strdup(yytext); return WHILE;}
 "{"				{yylval.string = strdup(yytext); return CURLY_OPEN;}
 "}"				{yylval.string = strdup(yytext); return CURLY_CLOSE;}
 "<"				{yylval.string = strdup(yytext); return L;}

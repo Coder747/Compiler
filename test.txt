@@ -2,9 +2,9 @@ rakam x =5 5alsana
 gomla s = "hello" 5alsana
 x=7 5alsana
 s= "world" 5alsana
-shoflykeda x==5 
+shoflykeda x==5 && y==9
 { 
-    x=8 5alsana
+    y=8 5alsana
     y=9 5alsana
     z=6 5alsana
     a=4 5alsana
@@ -12,9 +12,15 @@ shoflykeda x==5
 }
 walla
 {
-    x=9 5alsana
+    q=9 5alsana
     y=7 5alsana
     z=1 5alsana
+}
+
+talama x>5
+{
+    x=5 5alsana
+    y=6 5alsana
 }
 
 
