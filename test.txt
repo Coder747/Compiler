@@ -24,12 +24,13 @@ talama x>5
     z = 6 5alsana
 }
 
-switch x>5{
-
+switch x>5
+{
     law 1:
     t = 4 5alsana
     z = 3 5alsana
-    break 5alsana
+    law 2:
+    z = 3 5alsana
 }
 
 

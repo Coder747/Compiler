@@ -29,7 +29,7 @@ void yyerror(char *s);
 %left L G LE GE EQ NE
 %left OPERATOR_PLUS OPEARTOR_MINUS
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
-%type <string> code line datatype value_i value_s ifstatment statment C_int C_string exp statments Whileloop
+%type <string> code line datatype value_i value_s ifstatment statment C_int C_string exp statments Whileloop switchcase optional_d switchstmt case optional_b
 
 %%
 
@@ -44,8 +44,8 @@ line        : exp
             | error SEMICOLON   
             ;
 
-switchcase  : SWITCH C_int CURLY_OPEN switchstmt optional_d CURLY_CLOSE
-            {printf("switch: SWITCH C_int CURLY_OPEN switchstmt optional_d CURLY_CLOSE\n");}
+switchcase  : SWITCH C_int CURLY_OPEN switchstmt CURLY_CLOSE
+            {printf("switch: SWITCH C_int CURLY_OPEN switchstmt optional_d CURLY_CLOSE lineNumber(%d)\n",yylineno);}
             ;
 
 optional_d  : DEFAULT COLON statments optional_b
@@ -53,13 +53,13 @@ optional_d  : DEFAULT COLON statments optional_b
             ;
 
 switchstmt  : case 
-            {printf("switchstmt: case\n");}
+            {printf("switchstmt: case lineNumber(%d)\n",yylineno);}
             | switchstmt case
-            {printf("switchstmt: switchstmt case\n");}
+            {printf("switchstmt: switchstmt case lineNumber(%d)\n",yylineno);}
             ;
 
-case        : CASE C_int COLON statments optional_b
-            {printf("case: CASE C_int COLON statments optional_b\n");}
+case        : CASE C_int COLON statments 
+            {printf("case: CASE C_int COLON statments optional_b lineNumber(%d)\n",yylineno);}
             ;
 
 optional_b  : BREAK SEMICOLON
@@ -98,7 +98,7 @@ statments    : statment
 C_int       : C_int L C_int
             {printf("C_int: C_int(%d) L(%s) C_int(%d)\n",$1,$2,$3);}
             | C_int G C_int
-            {printf("C_int: C_int(%d) G(%s) C_int(%d)\n",$1,$2,$3);}
+            {printf("C_int: C_int(%d) G(%s) C_int(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | C_int LE C_int
             {printf("C_int: C_int(%d) LE(%s) C_int(%d)\n",$1,$2,$3);}
             | C_int GE C_int
@@ -112,9 +112,9 @@ C_int       : C_int L C_int
             | C_int AND C_int
             {printf("C_int: C_int(%d) AND(%s) C_int(%d)\n",$1,$2,$3);}
             | value_i
-            {printf("C_int: value_i(%d)\n",$1);}
+            {printf("C_int: value_i(%d) lineNumber(%d)\n",$1,yylineno);}
             | IDENTIFIER
-            {printf("C_int: IDENTIFIER(%s)\n",$1);}
+            {printf("C_int: IDENTIFIER(%s) lineNumber(%d)\n",$1,yylineno);}
             ;
 
 C_string    : C_string L C_string
@@ -143,22 +143,22 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
             {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumer(%d) \n",$1,$2,$3,yylineno);}
 
             |IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
-            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) \n",$1,$2,$3);}
+            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) lineNumber(%d)\n",$1,$2,$3,yylineno);}
 
             | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
-            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) \n",$1,$2,$3,$4);}
+            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumber(%d) \n",$1,$2,$3,$4,yylineno);}
 
             | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
-            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) \n",$1,$2,$3,$4);}
+            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) lineNumber(%d)\n",$1,$2,$3,$4,yylineno);}
 
             | datatype IDENTIFIER SEMICOLON
-            {printf("exp: datatype(%s) IDENTIFIER(%s) \n",$1,$2);}
+            {printf("exp: datatype(%s) IDENTIFIER(%s) lineNumber(%d)\n",$1,$2,yylineno);}
             | ifstatment
-            {printf("exp: ifstatment(%s)\n",$1);}
+            {printf("exp: ifstatment(%s)lineNumber(%d)\n",$1,yylineno);}
             | Whileloop
-            {printf("exp: Whileloop(%s)\n",$1);}
+            {printf("exp: Whileloop(%s)lineNumber(%d)\n",$1,yylineno);}
             | switchcase
-            {printf("exp: switchcase(%s)\n");}
+            {printf("exp: switchcase() lineNumber(%d)\n",yylineno);}
             ;
         
 datatype : TYPE_INT
@@ -167,10 +167,10 @@ datatype : TYPE_INT
          {printf("datatype: TYPE_STRING(%s)\n",$1);}
          ;
 
-value_i : VALUE_INT       {printf("value: VALUE_INT(%d)\n",$1);}
+value_i : VALUE_INT       {printf("value: VALUE_INT(%d) lineNumber(%d)\n",$1,yylineno);}
         ;
 
-value_s : VALUE_STRING    {printf("value: VALUE_STRING(%s)\n",$1);}
+value_s : VALUE_STRING    {printf("value: VALUE_STRING(%s)lineNumber(%d)\n ",$1,yylineno);}
         ;
 %%
 
