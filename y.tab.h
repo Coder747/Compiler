@@ -58,22 +58,23 @@ extern int yydebug;
     VALUE_INT = 268,
     VALUE_STRING = 269,
     IDENTIFIER = 270,
-    IF = 271,
-    SWITCH = 272,
-    CASE = 273,
-    BREAK = 274,
-    COLON = 275,
-    DEFAULT = 276,
-    L = 277,
-    G = 278,
-    LE = 279,
-    GE = 280,
-    EQ = 281,
-    NE = 282,
-    OR = 283,
-    AND = 284,
-    ELSE = 285,
-    WHILE = 286
+    CONST = 271,
+    IF = 272,
+    SWITCH = 273,
+    CASE = 274,
+    BREAK = 275,
+    COLON = 276,
+    DEFAULT = 277,
+    L = 278,
+    G = 279,
+    LE = 280,
+    GE = 281,
+    EQ = 282,
+    NE = 283,
+    OR = 284,
+    AND = 285,
+    ELSE = 286,
+    WHILE = 287
   };
 #endif
 /* Tokens.  */
@@ -90,22 +91,23 @@ extern int yydebug;
 #define VALUE_INT 268
 #define VALUE_STRING 269
 #define IDENTIFIER 270
-#define IF 271
-#define SWITCH 272
-#define CASE 273
-#define BREAK 274
-#define COLON 275
-#define DEFAULT 276
-#define L 277
-#define G 278
-#define LE 279
-#define GE 280
-#define EQ 281
-#define NE 282
-#define OR 283
-#define AND 284
-#define ELSE 285
-#define WHILE 286
+#define CONST 271
+#define IF 272
+#define SWITCH 273
+#define CASE 274
+#define BREAK 275
+#define COLON 276
+#define DEFAULT 277
+#define L 278
+#define G 279
+#define LE 280
+#define GE 281
+#define EQ 282
+#define NE 283
+#define OR 284
+#define AND 285
+#define ELSE 286
+#define WHILE 287
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -117,7 +119,7 @@ union YYSTYPE
     int num;
     char* string;
 
-#line 121 "y.tab.h" /* yacc.c:1909  */
+#line 123 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

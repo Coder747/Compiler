@@ -1,4 +1,4 @@
-rakam x =5 5alsana 
+sabet rakam x =5 5alsana 
 gomla s = "hello" 5alsana
 x=7 5alsana
 s= "world" 5alsana

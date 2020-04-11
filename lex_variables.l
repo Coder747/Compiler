@@ -20,6 +20,7 @@ switch			{yylval.string = strdup(yytext); return SWITCH;}
 law			    {yylval.string = strdup(yytext); return CASE;}
 break			{yylval.string = strdup(yytext); return BREAK;}
 default			{yylval.string = strdup(yytext); return DEFAULT;}
+sabet			{yylval.string = strdup(yytext); return CONST;}
 "{"				{yylval.string = strdup(yytext); return CURLY_OPEN;}
 "}"				{yylval.string = strdup(yytext); return CURLY_CLOSE;}
 "<"				{yylval.string = strdup(yytext); return L;}

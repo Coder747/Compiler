@@ -21,10 +21,10 @@ void yyerror(char *s);
 %token <string> TYPE_INT TYPE_STRING OPERATOR_PLUS OPEARTOR_MINUS OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE
 %token <string> VALUE_INT
 %token <string> VALUE_STRING
-%token <string> IDENTIFIER
+%token <string> IDENTIFIER CONST
 %token <string> IF SWITCH CASE BREAK COLON DEFAULT L G LE GE EQ NE OR AND ELSE WHILE
 
-%right '='
+%right OPERATOR_ASSIGNMENT
 %left AND OR
 %left L G LE GE EQ NE
 %left OPERATOR_PLUS OPEARTOR_MINUS
@@ -153,10 +153,12 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
 
             | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumber(%d) \n",$1,$2,$3,$4,yylineno);}
-
+            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
+            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
             | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) lineNumber(%d)\n",$1,$2,$3,$4,yylineno);}
-
+            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
+            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%d) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
             | datatype IDENTIFIER SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) lineNumber(%d)\n",$1,$2,yylineno);}
             | ifstatment
