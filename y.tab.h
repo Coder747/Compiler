@@ -57,29 +57,31 @@ extern int yydebug;
     OPERATOR_ASSIGNMENT = 267,
     CURLY_OPEN = 268,
     CURLY_CLOSE = 269,
-    VALUE_INT = 270,
-    BOOL = 271,
-    VALUE_STRING = 272,
-    IDENTIFIER = 273,
-    CONST = 274,
-    IF = 275,
-    SWITCH = 276,
-    CASE = 277,
-    BREAK = 278,
-    COLON = 279,
-    DEFAULT = 280,
-    REPEAT = 281,
-    UNTIL = 282,
-    L = 283,
-    G = 284,
-    LE = 285,
-    GE = 286,
-    EQ = 287,
-    NE = 288,
-    OR = 289,
-    AND = 290,
-    ELSE = 291,
-    WHILE = 292
+    BRACKET_OPEN = 270,
+    BRACKET_CLOSE = 271,
+    VALUE_INT = 272,
+    BOOL = 273,
+    VALUE_STRING = 274,
+    IDENTIFIER = 275,
+    CONST = 276,
+    IF = 277,
+    SWITCH = 278,
+    CASE = 279,
+    BREAK = 280,
+    COLON = 281,
+    DEFAULT = 282,
+    REPEAT = 283,
+    UNTIL = 284,
+    L = 285,
+    G = 286,
+    LE = 287,
+    GE = 288,
+    EQ = 289,
+    NE = 290,
+    OR = 291,
+    AND = 292,
+    ELSE = 293,
+    WHILE = 294
   };
 #endif
 /* Tokens.  */
@@ -95,29 +97,31 @@ extern int yydebug;
 #define OPERATOR_ASSIGNMENT 267
 #define CURLY_OPEN 268
 #define CURLY_CLOSE 269
-#define VALUE_INT 270
-#define BOOL 271
-#define VALUE_STRING 272
-#define IDENTIFIER 273
-#define CONST 274
-#define IF 275
-#define SWITCH 276
-#define CASE 277
-#define BREAK 278
-#define COLON 279
-#define DEFAULT 280
-#define REPEAT 281
-#define UNTIL 282
-#define L 283
-#define G 284
-#define LE 285
-#define GE 286
-#define EQ 287
-#define NE 288
-#define OR 289
-#define AND 290
-#define ELSE 291
-#define WHILE 292
+#define BRACKET_OPEN 270
+#define BRACKET_CLOSE 271
+#define VALUE_INT 272
+#define BOOL 273
+#define VALUE_STRING 274
+#define IDENTIFIER 275
+#define CONST 276
+#define IF 277
+#define SWITCH 278
+#define CASE 279
+#define BREAK 280
+#define COLON 281
+#define DEFAULT 282
+#define REPEAT 283
+#define UNTIL 284
+#define L 285
+#define G 286
+#define LE 287
+#define GE 288
+#define EQ 289
+#define NE 290
+#define OR 291
+#define AND 292
+#define ELSE 293
+#define WHILE 294
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -129,7 +133,7 @@ union YYSTYPE
     int num;
     char* string;
 
-#line 133 "y.tab.h" /* yacc.c:1909  */
+#line 137 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

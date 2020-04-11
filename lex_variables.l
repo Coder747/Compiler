@@ -35,7 +35,8 @@ le7ad				{yylval.string = strdup(yytext); return UNTIL;}
 "||"    			{yylval.string = strdup(yytext); return OR;}
 "&&"    			{yylval.string = strdup(yytext); return AND;}
 ":"    		    	{yylval.string = strdup(yytext); return COLON;}
-
+"("					{yylval.string = strdup(yytext); return BRACKET_OPEN;}
+")"					{yylval.string = strdup(yytext); return BRACKET_CLOSE;}
 \+				{yylval.string = strdup(yytext); return OPERATOR_PLUS;}
 \=				{yylval.string = strdup(yytext); return OPERATOR_ASSIGNMENT;}
 
