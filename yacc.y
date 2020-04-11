@@ -22,7 +22,7 @@ void yyerror(char *s);
 %token <string> VALUE_INT
 %token <string> VALUE_STRING
 %token <string> IDENTIFIER
-%token <string> IF L G LE GE EQ NE OR AND ELSE WHILE
+%token <string> IF SWITCH CASE BREAK COLON DEFAULT L G LE GE EQ NE OR AND ELSE WHILE
 
 %right '='
 %left AND OR
@@ -42,6 +42,28 @@ code : code line {printf("code: code line --> Line Number (%d) \n", yylineno);}
 line        : exp
             {printf("line: exp(%s)\n",$1);}
             | error SEMICOLON   
+            ;
+
+switchcase  : SWITCH C_int CURLY_OPEN switchstmt optional_d CURLY_CLOSE
+            {printf("switch: SWITCH C_int CURLY_OPEN switchstmt optional_d CURLY_CLOSE\n");}
+            ;
+
+optional_d  : DEFAULT COLON statments optional_b
+            {printf("optional_d: DEFAULT COLON statments optional_b\n");}
+            ;
+
+switchstmt  : case 
+            {printf("switchstmt: case\n");}
+            | switchstmt case
+            {printf("switchstmt: switchstmt case\n");}
+            ;
+
+case        : CASE C_int COLON statments optional_b
+            {printf("case: CASE C_int COLON statments optional_b\n");}
+            ;
+
+optional_b  : BREAK SEMICOLON
+            {printf("optional_b: BREAK SEMICOLON\n");}
             ;
 
 
@@ -135,6 +157,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
             {printf("exp: ifstatment(%s)\n",$1);}
             | Whileloop
             {printf("exp: Whileloop(%s)\n",$1);}
+            | switchcase
+            {printf("exp: switchcase(%s)\n");}
             ;
         
 datatype : TYPE_INT

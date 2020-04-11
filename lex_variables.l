@@ -16,6 +16,10 @@ gomla   		{yylval.string = strdup(yytext); return TYPE_STRING;}
 shoflykeda		{yylval.string = strdup(yytext); return IF;}
 walla			{yylval.string = strdup(yytext); return ELSE;}
 talama			{yylval.string = strdup(yytext); return WHILE;}
+switch			{yylval.string = strdup(yytext); return SWITCH;}
+law			    {yylval.string = strdup(yytext); return CASE;}
+break			{yylval.string = strdup(yytext); return BREAK;}
+default			{yylval.string = strdup(yytext); return DEFAULT;}
 "{"				{yylval.string = strdup(yytext); return CURLY_OPEN;}
 "}"				{yylval.string = strdup(yytext); return CURLY_CLOSE;}
 "<"				{yylval.string = strdup(yytext); return L;}
@@ -26,6 +30,7 @@ talama			{yylval.string = strdup(yytext); return WHILE;}
 "!="    		{yylval.string = strdup(yytext); return NE;}
 "||"    		{yylval.string = strdup(yytext); return OR;}
 "&&"    		{yylval.string = strdup(yytext); return AND;}
+":"    		    {yylval.string = strdup(yytext); return COLON;}
 
 \+				{yylval.string = strdup(yytext); return OPERATOR_PLUS;}
 \=				{yylval.string = strdup(yytext); return OPERATOR_ASSIGNMENT;}
