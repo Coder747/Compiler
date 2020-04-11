@@ -19,9 +19,9 @@ void yyerror(char *s);
 
 %token <string> SEMICOLON 
 %token <string> TYPE_INT TYPE_STRING OPERATOR_PLUS OPEARTOR_MINUS OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE
-%token <string> VALUE_INT
+%token <string> VALUE_INT BOOL TYPE_FLOAT
 %token <string> VALUE_STRING
-%token <string> IDENTIFIER
+%token <string> IDENTIFIER CONST 
 %token <string> IF SWITCH CASE BREAK COLON DEFAULT L G LE GE EQ NE OR AND ELSE WHILE
 
 %right OPERATOR_ASSIGNMENT
@@ -29,7 +29,8 @@ void yyerror(char *s);
 %left L G LE GE EQ NE
 %left OPERATOR_PLUS OPEARTOR_MINUS
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
-%type <string> code line datatype value_i value_s ifstatment statment Condition exp statments Whileloop
+%type <string> code line datatype value_i value_s ifstatment statment Condition exp statments Whileloop 
+
 
 %%
 
@@ -125,6 +126,12 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
             |IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
             {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) lineNumber(%d)\n",$1,$2,$3,yylineno);}
 
+            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
+            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
+
+            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
+            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
+            
             | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumber(%d) \n",$1,$2,$3,$4,yylineno);}
 
@@ -133,10 +140,13 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
 
             | datatype IDENTIFIER SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) lineNumber(%d)\n",$1,$2,yylineno);}
+
             | ifstatment
             {printf("exp: ifstatment(%s)lineNumber(%d)\n",$1,yylineno);}
+
             | Whileloop
             {printf("exp: Whileloop(%s)lineNumber(%d)\n",$1,yylineno);}
+
             | switchcase
             {printf("exp: switchcase() lineNumber(%d)\n",yylineno);}
             ;

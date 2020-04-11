@@ -8,29 +8,31 @@ int count=0;
 void yyerror(char *);
 #include "y.tab.h"
 %}
-
 %%
-5alsana 		{yylval.string = strdup(yytext); return SEMICOLON;}
-rakam 			{yylval.string = strdup(yytext); return TYPE_INT;}
-gomla   		{yylval.string = strdup(yytext); return TYPE_STRING;}
-shoflykeda		{yylval.string = strdup(yytext); return IF;}
-walla			{yylval.string = strdup(yytext); return ELSE;}
-talama			{yylval.string = strdup(yytext); return WHILE;}
-switch			{yylval.string = strdup(yytext); return SWITCH;}
-law			    {yylval.string = strdup(yytext); return CASE;}
-break			{yylval.string = strdup(yytext); return BREAK;}
-default			{yylval.string = strdup(yytext); return DEFAULT;}
-"{"				{yylval.string = strdup(yytext); return CURLY_OPEN;}
-"}"				{yylval.string = strdup(yytext); return CURLY_CLOSE;}
-"<"				{yylval.string = strdup(yytext); return L;}
-">"				{yylval.string = strdup(yytext); return G;}
-"<="    		{yylval.string = strdup(yytext); return LE;}
-">="    		{yylval.string = strdup(yytext); return GE;}
-"=="    		{yylval.string = strdup(yytext); return EQ;}
-"!="    		{yylval.string = strdup(yytext); return NE;}
-"||"    		{yylval.string = strdup(yytext); return OR;}
-"&&"    		{yylval.string = strdup(yytext); return AND;}
-":"    		    {yylval.string = strdup(yytext); return COLON;}
+5alsana 			{yylval.string = strdup(yytext); return SEMICOLON;}
+sabet 				{yylval.string = strdup(yytext); return CONST;}
+rakam 				{yylval.string = strdup(yytext); return TYPE_INT;}
+3ayem				{yylval.string = strdup(yytext); return TYPE_FLOAT;}
+gomla   			{yylval.string = strdup(yytext); return TYPE_STRING;}
+shoflykeda			{yylval.string = strdup(yytext); return IF;}
+walla				{yylval.string = strdup(yytext); return ELSE;}
+talama				{yylval.string = strdup(yytext); return WHILE;}
+garabkeda			{yylval.string = strdup(yytext); return SWITCH;}
+law			    	{yylval.string = strdup(yytext); return CASE;}
+lawmafesh			{yylval.string = strdup(yytext); return DEFAULT;}
+eksar				{yylval.string = strdup(yytext); return BREAK;}
+Sa7ghalat			{yylval.string = strdup(yytext); return BOOL;}
+"{"					{yylval.string = strdup(yytext); return CURLY_OPEN;}
+"}"					{yylval.string = strdup(yytext); return CURLY_CLOSE;}
+"<"					{yylval.string = strdup(yytext); return L;}
+">"					{yylval.string = strdup(yytext); return G;}
+"<="    			{yylval.string = strdup(yytext); return LE;}
+">="    			{yylval.string = strdup(yytext); return GE;}
+"=="    			{yylval.string = strdup(yytext); return EQ;}
+"!="    			{yylval.string = strdup(yytext); return NE;}
+"||"    			{yylval.string = strdup(yytext); return OR;}
+"&&"    			{yylval.string = strdup(yytext); return AND;}
+":"    		    	{yylval.string = strdup(yytext); return COLON;}
 
 \+				{yylval.string = strdup(yytext); return OPERATOR_PLUS;}
 \=				{yylval.string = strdup(yytext); return OPERATOR_ASSIGNMENT;}
