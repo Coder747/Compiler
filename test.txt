@@ -2,6 +2,7 @@ rakam x =5 5alsana
 gomla s = "hello" 5alsana
 x=7 5alsana
 s= "world" 5alsana
+sabet x=5 5alsana
 shoflykeda x==5 && y==9
 { 
     y=8 5alsana
@@ -24,26 +25,24 @@ talama x>5
     z = 6 5alsana
 }
 
-switch x>5
+garabkeda x>5
 {
-    default:
+    lawmafesh:
     g = 4 5alsana
    
     law 1:
     t = 4 5alsana
     z = 3 5alsana
-    break 5alsana
-    default:
+    eksar 5alsana
+    lawmafesh:
     g = 4 5alsana
     law 2:
     z = 3 5alsana
-    default:
+    lawmafesh:
     g = 4 5alsana
-    break 5alsana
+    eksar 5alsana
 
-    
-
-    
+   
 }
 
 

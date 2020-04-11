@@ -50,24 +50,27 @@
      CURLY_OPEN = 266,
      CURLY_CLOSE = 267,
      VALUE_INT = 268,
-     VALUE_STRING = 269,
-     IDENTIFIER = 270,
-     IF = 271,
-     SWITCH = 272,
-     CASE = 273,
-     BREAK = 274,
-     COLON = 275,
-     DEFAULT = 276,
-     L = 277,
-     G = 278,
-     LE = 279,
-     GE = 280,
-     EQ = 281,
-     NE = 282,
-     OR = 283,
-     AND = 284,
-     ELSE = 285,
-     WHILE = 286
+     BOOL = 269,
+     TYPE_FLOAT = 270,
+     VALUE_STRING = 271,
+     IDENTIFIER = 272,
+     CONST = 273,
+     IF = 274,
+     SWITCH = 275,
+     CASE = 276,
+     BREAK = 277,
+     COLON = 278,
+     DEFAULT = 279,
+     L = 280,
+     G = 281,
+     LE = 282,
+     GE = 283,
+     EQ = 284,
+     NE = 285,
+     OR = 286,
+     AND = 287,
+     ELSE = 288,
+     WHILE = 289
    };
 #endif
 /* Tokens.  */
@@ -82,24 +85,27 @@
 #define CURLY_OPEN 266
 #define CURLY_CLOSE 267
 #define VALUE_INT 268
-#define VALUE_STRING 269
-#define IDENTIFIER 270
-#define IF 271
-#define SWITCH 272
-#define CASE 273
-#define BREAK 274
-#define COLON 275
-#define DEFAULT 276
-#define L 277
-#define G 278
-#define LE 279
-#define GE 280
-#define EQ 281
-#define NE 282
-#define OR 283
-#define AND 284
-#define ELSE 285
-#define WHILE 286
+#define BOOL 269
+#define TYPE_FLOAT 270
+#define VALUE_STRING 271
+#define IDENTIFIER 272
+#define CONST 273
+#define IF 274
+#define SWITCH 275
+#define CASE 276
+#define BREAK 277
+#define COLON 278
+#define DEFAULT 279
+#define L 280
+#define G 281
+#define LE 282
+#define GE 283
+#define EQ 284
+#define NE 285
+#define OR 286
+#define AND 287
+#define ELSE 288
+#define WHILE 289
 
 
 
@@ -112,7 +118,7 @@ typedef union YYSTYPE
     char* string;
 }
 /* Line 1529 of yacc.c.  */
-#line 116 "y.tab.h"
+#line 122 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
