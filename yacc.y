@@ -93,7 +93,7 @@ statments    : statment
              |statments statment
              ;
 
-Condition    : Condition L Condition
+Condition   : Condition L Condition
             {printf("Condition: Condition(%d) L(%s) Condition(%d)\n",$1,$2,$3);}
             | Condition G Condition
             {printf("Condition: Condition(%d) G(%s) Condition(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
