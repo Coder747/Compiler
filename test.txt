@@ -26,11 +26,24 @@ talama x>5
 
 switch x>5
 {
+    default:
+    g = 4 5alsana
+   
     law 1:
     t = 4 5alsana
     z = 3 5alsana
+    break 5alsana
+    default:
+    g = 4 5alsana
     law 2:
     z = 3 5alsana
+    default:
+    g = 4 5alsana
+    break 5alsana
+
+    
+
+    
 }
 
 

@@ -29,7 +29,7 @@ void yyerror(char *s);
 %left L G LE GE EQ NE
 %left OPERATOR_PLUS OPEARTOR_MINUS
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
-%type <string> code line datatype value_i value_s ifstatment statment C_int C_string exp statments Whileloop switchcase optional_d switchstmt case optional_b
+%type <string> code line datatype value_i value_s ifstatment statment C_int C_string exp statments Whileloop
 
 %%
 
@@ -45,11 +45,13 @@ line        : exp
             ;
 
 switchcase  : SWITCH C_int CURLY_OPEN switchstmt CURLY_CLOSE
-            {printf("switch: SWITCH C_int CURLY_OPEN switchstmt optional_d CURLY_CLOSE lineNumber(%d)\n",yylineno);}
+            {printf("switchcase: SWITCH C_int CURLY_OPEN switchstmt CURLY_CLOSE lineNumber(%d)\n",yylineno);}
             ;
 
-optional_d  : DEFAULT COLON statments optional_b
-            {printf("optional_d: DEFAULT COLON statments optional_b\n");}
+default     : DEFAULT COLON statments
+            {printf("default: DEFAULT COLON statments lineNumber(%d)\n",yylineno);}
+            | DEFAULT COLON statments break
+            {printf("default: DEFAULT COLON statments break lineNumber(%d)\n",yylineno);}
             ;
 
 switchstmt  : case 
@@ -59,11 +61,15 @@ switchstmt  : case
             ;
 
 case        : CASE C_int COLON statments 
-            {printf("case: CASE C_int COLON statments optional_b lineNumber(%d)\n",yylineno);}
+            {printf("case: CASE C_int COLON statments lineNumber(%d)\n",yylineno);}
+            | CASE C_int COLON statments break
+            {printf("case: CASE C_int COLON statments break lineNumber(%d)\n",yylineno);}
+            | default
+            {printf("case: default lineNumber(%d)\n",yylineno);}
             ;
 
-optional_b  : BREAK SEMICOLON
-            {printf("optional_b: BREAK SEMICOLON\n");}
+break       : BREAK SEMICOLON
+            {printf("break: BREAK SEMICOLON lineNumber(%d)\n",yylineno);}
             ;
 
 
