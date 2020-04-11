@@ -3,7 +3,7 @@ gomla s = "hello" 5alsana
 x=7 5alsana
 s= "world" 5alsana
 sabet x=5 5alsana
-shoflykeda x==5 && y==9
+shoflykeda (x==5 && y==9)
 { 
     y=8 5alsana
     y=9 5alsana
@@ -18,14 +18,14 @@ walla
     z=1 5alsana
 }
 
-talama x>5
+talama (x>5)
 {
     x=5 5alsana
     y=6 5alsana
     z = 6 5alsana
 }
 
-garabkeda x>5
+garabkeda (x>5)
 {
     lawmafesh:
     g = 4 5alsana
@@ -51,8 +51,7 @@ karar{
     freedom = 100 5alsana
     justice = "george" 5alsana
     and_security = 100 5alsana
-
-    le7ad george == "justice"
+    le7ad ( 3+(5-3)*7+20)
 }
 
 

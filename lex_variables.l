@@ -37,8 +37,11 @@ le7ad				{yylval.string = strdup(yytext); return UNTIL;}
 ":"    		    	{yylval.string = strdup(yytext); return COLON;}
 "("					{yylval.string = strdup(yytext); return BRACKET_OPEN;}
 ")"					{yylval.string = strdup(yytext); return BRACKET_CLOSE;}
-\+				{yylval.string = strdup(yytext); return OPERATOR_PLUS;}
-\=				{yylval.string = strdup(yytext); return OPERATOR_ASSIGNMENT;}
+\+					{yylval.string = strdup(yytext); return OPERATOR_PLUS;}
+\=					{yylval.string = strdup(yytext); return OPERATOR_ASSIGNMENT;}
+\*					{yylval.string = strdup(yytext); return OPERATOR_MULTIPLY;}
+\/					{yylval.string = strdup(yytext); return OPERATOR_DIVIDE;}
+\-					{yylval.string = strdup(yytext); return OPERATOR_SUBTRACT;}
 
 [0-9]+										{yylval.string = atoi(yytext); return VALUE_INT;}
 \"(([a-zA-Z0-9_ ])|\\[a-zA-Z])+\"			{yylval.string = strdup(yytext); return VALUE_STRING;}

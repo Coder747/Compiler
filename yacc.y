@@ -18,7 +18,7 @@ void yyerror(char *s);
 
 
 %token <string> SEMICOLON 
-%token <string> TYPE_INT TYPE_STRING TYPE_FLOAT TYPE_BOOL OPERATOR_PLUS OPEARTOR_MINUS OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE BRACKET_OPEN BRACKET_CLOSE
+%token <string> TYPE_INT TYPE_STRING TYPE_FLOAT TYPE_BOOL OPERATOR_PLUS OPERATOR_SUBTRACT OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE BRACKET_OPEN BRACKET_CLOSE
 %token <string> VALUE_INT BOOL
 %token <string> VALUE_STRING
 %token <string> IDENTIFIER CONST 
@@ -27,8 +27,9 @@ void yyerror(char *s);
 %right OPERATOR_ASSIGNMENT
 %left AND OR
 %left L G LE GE EQ NE
-%left OPERATOR_PLUS OPEARTOR_MINUS
+%left OPERATOR_PLUS OPERATOR_SUBTRACT
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
+%left BRACKET_OPEN BRACKET_CLOSE
 %type <string> code line datatype value_i value_s ifstatment statment Condition exp statments Whileloop 
 
 
@@ -45,7 +46,7 @@ line        : exp
             | error SEMICOLON   
             ;
 
-switchcase  : SWITCH Condition CURLY_OPEN switchstmt CURLY_CLOSE
+switchcase  : SWITCH BRACKET_OPEN Condition BRACKET_CLOSE CURLY_OPEN switchstmt CURLY_CLOSE
             {printf("switchcase: SWITCH Condition CURLY_OPEN switchstmt CURLY_CLOSE lineNumber(%d)\n",yylineno);}
             ;
 
@@ -61,9 +62,9 @@ switchstmt  : case
             {printf("switchstmt: switchstmt case lineNumber(%d)\n",yylineno);}
             ;
 
-case        : CASE Condition COLON statments 
+case        : CASE Condition  COLON statments 
             {printf("case: CASE Condition COLON statments lineNumber(%d)\n",yylineno);}
-            | CASE Condition COLON statments break
+            | CASE  Condition COLON statments break
             {printf("case: CASE Condition COLON statments break lineNumber(%d)\n",yylineno);}
             | default
             {printf("case: default lineNumber(%d)\n",yylineno);}
@@ -73,21 +74,21 @@ break       : BREAK SEMICOLON
             {printf("break: BREAK SEMICOLON lineNumber(%d)\n",yylineno);}
             ;
 
-repuntil    : REPEAT CURLY_OPEN statments UNTIL Condition CURLY_CLOSE
+repuntil    : REPEAT CURLY_OPEN statments UNTIL BRACKET_OPEN Condition BRACKET_CLOSE CURLY_CLOSE
             {printf("repuntil: REPEAT CURLY_OPEN statments UNTIL Condition CURLY_CLOSE lineNumber(%d)\n",yylineno);}
             ;
 
 
 
-Whileloop   : WHILE Condition CURLY_OPEN statments CURLY_CLOSE
+Whileloop   : WHILE BRACKET_OPEN Condition BRACKET_CLOSE CURLY_OPEN statments CURLY_CLOSE
             {printf("Whileloop: WHILE(%s) Condition( %d ) CURLY_OPEN( %s ) statments(%s) CURLY_CLOSE( %s ) lineNumber(%d)\n" ,$1,$2,$3,$4,$5,yylineno);}
             ;
 
       
-ifstatment  : IF Condition CURLY_OPEN statments CURLY_CLOSE ELSE CURLY_OPEN statments CURLY_CLOSE
+ifstatment  : IF BRACKET_OPEN Condition BRACKET_CLOSE CURLY_OPEN statments CURLY_CLOSE ELSE CURLY_OPEN statments CURLY_CLOSE
             {printf("ifstatment: IF (%s) Condition(%d) CURLY_OPEN( %s ) statment(%s) CURLY_CLOSE( %s ) ELSE(%s) CURLY_OPEN( %s ) statment(%s) CURLY_CLOSE( %s ) lineNumber(%d)\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,yylineno);}
 
-            | IF Condition CURLY_OPEN statments  CURLY_CLOSE
+            | IF BRACKET_OPEN Condition BRACKET_CLOSE CURLY_OPEN statments  CURLY_CLOSE
             {printf("ifstatment: IF(%s) Condition(%d) CURLY_OPEN( %s ) statment(%s) CURLY_CLOSE( %s )\n",$1,$2,$3,$4,$5,yylineno);}
             ;
 
@@ -115,6 +116,15 @@ Condition   : Condition L Condition
             {printf("Condition: Condition(%d) OR(%s) Condition(%d)\n",$1,$2,$3);}
             | Condition AND Condition
             {printf("Condition: Condition(%d) AND(%s) Condition(%d)\n",$1,$2,$3);}
+            | Condition OPERATOR_MULTIPLY Condition
+            {printf("Condition: Condition(%d) OPERATOR_MULTIPLY(%s) Condition(%d)\n",$1,$2,$3);}
+            | Condition OPERATOR_DIVIDE Condition
+            {printf("Condition: Condition(%d) OPERATOR_DIVIDE(%s) Condition(%d)\n",$1,$2,$3);}
+            | Condition OPERATOR_PLUS Condition
+            {printf("Condition: Condition(%d) OPERATOR_PLUS(%s) Condition(%d)\n",$1,$2,$3);}
+            | Condition OPERATOR_SUBTRACT Condition
+            {printf("Condition: Condition(%d) OPERATOR_SUBTRACT(%s) Condition(%d)\n",$1,$2,$3);}
+            | BRACKET_OPEN Condition BRACKET_CLOSE
             | value_i
             {printf("Condition: value_i(%d) lineNumber(%d)\n",$1,yylineno);}
             | value_s
