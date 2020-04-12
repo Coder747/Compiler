@@ -54,4 +54,9 @@ karar{
     le7ad ( 3+(5-3)*7+20)
 }
 
+for(x=5 5alsana x<5&&x<8 5alsana x=x+1)
+{
+    z=5 5alsana
+    x=y 5alsana
+}
 

@@ -75,7 +75,8 @@
      OR = 291,
      AND = 292,
      ELSE = 293,
-     WHILE = 294
+     WHILE = 294,
+     FOR = 295
    };
 #endif
 /* Tokens.  */
@@ -116,6 +117,7 @@
 #define AND 292
 #define ELSE 293
 #define WHILE 294
+#define FOR 295
 
 
 
@@ -128,7 +130,7 @@ typedef union YYSTYPE
     char* string;
 }
 /* Line 1529 of yacc.c.  */
-#line 132 "y.tab.h"
+#line 134 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

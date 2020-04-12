@@ -17,6 +17,7 @@ gomla   			{yylval.string = strdup(yytext); return TYPE_STRING;}
 shoflykeda			{yylval.string = strdup(yytext); return IF;}
 walla				{yylval.string = strdup(yytext); return ELSE;}
 talama				{yylval.string = strdup(yytext); return WHILE;}
+for					{yylval.string = strdup(yytext); return FOR;}
 garabkeda			{yylval.string = strdup(yytext); return SWITCH;}
 law			    	{yylval.string = strdup(yytext); return CASE;}
 lawmafesh			{yylval.string = strdup(yytext); return DEFAULT;}
