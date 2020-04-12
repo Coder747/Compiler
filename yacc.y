@@ -30,7 +30,7 @@ void yyerror(char *s);
 %left OPERATOR_PLUS OPERATOR_SUBTRACT
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
 %left BRACKET_OPEN BRACKET_CLOSE
-%type <string> code line datatype value_i value_s ifstatment statment Condition exp statments Whileloop 
+%type <string> code line datatype value_i value_s ifstatment statment Condition exp statments Whileloop Arithmetic
 
 
 %%
@@ -105,35 +105,39 @@ Condition   : Condition L Condition
             | Condition G Condition
             {printf("Condition: Condition(%d) G(%s) Condition(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | Condition LE Condition
-            {printf("Condition: Condition(%d) LE(%s) Condition(%d)\n",$1,$2,$3);}
+            {printf("Condition: Condition(%d) LE(%s) Condition(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | Condition GE Condition
-            {printf("Condition: Condition(%d) GE(%s) Condition(%d)\n",$1,$2,$3);}
+            {printf("Condition: Condition(%d) GE(%s) Condition(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | Condition EQ Condition
-            {printf("Condition: Condition(%d) EQ(%s) Condition(%d)\n",$1,$2,$3);}
+            {printf("Condition: Condition(%d) EQ(%s) Condition(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | Condition NE Condition
-            {printf("Condition: Condition(%d) NE(%s) Condition(%d)\n",$1,$2,$3);}
+            {printf("Condition: Condition(%d) NE(%s) Condition(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | Condition OR Condition
-            {printf("Condition: Condition(%d) OR(%s) Condition(%d)\n",$1,$2,$3);}
+            {printf("Condition: Condition(%d) OR(%s) Condition(%d) lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | Condition AND Condition
-            {printf("Condition: Condition(%d) AND(%s) Condition(%d)\n",$1,$2,$3);}
-            | Condition OPERATOR_MULTIPLY Condition
-            {printf("Condition: Condition(%d) OPERATOR_MULTIPLY(%s) Condition(%d)\n",$1,$2,$3);}
-            | Condition OPERATOR_DIVIDE Condition
-            {printf("Condition: Condition(%d) OPERATOR_DIVIDE(%s) Condition(%d)\n",$1,$2,$3);}
-            | Condition OPERATOR_PLUS Condition
-            {printf("Condition: Condition(%d) OPERATOR_PLUS(%s) Condition(%d)\n",$1,$2,$3);}
-            | Condition OPERATOR_SUBTRACT Condition
-            {printf("Condition: Condition(%d) OPERATOR_SUBTRACT(%s) Condition(%d)\n",$1,$2,$3);}
-            | BRACKET_OPEN Condition BRACKET_CLOSE
-            | value_i
-            {printf("Condition: value_i(%d) lineNumber(%d)\n",$1,yylineno);}
+            {printf("Condition: Condition(%d) AND(%s) Condition(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            |Arithmetic
+            {printf("Condition: Arithmetic lineNumber(%d)\n",yylineno);}
             | value_s
             {printf("Condition: value_s(%d) lineNumber(%d)\n",$1,yylineno);}
-            | IDENTIFIER
-            {printf("Condition: IDENTIFIER(%s) lineNumber(%d)\n",$1,yylineno);}
             ;
 
 
+Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
+            {printf("Arithmetic: Arithmetic(%d) OPERATOR_MULTIPLY(%s) Arithmetic(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | Arithmetic OPERATOR_DIVIDE Arithmetic
+            {printf("Arithmetic: Arithmetic(%d) OPERATOR_DIVIDE(%s) Arithmetic(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | Arithmetic OPERATOR_PLUS Arithmetic
+            {printf("Arithmetic: Arithmetic(%d) OPERATOR_PLUS(%s) Arithmetic(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | Arithmetic OPERATOR_SUBTRACT Arithmetic
+            {printf("Arithmetic: Arithmetic(%d) OPERATOR_SUBTRACT(%s) Arithmetic(%d) lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | BRACKET_OPEN Arithmetic BRACKET_CLOSE
+            {printf("Arithmetic: BRACKET_OPEN Arithmetic(%d) BRACKET_CLOSE lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | value_i
+            {printf("Arithmetic: value_i(%d) lineNumber(%d)\n",$1,yylineno);}
+            | IDENTIFIER
+            {printf("Arithmetic: IDENTIFIER(%s) lineNumber(%d)\n",$1,yylineno);}
+            ;
 
 exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
             {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumer(%d) \n",$1,$2,$3,yylineno);}
@@ -179,6 +183,7 @@ value_i : VALUE_INT       {printf("value: VALUE_INT(%d) lineNumber(%d)\n",$1,yyl
 
 value_s : VALUE_STRING    {printf("value: VALUE_STRING(%s)lineNumber(%d)\n ",$1,yylineno);}
         ;
+
 %%
 
 void yyerror(char *s){
