@@ -18,9 +18,9 @@ void yyerror(char *s);
 
 
 %token <string> SEMICOLON 
-%token <string> TYPE_INT TYPE_STRING TYPE_FLOAT TYPE_BOOL OPERATOR_PLUS OPERATOR_SUBTRACT OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE BRACKET_OPEN BRACKET_CLOSE
-%token <string> VALUE_INT BOOL
-%token <string> VALUE_STRING
+%token <string> TYPE_INT TYPE_STRING TYPE_FLOAT TYPE_BOOL TYPE_CHAR OPERATOR_PLUS OPERATOR_SUBTRACT OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE BRACKET_OPEN BRACKET_CLOSE
+%token <string> VALUE_INT 
+%token <string> VALUE_STRING VALUE_CHAR VALUE_FLOAT VALUE_BOOL
 %token <string> IDENTIFIER CONST 
 %token <string> IF SWITCH CASE BREAK COLON DEFAULT REPEAT UNTIL L G LE GE EQ NE OR AND ELSE WHILE FOR
 
@@ -30,7 +30,11 @@ void yyerror(char *s);
 %left OPERATOR_PLUS OPERATOR_SUBTRACT
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
 %left BRACKET_OPEN BRACKET_CLOSE
-%type <string> code line datatype value_i value_s ifstatment statment Condition exp statments Whileloop Arithmetic Forloop
+
+%nonassoc IF
+%nonassoc ELSE
+
+%type <string> code line datatype ifstatment statment Condition exp statments Whileloop Arithmetic Forloop
 
 
 %%
@@ -84,8 +88,8 @@ Whileloop   : WHILE BRACKET_OPEN Condition BRACKET_CLOSE CURLY_OPEN statments CU
             {printf("Whileloop: WHILE(%s) Condition( %d ) CURLY_OPEN( %s ) statments(%s) CURLY_CLOSE( %s ) lineNumber(%d)\n" ,$1,$2,$3,$4,$5,yylineno);}
             ;
 
-Forloop     : FOR BRACKET_OPEN IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE CURLY_OPEN statments CURLY_CLOSE
-            {printf("Forloop: FOR BRACKET_OPEN IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic BRACKET_CLOSE CURLY_OPEN exp CURLY_CLOSE lineNumber(%d)",yylineno);}
+Forloop     : FOR BRACKET_OPEN IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE CURLY_OPEN statments CURLY_CLOSE
+            {printf("Forloop: FOR BRACKET_OPEN IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic BRACKET_CLOSE CURLY_OPEN exp CURLY_CLOSE lineNumber(%d)",yylineno);}
             ;
 
 
@@ -122,8 +126,8 @@ Condition   : Condition L Condition
             {printf("Condition: Condition(%d) AND(%s) Condition(%d)lineNumber(%d)\n",$1,$2,$3,yylineno);}
             |Arithmetic
             {printf("Condition: Arithmetic lineNumber(%d)\n",yylineno);}
-            | value_s
-            {printf("Condition: value_s(%d) lineNumber(%d)\n",$1,yylineno);}
+            | VALUE_STRING
+            {printf("Condition: VALUE_STRING(%d) lineNumber(%d)\n",$1,yylineno);}
             ;
 
 
@@ -137,27 +141,52 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
             {printf("Arithmetic: Arithmetic(%d) OPERATOR_SUBTRACT(%s) Arithmetic(%d) lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | BRACKET_OPEN Arithmetic BRACKET_CLOSE
             {printf("Arithmetic: BRACKET_OPEN Arithmetic(%d) BRACKET_CLOSE lineNumber(%d)\n",$1,$2,$3,yylineno);}
-            | value_i
-            {printf("Arithmetic: value_i(%d) lineNumber(%d)\n",$1,yylineno);}
+            | VALUE_INT
+            {printf("Arithmetic: VALUE_INT(%d) lineNumber(%d)\n",$1,yylineno);}
+            | VALUE_FLOAT
+            {printf("Arithmetic: VALUE_INT(%d) lineNumber(%d)\n",$1,yylineno);}
+            | IDENTIFIER
+            {printf("Arithmetic: IDENTIFIER(%s) lineNumber(%d)\n",$1,yylineno);}
             ;
 
-exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
-            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumer(%d) \n",$1,$2,$3,yylineno);}
 
-            |IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
-            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) lineNumber(%d)\n",$1,$2,$3,yylineno);}
 
-            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
-            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
+exp         :IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON
+            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_INT(%d) lineNumer(%d) \n",$1,$2,$3,yylineno);}
+            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON
+            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_INT(%d) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON
+            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_INT(%d) lineNumber(%d) \n",$1,$2,$3,$4,yylineno);}
 
-            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
-            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
-            
-            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
-            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_i(%d) lineNumber(%d) \n",$1,$2,$3,$4,yylineno);}
+            |IDENTIFIER OPERATOR_ASSIGNMENT VALUE_FLOAT SEMICOLON
+            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_FLOAT(%s) lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_FLOAT SEMICOLON
+            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_FLOAT(%s) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_FLOAT SEMICOLON
+            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_FLOAT(%s) lineNumber(%d)\n",$1,$2,$3,$4,yylineno);}
 
-            | datatype IDENTIFIER OPERATOR_ASSIGNMENT value_s SEMICOLON
-            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) value_s(%s) lineNumber(%d)\n",$1,$2,$3,$4,yylineno);}
+             |IDENTIFIER OPERATOR_ASSIGNMENT VALUE_STRING SEMICOLON
+            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_STRING(%s) lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_STRING SEMICOLON
+            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_STRING(%s) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_STRING SEMICOLON
+            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_STRING(%s) lineNumber(%d)\n",$1,$2,$3,$4,yylineno);} 
+
+             |IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
+            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_CHAR(%s) lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
+            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_CHAR(%s) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
+            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_CHAR(%s) lineNumber(%d)\n",$1,$2,$3,$4,yylineno);} 
+
+             |IDENTIFIER OPERATOR_ASSIGNMENT VALUE_BOOL SEMICOLON
+            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_BOOL(%s) lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_BOOL SEMICOLON
+            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_BOOL(%s) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_BOOL SEMICOLON
+            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_BOOL(%s) lineNumber(%d)\n",$1,$2,$3,$4,yylineno);}   
+
+            | IDENTIFIER OPERATOR_ASSIGNMENT IDENTIFIER SEMICOLON
 
             | datatype IDENTIFIER SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) lineNumber(%d)\n",$1,$2,yylineno);}
@@ -172,6 +201,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT value_i SEMICOLON
             {printf("exp: switchcase() lineNumber(%d)\n",yylineno);}
             | repuntil
             {printf("exp: repuntil() lineNumber(%d)\n",yylineno);}
+
             |Forloop
             {printf("exp: Forloop() lineNumber(%d)\n",yylineno);}
             ;
@@ -180,16 +210,15 @@ datatype : TYPE_INT
          {printf("datatype: TYPE_INT(%s)\n",$1);}
          | TYPE_STRING
          {printf("datatype: TYPE_STRING(%s)\n",$1);}
+         | TYPE_FLOAT
+         {printf("datatype: TYPE_FLOAT(%s)\n",$1);}
+         | TYPE_CHAR
+         {printf("datatype: TYPE_CHAR(%s)\n",$1);}
+         | TYPE_BOOL
+         {printf("datatype: TYPE_BOOL(%s)\n",$1);}
          ;
 
-value_i : VALUE_INT       
-        {printf("value: VALUE_INT(%d) lineNumber(%d)\n",$1,yylineno);}
-        | IDENTIFIER
-        {printf("value_i: IDENTIFIER(%s) lineNumber(%d)\n",$1,yylineno);}
-        ;
 
-value_s : VALUE_STRING    {printf("value: VALUE_STRING(%s)lineNumber(%d)\n ",$1,yylineno);}
-        ;
 
 %%
 
