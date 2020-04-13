@@ -1,70 +1,30 @@
-sabet rakam x =5 5alsana 
-gomla s = "hello" 5alsana
-x=7 5alsana
-s= "world" 5alsana
-sabet rakam x=5 5alsana
-shoflykeda (x==5 && y==9)
-{ 
-    y=8 5alsana
-    y=9 5alsana
-    z=6 5alsana
-    a=4 5alsana
-    q=3 5alsana
+rakam x = 3+(5-3)*7+20 5alsana
+3ayem myFloat = 6.67 5alsana
+gomla myString = "asdsad" 5alsana
+7arf myChar = "c" 5alsana
+sa7ghalat myBool = false 5alsana
+shoflykeda (x == 5) {
+            rakam y = 8 5alsana
 }
-walla
+
+rakam z 5alsana
+
+for (z=0 5alsana z<5 5alsana z=z+1) 
 {
-    q=9 5alsana
-    y=7 5alsana
-    z=1 5alsana
+    x = x+1 5alsana
 }
 
-talama (x>5)
-{
-    x=5 5alsana
-    y=6 5alsana
-    z = 6 5alsana
+talama (z < 10) {
+    z = z+1 5alsana
 }
-
-garabkeda (x>5)
-{
-    lawmafesh:
-    g = 4 5alsana
-   
-    law 1:
-    t = 4 5alsana
-    z = 3 5alsana
-    eksar 5alsana
-    lawmafesh:
-    g = 4 5alsana
-    law 2:
-    z = 3 5alsana
-    lawmafesh:
-    g = 4 5alsana
-    eksar 5alsana
-
-   
+garabkeda (y) {
+        law 1:  
+            y=y+5 5alsana
+            eksar 5alsana
+        law 2:  
+            y=y+6 5alsana
+            eksar 5alsana
+        lawmafesh:
+            y=y+7 5alsana
+            eksar 5alsana
 }
-
-karar{
-
-    peace = 5 5alsana
-    freedom = 100 5alsana
-    justice = "george" 5alsana
-    and_security = 100 5alsana
-    le7ad ( 3+(5-3)*7+20)
-}
-
-for(x=5 5alsana x<5&&x<8 5alsana x=x+1)
-{
-    z=5 5alsana
-}
-
-rakam x = 3 5alsana
-3ayem y = 3.25 5alsana
-gomla s = "hello" 5alsana
-gomla y = "hey"
-rakam = 10 5alsana
-7arf c = 'a' 5alsana
-7arf = 'b' 5alsana
-
-
