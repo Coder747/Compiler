@@ -45,7 +45,7 @@ le7ad				{yylval.string = strdup(yytext); return UNTIL;}
 \/					{yylval.string = strdup(yytext); return OPERATOR_DIVIDE;}
 \-					{yylval.string = strdup(yytext); return OPERATOR_SUBTRACT;}
 
-[0-9]+										{yylval.string = atoi(yytext); return VALUE_INT;}
+[0-9]+										{yylval.string = strdup(yytext); return VALUE_INT;}
 [Tt]rue|[Ff]alse							{yylval.string = strdup(yytext); return VALUE_BOOL;}
 \'[a-zA-z]\'								{yylval.string = strdup(yytext); return VALUE_CHAR;}
 \"(([a-zA-Z0-9_ ])|\\[a-zA-Z])+\"			{yylval.string = strdup(yytext); return VALUE_STRING;}
