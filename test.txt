@@ -3,8 +3,11 @@ rakam x = 3+(5-3)*7+20 5alsana
 gomla myString = "asdsad" 5alsana
 7arf myChar = "c" 5alsana
 sa7ghalat myBool = false 5alsana
-shoflykeda (x == 5) {
-            rakam y = 8 5alsana
+sa7ghalat myBool1 = !myBool 5alsana
+rakam y = !5 5alsana
+shoflykeda (x == 5) 
+{
+    rakam y = 8 5alsana
 }
 
 rakam z 5alsana

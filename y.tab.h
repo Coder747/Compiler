@@ -54,32 +54,33 @@
      CURLY_CLOSE = 270,
      BRACKET_OPEN = 271,
      BRACKET_CLOSE = 272,
-     VALUE_INT = 273,
-     VALUE_STRING = 274,
-     VALUE_CHAR = 275,
-     VALUE_FLOAT = 276,
-     VALUE_BOOL = 277,
-     IDENTIFIER = 278,
-     CONST = 279,
-     IF = 280,
-     SWITCH = 281,
-     CASE = 282,
-     BREAK = 283,
-     COLON = 284,
-     DEFAULT = 285,
-     REPEAT = 286,
-     UNTIL = 287,
-     L = 288,
-     G = 289,
-     LE = 290,
-     GE = 291,
-     EQ = 292,
-     NE = 293,
-     OR = 294,
-     AND = 295,
-     ELSE = 296,
-     WHILE = 297,
-     FOR = 298
+     OPERATOR_NOT = 273,
+     VALUE_INT = 274,
+     VALUE_STRING = 275,
+     VALUE_CHAR = 276,
+     VALUE_FLOAT = 277,
+     VALUE_BOOL = 278,
+     IDENTIFIER = 279,
+     CONST = 280,
+     IF = 281,
+     SWITCH = 282,
+     CASE = 283,
+     BREAK = 284,
+     COLON = 285,
+     DEFAULT = 286,
+     REPEAT = 287,
+     UNTIL = 288,
+     L = 289,
+     G = 290,
+     LE = 291,
+     GE = 292,
+     EQ = 293,
+     NE = 294,
+     OR = 295,
+     AND = 296,
+     ELSE = 297,
+     WHILE = 298,
+     FOR = 299
    };
 #endif
 /* Tokens.  */
@@ -98,32 +99,33 @@
 #define CURLY_CLOSE 270
 #define BRACKET_OPEN 271
 #define BRACKET_CLOSE 272
-#define VALUE_INT 273
-#define VALUE_STRING 274
-#define VALUE_CHAR 275
-#define VALUE_FLOAT 276
-#define VALUE_BOOL 277
-#define IDENTIFIER 278
-#define CONST 279
-#define IF 280
-#define SWITCH 281
-#define CASE 282
-#define BREAK 283
-#define COLON 284
-#define DEFAULT 285
-#define REPEAT 286
-#define UNTIL 287
-#define L 288
-#define G 289
-#define LE 290
-#define GE 291
-#define EQ 292
-#define NE 293
-#define OR 294
-#define AND 295
-#define ELSE 296
-#define WHILE 297
-#define FOR 298
+#define OPERATOR_NOT 273
+#define VALUE_INT 274
+#define VALUE_STRING 275
+#define VALUE_CHAR 276
+#define VALUE_FLOAT 277
+#define VALUE_BOOL 278
+#define IDENTIFIER 279
+#define CONST 280
+#define IF 281
+#define SWITCH 282
+#define CASE 283
+#define BREAK 284
+#define COLON 285
+#define DEFAULT 286
+#define REPEAT 287
+#define UNTIL 288
+#define L 289
+#define G 290
+#define LE 291
+#define GE 292
+#define EQ 293
+#define NE 294
+#define OR 295
+#define AND 296
+#define ELSE 297
+#define WHILE 298
+#define FOR 299
 
 
 
@@ -136,7 +138,7 @@ typedef union YYSTYPE
     char* string;
 }
 /* Line 1529 of yacc.c.  */
-#line 140 "y.tab.h"
+#line 142 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

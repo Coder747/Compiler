@@ -18,7 +18,7 @@ void yyerror(char *s);
 
 
 %token <string> SEMICOLON 
-%token <string> TYPE_INT TYPE_STRING TYPE_FLOAT TYPE_BOOL TYPE_CHAR OPERATOR_PLUS OPERATOR_SUBTRACT OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE BRACKET_OPEN BRACKET_CLOSE
+%token <string> TYPE_INT TYPE_STRING TYPE_FLOAT TYPE_BOOL TYPE_CHAR OPERATOR_PLUS OPERATOR_SUBTRACT OPERATOR_MULTIPLY OPERATOR_DIVIDE OPERATOR_ASSIGNMENT CURLY_OPEN CURLY_CLOSE BRACKET_OPEN BRACKET_CLOSE OPERATOR_NOT
 %token <string> VALUE_INT 
 %token <string> VALUE_STRING VALUE_CHAR VALUE_FLOAT VALUE_BOOL
 %token <string> IDENTIFIER CONST 
@@ -29,6 +29,7 @@ void yyerror(char *s);
 %left L G LE GE EQ NE
 %left OPERATOR_PLUS OPERATOR_SUBTRACT
 %left OPERATOR_MULTIPLY OPERATOR_DIVIDE
+%right OPERATOR_NOT
 %left BRACKET_OPEN BRACKET_CLOSE
 
 %nonassoc IF
@@ -142,6 +143,8 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
             {printf("Arithmetic: Arithmetic(%s) OPERATOR_MULTIPLY(%s) Arithmetic(%s)lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | Arithmetic OPERATOR_DIVIDE Arithmetic
             {printf("Arithmetic: Arithmetic(%s) OPERATOR_DIVIDE(%s) Arithmetic(%s)lineNumber(%d)\n",$1,$2,$3,yylineno);}
+            | OPERATOR_NOT Arithmetic
+            {printf("Arithmetic: OPERATOR_NOT(%s) Arithmetic(%s)lineNumber(%d)\n",$1,$2,yylineno);}
             | Arithmetic OPERATOR_PLUS Arithmetic
             {printf("Arithmetic: Arithmetic(%s) OPERATOR_PLUS(%s) Arithmetic(%s)lineNumber(%d)\n",$1,$2,$3,yylineno);}
             | Arithmetic OPERATOR_SUBTRACT Arithmetic
@@ -152,6 +155,8 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
             {printf("Arithmetic: VALUE_INT(%s) lineNumber(%d)\n",$1,yylineno);}
             | VALUE_FLOAT
             {printf("Arithmetic: VALUE_INT(%s) lineNumber(%d)\n",$1,yylineno);}
+            | VALUE_BOOL
+            {printf("Arithmetic: VALUE_BOOL(%s) lineNumber(%d)\n",$1,yylineno);}
             | IDENTIFIER
             {printf("Arithmetic: IDENTIFIER(%s) lineNumber(%d)\n",$1,yylineno);}
             ;
@@ -180,13 +185,6 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
             {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_CHAR(%s) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
             | datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
             {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_CHAR(%s) lineNumber(%d)\n",$1,$2,$3,$4,yylineno);} 
-
-             |IDENTIFIER OPERATOR_ASSIGNMENT VALUE_BOOL SEMICOLON
-            {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_BOOL(%s) lineNumber(%d)\n",$1,$2,$3,yylineno);}
-            | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_BOOL SEMICOLON
-            {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_BOOL(%s) lineNumber(%d) \n",$1,$2,$3,$4,$5,yylineno);}
-            | datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_BOOL SEMICOLON
-            {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_BOOL(%s) lineNumber(%d)\n",$1,$2,$3,$4,yylineno);}   
 
 
             | datatype IDENTIFIER SEMICOLON

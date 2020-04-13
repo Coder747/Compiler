@@ -44,6 +44,7 @@ le7ad				{yylval.string = strdup(yytext); return UNTIL;}
 \*					{yylval.string = strdup(yytext); return OPERATOR_MULTIPLY;}
 \/					{yylval.string = strdup(yytext); return OPERATOR_DIVIDE;}
 \-					{yylval.string = strdup(yytext); return OPERATOR_SUBTRACT;}
+\!					{yylval.string = strdup(yytext); return OPERATOR_NOT;}
 
 [0-9]+										{yylval.string = strdup(yytext); return VALUE_INT;}
 [Tt]rue|[Ff]alse							{yylval.string = strdup(yytext); return VALUE_BOOL;}
