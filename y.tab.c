@@ -527,13 +527,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    43,    43,    45,    46,    49,    51,    54,    58,    60,
-      64,    66,    70,    72,    74,    78,    82,    89,    93,    95,
-     100,   104,   109,   113,   115,   119,   121,   123,   125,   127,
-     129,   131,   133,   135,   137,   142,   144,   146,   148,   150,
-     152,   154,   156,   158,   160,   166,   169,   172,   175,   177,
-     179,   182,   184,   186,   190,   193,   196,   199,   201,   204,
-     208,   210,   212,   214,   216
+       0,    43,    43,    45,    46,    49,    51,    55,    59,    61,
+      65,    67,    71,    73,    75,    79,    83,    90,    94,    96,
+     101,   105,   110,   114,   116,   120,   122,   124,   126,   128,
+     130,   132,   134,   136,   138,   143,   145,   147,   149,   151,
+     153,   155,   157,   159,   161,   167,   170,   173,   176,   178,
+     180,   183,   185,   187,   191,   194,   197,   200,   202,   205,
+     209,   211,   213,   215,   217
 };
 #endif
 
@@ -1601,304 +1601,309 @@ yyreduce:
 
   case 5:
 #line 50 "yacc.y"
-    {printf("line: exp(%s)\n",(yyvsp[(1) - (1)].string));}
+    {printf("line: exp(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
+    break;
+
+  case 6:
+#line 52 "yacc.y"
+    {printf("line: error in lineNumber(%d)\n",yylineno);}
     break;
 
   case 7:
-#line 55 "yacc.y"
+#line 56 "yacc.y"
     {printf("switchcase: SWITCH(%s) Condition(%s) CURLY_OPEN switchstmt(%s) CURLY_CLOSE lineNumber(%d)\n",(yyvsp[(1) - (7)].string),(yyvsp[(3) - (7)].string),(yyvsp[(6) - (7)].string),yylineno);}
     break;
 
   case 8:
-#line 59 "yacc.y"
+#line 60 "yacc.y"
     {printf("default: DEFAULT(%s) COLON statments(%s) lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 9:
-#line 61 "yacc.y"
+#line 62 "yacc.y"
     {printf("default: DEFAULT(%s) COLON statments(%s) break(%s) lineNumber(%d)\n",(yyvsp[(1) - (4)].string),(yyvsp[(3) - (4)].string),(yyvsp[(4) - (4)].string),yylineno);}
     break;
 
   case 10:
-#line 65 "yacc.y"
+#line 66 "yacc.y"
     {printf("switchstmt: case(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 11:
-#line 67 "yacc.y"
+#line 68 "yacc.y"
     {printf("switchstmt: switchstmt(%s) case(%s) lineNumber(%d)\n",(yyvsp[(1) - (2)].string),(yyvsp[(2) - (2)].string),yylineno);}
     break;
 
   case 12:
-#line 71 "yacc.y"
+#line 72 "yacc.y"
     {printf("case: CASE(%s) Condition(%s) COLON statments(%s) lineNumber(%d)\n",(yyvsp[(1) - (4)].string),(yyvsp[(2) - (4)].string),(yyvsp[(4) - (4)].string),yylineno);}
     break;
 
   case 13:
-#line 73 "yacc.y"
+#line 74 "yacc.y"
     {printf("case: CASE(%s) Condition(%s) COLON statments(%s) break(%s) lineNumber(%d)\n",(yyvsp[(1) - (5)].string),(yyvsp[(2) - (5)].string),(yyvsp[(4) - (5)].string),(yyvsp[(5) - (5)].string),yylineno);}
     break;
 
   case 14:
-#line 75 "yacc.y"
+#line 76 "yacc.y"
     {printf("case: default(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 15:
-#line 79 "yacc.y"
+#line 80 "yacc.y"
     {printf("break: BREAK(%s) SEMICOLON(%s) lineNumber(%d)\n",(yyvsp[(1) - (2)].string),(yyvsp[(2) - (2)].string),yylineno);}
     break;
 
   case 16:
-#line 83 "yacc.y"
+#line 84 "yacc.y"
     {printf("repuntil: REPEAT(%s) CURLY_OPEN statments(%s) UNTIL(%s) Condition(%s) CURLY_CLOSE lineNumber(%d)\n",
             (yyvsp[(1) - (8)].string),(yyvsp[(3) - (8)].string),(yyvsp[(4) - (8)].string),(yyvsp[(6) - (8)].string),yylineno);}
     break;
 
   case 17:
-#line 90 "yacc.y"
+#line 91 "yacc.y"
     {printf("Whileloop: WHILE(%s) Condition( %s ) CURLY_OPEN statments(%s) CURLY_CLOSE lineNumber(%d)\n" ,(yyvsp[(1) - (7)].string),(yyvsp[(3) - (7)].string),(yyvsp[(6) - (7)].string),yylineno);}
     break;
 
   case 18:
-#line 94 "yacc.y"
+#line 95 "yacc.y"
     {printf("Forloop: FOR(%s) BRACKET_OPEN IDENTIFIER(%s) OPERATOR_ASSIGNMENT VALUE_INT(%s) SEMICOLON condition(%s) SEMICOLON IDENTIFIER(%s) OPERATOR_ASSIGNMENT Arithmetic(%s) BRACKET_CLOSE CURLY_OPEN statments(%s) CURLY_CLOSE lineNumber(%d)\n",(yyvsp[(1) - (15)].string),(yyvsp[(3) - (15)].string),(yyvsp[(5) - (15)].string),(yyvsp[(7) - (15)].string),(yyvsp[(9) - (15)].string),(yyvsp[(11) - (15)].string),(yyvsp[(14) - (15)].string),yylineno);}
     break;
 
   case 19:
-#line 96 "yacc.y"
+#line 97 "yacc.y"
     {printf("Forloop: FOR(%s) BRACKET_OPEN datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT VALUE_INT(%s) SEMICOLON condition(%s) SEMICOLON IDENTIFIER(%s) OPERATOR_ASSIGNMENT Arithmetic(%s) BRACKET_CLOSE CURLY_OPEN statments(%s) CURLY_CLOSE lineNumber(%d)\n",(yyvsp[(1) - (16)].string),(yyvsp[(3) - (16)].string),(yyvsp[(4) - (16)].string),(yyvsp[(6) - (16)].string),(yyvsp[(8) - (16)].string),(yyvsp[(10) - (16)].string),(yyvsp[(12) - (16)].string),(yyvsp[(15) - (16)].string),yylineno);}
     break;
 
   case 20:
-#line 101 "yacc.y"
+#line 102 "yacc.y"
     {printf("ifstatment: IF (%s) BRACKET_OPEN Condition(%s) BRACKET_CLOSE CURLY_OPEN statment(%s) CURLY_CLOSE ELSE(%s) CURLY_OPEN statment(%s) CURLY_CLOSE lineNumber(%d)\n"
             ,(yyvsp[(1) - (11)].string),(yyvsp[(3) - (11)].string),(yyvsp[(6) - (11)].string),(yyvsp[(8) - (11)].string),(yyvsp[(10) - (11)].string),yylineno);}
     break;
 
   case 21:
-#line 105 "yacc.y"
+#line 106 "yacc.y"
     {printf("ifstatment: IF(%s) BRACKET_OPEN Condition(%d) BRACKET_CLOSE CURLY_OPEN statment(%s) CURLY_CLOSE lineNumber(%d) \n",(yyvsp[(1) - (7)].string),(yyvsp[(3) - (7)].string),(yyvsp[(6) - (7)].string),yylineno);}
     break;
 
   case 22:
-#line 110 "yacc.y"
+#line 111 "yacc.y"
     {printf("statment: exp(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 23:
-#line 114 "yacc.y"
+#line 115 "yacc.y"
     {printf("statments: statment(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 24:
-#line 116 "yacc.y"
+#line 117 "yacc.y"
     {printf("statments: statments(%s) statment(%s)lineNumber(%d)\n",(yyvsp[(1) - (2)].string),(yyvsp[(2) - (2)].string),yylineno);}
     break;
 
   case 25:
-#line 120 "yacc.y"
+#line 121 "yacc.y"
     {printf("Condition: Condition(%s) L(%s) Condition(%s) lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 26:
-#line 122 "yacc.y"
+#line 123 "yacc.y"
     {printf("Condition: Condition(%s) G(%s) Condition(%s)lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 27:
-#line 124 "yacc.y"
+#line 125 "yacc.y"
     {printf("Condition: Condition(%s) LE(%s) Condition(%s)lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 28:
-#line 126 "yacc.y"
+#line 127 "yacc.y"
     {printf("Condition: Condition(%s) GE(%s) Condition(%s)lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 29:
-#line 128 "yacc.y"
+#line 129 "yacc.y"
     {printf("Condition: Condition(%s) EQ(%s) Condition(%s)lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 30:
-#line 130 "yacc.y"
+#line 131 "yacc.y"
     {printf("Condition: Condition(%s) NE(%s) Condition(%s)lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 31:
-#line 132 "yacc.y"
+#line 133 "yacc.y"
     {printf("Condition: Condition(%s) OR(%s) Condition(%s) lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 32:
-#line 134 "yacc.y"
+#line 135 "yacc.y"
     {printf("Condition: Condition(%s) AND(%s) Condition(%s)lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 33:
-#line 136 "yacc.y"
+#line 137 "yacc.y"
     {printf("Condition: Arithmetic lineNumber(%d)\n",yylineno);}
     break;
 
   case 34:
-#line 138 "yacc.y"
+#line 139 "yacc.y"
     {printf("Condition: VALUE_STRING(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 35:
-#line 143 "yacc.y"
+#line 144 "yacc.y"
     {printf("Arithmetic: Arithmetic(%s) OPERATOR_MULTIPLY(%s) Arithmetic(%s)lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 36:
-#line 145 "yacc.y"
+#line 146 "yacc.y"
     {printf("Arithmetic: Arithmetic(%s) OPERATOR_DIVIDE(%s) Arithmetic(%s)lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 37:
-#line 147 "yacc.y"
+#line 148 "yacc.y"
     {printf("Arithmetic: OPERATOR_NOT(%s) Arithmetic(%s)lineNumber(%d)\n",(yyvsp[(1) - (2)].string),(yyvsp[(2) - (2)].string),yylineno);}
     break;
 
   case 38:
-#line 149 "yacc.y"
+#line 150 "yacc.y"
     {printf("Arithmetic: Arithmetic(%s) OPERATOR_PLUS(%s) Arithmetic(%s)lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 39:
-#line 151 "yacc.y"
+#line 152 "yacc.y"
     {printf("Arithmetic: Arithmetic(%s) OPERATOR_SUBTRACT(%s) Arithmetic(%s) lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 40:
-#line 153 "yacc.y"
+#line 154 "yacc.y"
     {printf("Arithmetic: BRACKET_OPEN Arithmetic(%s) BRACKET_CLOSE lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),(yyvsp[(3) - (3)].string),yylineno);}
     break;
 
   case 41:
-#line 155 "yacc.y"
+#line 156 "yacc.y"
     {printf("Arithmetic: VALUE_INT(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 42:
-#line 157 "yacc.y"
+#line 158 "yacc.y"
     {printf("Arithmetic: VALUE_INT(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 43:
-#line 159 "yacc.y"
+#line 160 "yacc.y"
     {printf("Arithmetic: VALUE_BOOL(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 44:
-#line 161 "yacc.y"
+#line 162 "yacc.y"
     {printf("Arithmetic: IDENTIFIER(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 45:
-#line 167 "yacc.y"
+#line 168 "yacc.y"
     {printf("exp : IDENTIFIER(%s) OPERATOR_ASSIGNMENT Arithmetic(%s) lineNumber(%d)\n",(yyvsp[(1) - (4)].string),(yyvsp[(3) - (4)].string),yylineno);}
     break;
 
   case 46:
-#line 170 "yacc.y"
+#line 171 "yacc.y"
     {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_INT(%s) lineNumber(%d) \n",(yyvsp[(1) - (6)].string),(yyvsp[(2) - (6)].string),(yyvsp[(3) - (6)].string),(yyvsp[(4) - (6)].string),(yyvsp[(5) - (6)].string),yylineno);}
     break;
 
   case 47:
-#line 173 "yacc.y"
+#line 174 "yacc.y"
     {printf("exp : datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT Arithmetic(%s) lineNumber(%d)\n",(yyvsp[(1) - (5)].string),(yyvsp[(2) - (5)].string),(yyvsp[(4) - (5)].string),yylineno);}
     break;
 
   case 48:
-#line 176 "yacc.y"
+#line 177 "yacc.y"
     {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_STRING(%s) lineNumber(%d)\n",(yyvsp[(1) - (4)].string),(yyvsp[(2) - (4)].string),(yyvsp[(3) - (4)].string),yylineno);}
     break;
 
   case 49:
-#line 178 "yacc.y"
+#line 179 "yacc.y"
     {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_STRING(%s) lineNumber(%d) \n",(yyvsp[(1) - (6)].string),(yyvsp[(2) - (6)].string),(yyvsp[(3) - (6)].string),(yyvsp[(4) - (6)].string),(yyvsp[(5) - (6)].string),yylineno);}
     break;
 
   case 50:
-#line 180 "yacc.y"
+#line 181 "yacc.y"
     {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_STRING(%s) lineNumber(%d)\n",(yyvsp[(1) - (5)].string),(yyvsp[(2) - (5)].string),(yyvsp[(3) - (5)].string),(yyvsp[(4) - (5)].string),yylineno);}
     break;
 
   case 51:
-#line 183 "yacc.y"
+#line 184 "yacc.y"
     {printf("exp: IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_CHAR(%s) lineNumber(%d)\n",(yyvsp[(1) - (4)].string),(yyvsp[(2) - (4)].string),(yyvsp[(3) - (4)].string),yylineno);}
     break;
 
   case 52:
-#line 185 "yacc.y"
+#line 186 "yacc.y"
     {printf("exp: CONST(%s) datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_CHAR(%s) lineNumber(%d) \n",(yyvsp[(1) - (6)].string),(yyvsp[(2) - (6)].string),(yyvsp[(3) - (6)].string),(yyvsp[(4) - (6)].string),(yyvsp[(5) - (6)].string),yylineno);}
     break;
 
   case 53:
-#line 187 "yacc.y"
+#line 188 "yacc.y"
     {printf("exp: datatype(%s) IDENTIFIER(%s) OPERATOR_ASSIGNMENT(%s) VALUE_CHAR(%s) lineNumber(%d)\n",(yyvsp[(1) - (5)].string),(yyvsp[(2) - (5)].string),(yyvsp[(3) - (5)].string),(yyvsp[(4) - (5)].string),yylineno);}
     break;
 
   case 54:
-#line 191 "yacc.y"
+#line 192 "yacc.y"
     {printf("exp: datatype(%s) IDENTIFIER(%s) lineNumber(%d)\n",(yyvsp[(1) - (3)].string),(yyvsp[(2) - (3)].string),yylineno);}
     break;
 
   case 55:
-#line 194 "yacc.y"
+#line 195 "yacc.y"
     {printf("exp: ifstatment(%s)lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 56:
-#line 197 "yacc.y"
+#line 198 "yacc.y"
     {printf("exp: Whileloop(%s)lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 57:
-#line 200 "yacc.y"
+#line 201 "yacc.y"
     {printf("exp: switchcase(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 58:
-#line 202 "yacc.y"
+#line 203 "yacc.y"
     {printf("exp: repuntil(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 59:
-#line 205 "yacc.y"
+#line 206 "yacc.y"
     {printf("exp: Forloop(%s) lineNumber(%d)\n",(yyvsp[(1) - (1)].string),yylineno);}
     break;
 
   case 60:
-#line 209 "yacc.y"
+#line 210 "yacc.y"
     {printf("datatype: TYPE_INT(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 61:
-#line 211 "yacc.y"
+#line 212 "yacc.y"
     {printf("datatype: TYPE_STRING(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 62:
-#line 213 "yacc.y"
+#line 214 "yacc.y"
     {printf("datatype: TYPE_FLOAT(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 63:
-#line 215 "yacc.y"
+#line 216 "yacc.y"
     {printf("datatype: TYPE_CHAR(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
   case 64:
-#line 217 "yacc.y"
+#line 218 "yacc.y"
     {printf("datatype: TYPE_BOOL(%s)\n",(yyvsp[(1) - (1)].string));}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1902 "y.tab.c"
+#line 1907 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2112,7 +2117,7 @@ yyreturn:
 }
 
 
-#line 222 "yacc.y"
+#line 223 "yacc.y"
 
 
 void yyerror(char *s){
