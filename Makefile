@@ -2,7 +2,7 @@ LEX=lex_variables.l
 main: $(LEX)
 	yacc -d yacc.y
 	flex $(LEX)
-	gcc lex.yy.c y.tab.c -ll
+	gcc arraylist.c lex.yy.c y.tab.c -ll
 	make run
 	
 run: lex.yy.c

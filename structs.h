@@ -10,12 +10,14 @@ typedef struct {
 } conNodeType;
 
 /* identifiers */
-typedef struct {
-    	typeEnum type;
+typedef struct 
+{
+    typeEnum type;
 	int scope;
 	char* name;
 	bool used;
 	bool value;
+    char* v; // value
 	bool declaration;
 } idNodeType;
 
@@ -26,12 +28,15 @@ typedef struct {
     struct nodeTypeTag *op[1];	/* operands, extended at runtime */
 } oprNodeType;
 
-typedef struct nodeTypeTag {
+ typedef struct nodeTypeTag 
+{
     nodeEnum type;              /* type of node */
-
-    union {
+    bool const1;
+    union 
+    {
         conNodeType con;        /* constants */
         idNodeType id;          /* identifiers */
         oprNodeType opr;        /* operators */
     };
 } nodeType;
+

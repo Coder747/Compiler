@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include "structs.h"
+#include "arraylist.h"
 int count=0;
 void yyerror(char *);
 #include "y.tab.h"

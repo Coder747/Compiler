@@ -1,58 +1,6 @@
-sabet rakam int1= 3+(5-3)*7+20 5alsana
-sa7ghalat myBool = false 5alsana
-sa7ghalat myBool1 = !myBool 5alsana
-3ayem float1 = 21.2324 5alsana
-gomla s = "hello world" 5alsana
+rakam x =1 5alsana
+rakam y = 2 5alsana
 
-for (rakam forCond1 = 0 5alsana forCond1 < 5 5alsana forCond1=forCond1+1) {
-	rakam insideFor1 5alsana
-	insideFor1 = insideFor1+1 5alsana
-}
-
-talama (whileCond1 < 10) {
-	rakam insideWhile1 5alsana
-	insideWhile1 = insideWhile1+1 5alsana
-}
-
-
-shoflykeda (ifCond1 == 5) {
-	rakam insideIf1 5alsana
-	insideIf1 = 6 5alsana
-} 
-walla {
-	rakam insideElse1 5alsana
-	insideElse1 = 2 5alsana
-}
-
-garabkeda (switchCond1) {
-	law 1:  
-		rakam case1 5alsana
-		case1 = 1 5alsana
-		eksar 5alsana
-	lawmafesh:
-		3ayem defaultFloat 5alsana
-		defaultFloat = 1.1 5alsana
-		eksar 5alsana
-}
-
-shoflykeda (ifCond3==5){
-	shoflykeda (true) {
-		rakam insideIf2 5alsana
-	}
-}
-walla {
-	rakam insideElse2 5alsana
-}
-
-1aqs  
-1qww 5alsana			
-rakam 2 5alsana			
-rakam 5alsana 		 
-sa7ghalat law 5alsana		
-3ayem lawmafesh 5alsana 	
-
-shoflykeda (ifCond2 == 5) {
-	rakam float	
-}				
-rakam x 5alsana
-
+store only identifiers (Idnodetype)
+send linenumber with the symboltable
+unidentified variables

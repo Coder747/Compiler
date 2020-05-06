@@ -13,9 +13,13 @@
   to calculate the index in memory and allows for this list
   to be reused with multiple data types.
  */
+
+
+
 ArrayList *newArrayList( size_t data_size ){
     return newArrayListSized( data_size, 10 );
 }
+
 ArrayList *newArrayListSized( size_t data_size, size_t initial_length ){
     ArrayList *list = malloc( sizeof( ArrayList ) );
     list->data_size = data_size;
