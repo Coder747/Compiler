@@ -1,6 +1,3 @@
 rakam x =1 5alsana
-rakam y = 2 5alsana
 
-store only identifiers (Idnodetype)
-send linenumber with the symboltable
-unidentified variables
+x= "hello" 5alsana

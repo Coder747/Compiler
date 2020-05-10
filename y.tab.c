@@ -160,21 +160,26 @@
 /* Copy the first part of user declarations.  */
 #line 1 "yacc.y"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-// #include "arraylist.c"
-// #include "structs.h"
-#include "structs.h"
-#include "arraylist.h"
+#include"symboltable.c"
+
+#define POSIX_SOURCE 
+
+
+//  void panic(int line)
+//  {
+//     (void)fprintf(stderr,"\n?Panic in line %d \n",line);
+//     (void)perror("Semantic error");
+//     abort();
+//  } 
+// #define PANIC (panic())
+ //extern void panic(); 
 int yylex(void);
 FILE * yyin;
 int yylineno;
 ArrayList* symboltable;
 
 void yyerror(char *s); 
-nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr);
+// nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line);
 
 
 
@@ -198,7 +203,7 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 21 "yacc.y"
+#line 26 "yacc.y"
 {
     int num;
     char* string;
@@ -206,7 +211,7 @@ typedef union YYSTYPE
     typeEnum type;
 }
 /* Line 193 of yacc.c.  */
-#line 210 "y.tab.c"
+#line 215 "y.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -219,7 +224,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 223 "y.tab.c"
+#line 228 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -537,13 +542,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    62,    62,    64,    65,    68,    70,    73,    77,    79,
-      83,    85,    89,    91,    93,    97,   101,   107,   111,   113,
-     118,   121,   126,   130,   132,   136,   138,   140,   142,   144,
-     146,   148,   150,   152,   154,   159,   161,   163,   165,   167,
-     169,   171,   177,   183,   189,   197,   206,   215,   224,   233,
-     241,   250,   260,   269,   278,   287,   290,   293,   295,   298,
-     302,   307,   312,   317,   322
+       0,    67,    67,    69,    70,    73,    75,    78,    82,    84,
+      88,    90,    94,    96,    98,   102,   106,   112,   116,   118,
+     123,   126,   131,   135,   137,   141,   143,   145,   147,   149,
+     151,   153,   155,   157,   159,   164,   166,   168,   170,   172,
+     174,   177,   187,   197,   207,   221,   238,   247,   256,   265,
+     274,   283,   293,   302,   311,   320,   323,   326,   328,   331,
+     335,   340,   345,   350,   355
 };
 #endif
 
@@ -1595,363 +1600,390 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 62 "yacc.y"
+#line 67 "yacc.y"
     {printf("\nProgram End \n\n");}
     break;
 
   case 3:
-#line 64 "yacc.y"
+#line 69 "yacc.y"
     {printf("code: code line --> Line Number (%d) \n", yylineno);}
     break;
 
   case 4:
-#line 65 "yacc.y"
+#line 70 "yacc.y"
     {printf("code: Epsilon   --> Line Number (%d) \n", yylineno); (yyval.nPtr)=NULL;}
     break;
 
   case 5:
-#line 69 "yacc.y"
+#line 74 "yacc.y"
     {printf("line: exp( )\n");}
     break;
 
   case 7:
-#line 74 "yacc.y"
+#line 79 "yacc.y"
     {printf("switchcase: SWITCH( ) Condition( ) CURLY_OPEN switchstmt( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
     break;
 
   case 8:
-#line 78 "yacc.y"
+#line 83 "yacc.y"
     {printf("default: DEFAULT( ) COLON statments( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 9:
-#line 80 "yacc.y"
+#line 85 "yacc.y"
     {printf("default: DEFAULT( ) COLON statments( ) break( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 10:
-#line 84 "yacc.y"
+#line 89 "yacc.y"
     {printf("switchstmt: case( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 11:
-#line 86 "yacc.y"
+#line 91 "yacc.y"
     {printf("switchstmt: switchstmt( ) case( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 12:
-#line 90 "yacc.y"
+#line 95 "yacc.y"
     {printf("case: CASE( ) Condition( ) COLON statments( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 13:
-#line 92 "yacc.y"
+#line 97 "yacc.y"
     {printf("case: CASE( ) Condition( ) COLON statments( ) break( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 14:
-#line 94 "yacc.y"
+#line 99 "yacc.y"
     {printf("case: default( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 15:
-#line 98 "yacc.y"
+#line 103 "yacc.y"
     {printf("break: BREAK( ) SEMICOLON( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 16:
-#line 102 "yacc.y"
+#line 107 "yacc.y"
     {printf("repuntil: REPEAT( ) CURLY_OPEN statments( ) UNTIL( ) Condition( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
     break;
 
   case 17:
-#line 108 "yacc.y"
+#line 113 "yacc.y"
     {printf("Whileloop: WHILE( ) Condition( ) CURLY_OPEN statments( ) CURLY_CLOSE lineNumber(%d)\n" ,yylineno);}
     break;
 
   case 18:
-#line 112 "yacc.y"
+#line 117 "yacc.y"
     {printf("Forloop: FOR( ) BRACKET_OPEN IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE CURLY_OPEN statments( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
     break;
 
   case 19:
-#line 114 "yacc.y"
+#line 119 "yacc.y"
     {printf("Forloop: FOR( ) BRACKET_OPEN datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE CURLY_OPEN statments( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
     break;
 
   case 20:
-#line 119 "yacc.y"
+#line 124 "yacc.y"
     {printf("ifstatment: IF ( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE CURLY_OPEN statment( ) CURLY_CLOSE ELSE( ) CURLY_OPEN statment( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
     break;
 
   case 21:
-#line 122 "yacc.y"
+#line 127 "yacc.y"
     {printf("ifstatment: IF( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE CURLY_OPEN statment( ) CURLY_CLOSE lineNumber(%d) \n",yylineno);}
     break;
 
   case 22:
-#line 127 "yacc.y"
+#line 132 "yacc.y"
     {printf("statment: exp( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 23:
-#line 131 "yacc.y"
+#line 136 "yacc.y"
     {printf("statments: statment( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 24:
-#line 133 "yacc.y"
+#line 138 "yacc.y"
     {printf("statments: statments( ) statment( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 25:
-#line 137 "yacc.y"
+#line 142 "yacc.y"
     {printf("Condition: Condition( ) L( ) Condition( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 26:
-#line 139 "yacc.y"
+#line 144 "yacc.y"
     {printf("Condition: Condition( ) G( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 27:
-#line 141 "yacc.y"
+#line 146 "yacc.y"
     {printf("Condition: Condition( ) LE( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 28:
-#line 143 "yacc.y"
+#line 148 "yacc.y"
     {printf("Condition: Condition( ) GE( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 29:
-#line 145 "yacc.y"
+#line 150 "yacc.y"
     {printf("Condition: Condition( ) EQ( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 30:
-#line 147 "yacc.y"
+#line 152 "yacc.y"
     {printf("Condition: Condition( ) NE( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 31:
-#line 149 "yacc.y"
+#line 154 "yacc.y"
     {printf("Condition: Condition( ) OR( ) Condition( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 32:
-#line 151 "yacc.y"
+#line 156 "yacc.y"
     {printf("Condition: Condition( ) AND( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 33:
-#line 153 "yacc.y"
+#line 158 "yacc.y"
     {printf("Condition: Arithmetic lineNumber(%d)\n",yylineno);}
     break;
 
   case 34:
-#line 155 "yacc.y"
+#line 160 "yacc.y"
     {printf("Condition: VALUE_STRING( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 35:
-#line 160 "yacc.y"
+#line 165 "yacc.y"
     {printf("Arithmetic: Arithmetic( ) OPERATOR_MULTIPLY( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 36:
-#line 162 "yacc.y"
+#line 167 "yacc.y"
     {printf("Arithmetic: Arithmetic( ) OPERATOR_DIVIDE( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 37:
-#line 164 "yacc.y"
+#line 169 "yacc.y"
     {printf("Arithmetic: OPERATOR_NOT( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 38:
-#line 166 "yacc.y"
+#line 171 "yacc.y"
     {printf("Arithmetic: Arithmetic( ) OPERATOR_PLUS( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 39:
-#line 168 "yacc.y"
+#line 173 "yacc.y"
     {printf("Arithmetic: Arithmetic( ) OPERATOR_SUBTRACT( ) Arithmetic( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 40:
-#line 170 "yacc.y"
+#line 175 "yacc.y"
     {printf("Arithmetic: BRACKET_OPEN Arithmetic( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);}
     break;
 
   case 41:
-#line 172 "yacc.y"
+#line 178 "yacc.y"
     {
-                (yyval.string)=(yyvsp[(1) - (1)].string);
+                nodeType* Ntype;
+                Ntype=malloc(sizeof(nodeType));
+                Ntype->id.type=Int;
+                Ntype->id.v=(yyvsp[(1) - (1)].string);
+                (yyval.nPtr)=Ntype;
                 printf("Arithmetic: VALUE_INT( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 42:
-#line 178 "yacc.y"
+#line 188 "yacc.y"
     {
-                (yyval.string)=(yyvsp[(1) - (1)].string);
+                nodeType* Ntype;
+                Ntype=malloc(sizeof(nodeType));
+                Ntype->id.type=Float;
+                Ntype->id.v=(yyvsp[(1) - (1)].string);
+                (yyval.nPtr)=Ntype;
                 printf("Arithmetic: VALUE_FLOAT( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 43:
-#line 184 "yacc.y"
+#line 198 "yacc.y"
     {
-                (yyval.string)=(yyvsp[(1) - (1)].string);
+                nodeType* Ntype;
+                Ntype=malloc(sizeof(nodeType));
+                Ntype->id.type=Bool;
+                Ntype->id.v=(yyvsp[(1) - (1)].string);
+                (yyval.nPtr)=Ntype;
                 printf("Arithmetic: VALUE_BOOL( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 44:
-#line 190 "yacc.y"
-    {   (yyval.string)=(yyvsp[(1) - (1)].string);
+#line 208 "yacc.y"
+    {   
+                nodeType* Ntype;
+                Ntype=malloc(sizeof(nodeType));
+                Ntype->id.name=(yyvsp[(1) - (1)].string);
+                Ntype->id.type=get_type(symboltable,Ntype,yylineno);
+                Ntype->id.v= get_value(symboltable,Ntype,yylineno);
+                (yyval.nPtr)=Ntype;
                 printf("Arithmetic: IDENTIFIER( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 45:
-#line 198 "yacc.y"
+#line 222 "yacc.y"
     {
                 nodeType* Ntype;
+                nodeType* Ntype1;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->id.name=(yyvsp[(1) - (4)].string); Ntype->id.v=(yyvsp[(3) - (4)].string);
-                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype);
+                Ntype1=malloc(sizeof(nodeType));
+                Ntype->id.name=(yyvsp[(1) - (4)].string); Ntype1=(yyvsp[(3) - (4)].nPtr);
+                Ntype->id.v= Ntype1->id.v;
+                if(Ntype->id.type!=Ntype1->id.type)
+                {
+                   printf("5ayeshna fel type\n"); 
+                }
+                Ntype->id.type= Ntype1->id.type;
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 46:
-#line 207 "yacc.y"
+#line 239 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->const1=true;Ntype->id.declaration=true;Ntype->type=Id;Ntype->id.type=(yyvsp[(2) - (6)].type); Ntype->id.name=(yyvsp[(3) - (6)].string); Ntype->id.v=(yyvsp[(5) - (6)].string);
-                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype);
+                Ntype->const1=true;Ntype->id.declaration=true;Ntype->type=Id;Ntype->id.type=(yyvsp[(2) - (6)].type); Ntype->id.name=(yyvsp[(3) - (6)].string); Ntype->id.v=(yyvsp[(5) - (6)].nPtr);
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_INT( ) lineNumber(%d) \n",yylineno);
             }
     break;
 
   case 47:
-#line 216 "yacc.y"
+#line 248 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->const1=false;Ntype->id.declaration=true;Ntype->id.type=(yyvsp[(1) - (5)].type); Ntype->id.name=(yyvsp[(2) - (5)].string); Ntype->id.v=(yyvsp[(5) - (5)].string);
-                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype);
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp : datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 48:
-#line 225 "yacc.y"
+#line 257 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.name=(yyvsp[(1) - (4)].string); Ntype->id.type=String ; Ntype->id.v=(yyvsp[(3) - (4)].string);
-                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype);
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 49:
-#line 234 "yacc.y"
+#line 266 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->const1=true;Ntype->id.declaration=true; Ntype->id.type=(yyvsp[(2) - (6)].type); Ntype->id.name=(yyvsp[(3) - (6)].string); Ntype->id.v=(yyvsp[(5) - (6)].string);
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d) \n",yylineno);
             }
     break;
 
   case 50:
-#line 242 "yacc.y"
+#line 275 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->const1=false;Ntype->id.declaration=true;Ntype->id.type=(yyvsp[(1) - (5)].type); Ntype->id.name=(yyvsp[(2) - (5)].string); Ntype->id.v=(yyvsp[(4) - (5)].string);
-                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype);
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp: datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 51:
-#line 251 "yacc.y"
+#line 284 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->id.name=(yyvsp[(1) - (4)].string); Ntype->id.v=(yyvsp[(3) - (4)].string);
-                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype);
+                Ntype->id.name=(yyvsp[(1) - (4)].string); Ntype->id.v=(yyvsp[(3) - (4)].string); Ntype->type=Char;
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
 
             }
     break;
 
   case 52:
-#line 261 "yacc.y"
+#line 294 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->const1=true;Ntype->id.declaration=true; Ntype->id.name=(yyvsp[(3) - (6)].string); Ntype->id.v=(yyvsp[(5) - (6)].string);
-                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype);
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d) \n",yylineno);
             }
     break;
 
   case 53:
-#line 270 "yacc.y"
+#line 303 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->const1=false;Ntype->id.declaration=true; Ntype->id.name=(yyvsp[(2) - (5)].string); Ntype->id.v=(yyvsp[(4) - (5)].string);
-                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype);
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp: datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 54:
-#line 279 "yacc.y"
+#line 312 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->const1=false; Ntype->id.declaration=true; Ntype->id.type=(yyvsp[(1) - (3)].type);Ntype->id.name=(yyvsp[(2) - (3)].string);
-                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype);
+                (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp: datatype( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 55:
-#line 288 "yacc.y"
+#line 321 "yacc.y"
     {printf("exp: ifstatment( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 56:
-#line 291 "yacc.y"
+#line 324 "yacc.y"
     {printf("exp: Whileloop( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 57:
-#line 294 "yacc.y"
+#line 327 "yacc.y"
     {printf("exp: switchcase( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 58:
-#line 296 "yacc.y"
+#line 329 "yacc.y"
     {printf("exp: repuntil( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 59:
-#line 299 "yacc.y"
+#line 332 "yacc.y"
     {printf("exp: Forloop( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 60:
-#line 303 "yacc.y"
+#line 336 "yacc.y"
     {
             (yyval.type)=Int;
              printf("datatype: TYPE_INT( )\n");
@@ -1959,7 +1991,7 @@ yyreduce:
     break;
 
   case 61:
-#line 308 "yacc.y"
+#line 341 "yacc.y"
     {
              (yyval.type)=String;
             printf("datatype: TYPE_STRING( )\n");
@@ -1967,7 +1999,7 @@ yyreduce:
     break;
 
   case 62:
-#line 313 "yacc.y"
+#line 346 "yacc.y"
     {
             (yyval.type)=Float;
              printf("datatype: TYPE_FLOAT( )\n");
@@ -1975,7 +2007,7 @@ yyreduce:
     break;
 
   case 63:
-#line 318 "yacc.y"
+#line 351 "yacc.y"
     {
             (yyval.type)=Char;
             printf("datatype: TYPE_CHAR( )\n");
@@ -1983,7 +2015,7 @@ yyreduce:
     break;
 
   case 64:
-#line 323 "yacc.y"
+#line 356 "yacc.y"
     {
             (yyval.type)=Bool;
             printf("datatype: TYPE_BOOL( )\n");
@@ -1992,7 +2024,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1996 "y.tab.c"
+#line 2028 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2206,41 +2238,13 @@ yyreturn:
 }
 
 
-#line 331 "yacc.y"
+#line 364 "yacc.y"
 
 
 void yyerror(char *s){
     printf("Error: %s\n",s);
 }
 
-nodeType* Nptr;
-
-
-nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr)
-{
-     nodeType* nextdata=NULL;
-    for(int i=0;i<st->length;i++)
-    {
-        
-        nextdata= st->get(st,i);
-        if(nextdata==NULL)
-        {
-               printf("NULL");
-                break;
-        }
-        if(strcmp(Nptr->id.name,nextdata->id.name)==0)
-        { 
-            printf("%s == %s",Nptr->id.name,nextdata->id.name);
-            printf("warning varaible gets overwritted");
-            if(Nptr->id.declaration==true&& nextdata->id.declaration==true)
-                printf("redeclaration of the variable error");
-                
-        }
-
-    }
-        st->add(st,Nptr);
-    return  Nptr;
-}
 
 int main (void)
 {

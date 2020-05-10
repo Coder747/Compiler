@@ -2,13 +2,11 @@
 
 typedef enum { Con, Id, Opr } nodeEnum;
 typedef enum { Int, Float, Char, Bool, String, ConstInt, ConstFloat, ConstChar, ConstBool, ConstString ,noType} typeEnum;
-
 /* constants */
 typedef struct {
 	typeEnum type;
 	char* value;
 } conNodeType;
-
 /* identifiers */
 typedef struct 
 {
