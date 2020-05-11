@@ -546,9 +546,9 @@ static const yytype_uint16 yyrline[] =
       88,    90,    94,    96,    98,   102,   106,   112,   116,   118,
      123,   126,   131,   135,   137,   141,   143,   145,   147,   149,
      151,   153,   155,   157,   159,   164,   166,   168,   170,   172,
-     174,   177,   187,   197,   207,   221,   238,   247,   256,   265,
-     274,   283,   293,   302,   311,   320,   323,   326,   328,   331,
-     335,   340,   345,   350,   355
+     174,   177,   189,   200,   211,   227,   243,   260,   277,   288,
+     302,   316,   328,   341,   354,   367,   370,   373,   375,   378,
+     382,   387,   392,   397,   402
 };
 #endif
 
@@ -1795,195 +1795,242 @@ yyreduce:
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.type=Int;
-                Ntype->id.v=(yyvsp[(1) - (1)].string);
+                Ntype->id.value=(yyvsp[(1) - (1)].string);
                 (yyval.nPtr)=Ntype;
+                
                 printf("Arithmetic: VALUE_INT( ) lineNumber(%d)\n",yylineno);
+
             }
     break;
 
   case 42:
-#line 188 "yacc.y"
+#line 190 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.type=Float;
-                Ntype->id.v=(yyvsp[(1) - (1)].string);
+                Ntype->id.value=(yyvsp[(1) - (1)].string);
                 (yyval.nPtr)=Ntype;
+                
                 printf("Arithmetic: VALUE_FLOAT( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 43:
-#line 198 "yacc.y"
+#line 201 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.type=Bool;
-                Ntype->id.v=(yyvsp[(1) - (1)].string);
+                Ntype->id.value=(yyvsp[(1) - (1)].string);
                 (yyval.nPtr)=Ntype;
+                
                 printf("Arithmetic: VALUE_BOOL( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 44:
-#line 208 "yacc.y"
+#line 212 "yacc.y"
     {   
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
+                Ntype->type=Id;
                 Ntype->id.name=(yyvsp[(1) - (1)].string);
                 Ntype->id.type=get_type(symboltable,Ntype,yylineno);
-                Ntype->id.v= get_value(symboltable,Ntype,yylineno);
+                Ntype->id.value= get_value(symboltable,Ntype,yylineno);
                 (yyval.nPtr)=Ntype;
+                
                 printf("Arithmetic: IDENTIFIER( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 45:
-#line 222 "yacc.y"
+#line 228 "yacc.y"
     {
                 nodeType* Ntype;
-                nodeType* Ntype1;
+                nodeType* arthmetic_ptr;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype1=malloc(sizeof(nodeType));
-                Ntype->id.name=(yyvsp[(1) - (4)].string); Ntype1=(yyvsp[(3) - (4)].nPtr);
-                Ntype->id.v= Ntype1->id.v;
-                if(Ntype->id.type!=Ntype1->id.type)
-                {
-                   printf("5ayeshna fel type\n"); 
-                }
-                Ntype->id.type= Ntype1->id.type;
+                arthmetic_ptr=malloc(sizeof(nodeType));
+                arthmetic_ptr=(yyvsp[(3) - (4)].nPtr);
+                Ntype->type=Id;
+                Ntype->id.name=(yyvsp[(1) - (4)].string); 
+                Ntype->id.value= arthmetic_ptr->id.value;
+                Ntype->id.type= arthmetic_ptr->id.type;
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
+                
                 printf("exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 46:
-#line 239 "yacc.y"
+#line 244 "yacc.y"
     {
                 nodeType* Ntype;
+                nodeType* arthmetic_ptr;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->const1=true;Ntype->id.declaration=true;Ntype->type=Id;Ntype->id.type=(yyvsp[(2) - (6)].type); Ntype->id.name=(yyvsp[(3) - (6)].string); Ntype->id.v=(yyvsp[(5) - (6)].nPtr);
+                arthmetic_ptr=malloc(sizeof(nodeType));
+                arthmetic_ptr=(yyvsp[(5) - (6)].nPtr);
+                Ntype->constant=true;
+                Ntype->id.declaration++;
+                Ntype->type=Id;
+                Ntype->id.type=(yyvsp[(2) - (6)].type); 
+                Ntype->id.name=(yyvsp[(3) - (6)].string); 
+                Ntype->id.value= arthmetic_ptr->id.value;
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
                 printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_INT( ) lineNumber(%d) \n",yylineno);
             }
     break;
 
   case 47:
-#line 248 "yacc.y"
+#line 261 "yacc.y"
     {
                 nodeType* Ntype;
+                nodeType* arthmetic_ptr;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->const1=false;Ntype->id.declaration=true;Ntype->id.type=(yyvsp[(1) - (5)].type); Ntype->id.name=(yyvsp[(2) - (5)].string); Ntype->id.v=(yyvsp[(5) - (5)].string);
+                arthmetic_ptr=malloc(sizeof(nodeType));
+                arthmetic_ptr=(yyvsp[(4) - (5)].nPtr);
+                Ntype->constant=false;
+                Ntype->id.declaration++;
+                Ntype->id.type=(yyvsp[(1) - (5)].type); 
+                Ntype->id.name=(yyvsp[(2) - (5)].string); 
+                Ntype->id.value= arthmetic_ptr->id.value;
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
+                
                 printf("exp : datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 48:
-#line 257 "yacc.y"
+#line 278 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->id.name=(yyvsp[(1) - (4)].string); Ntype->id.type=String ; Ntype->id.v=(yyvsp[(3) - (4)].string);
+                Ntype->id.name=(yyvsp[(1) - (4)].string); 
+                Ntype->id.value=(yyvsp[(3) - (4)].string);
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
+                
                 printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 49:
-#line 266 "yacc.y"
+#line 289 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->const1=true;Ntype->id.declaration=true; Ntype->id.type=(yyvsp[(2) - (6)].type); Ntype->id.name=(yyvsp[(3) - (6)].string); Ntype->id.v=(yyvsp[(5) - (6)].string);
+                Ntype->constant=true;
+                Ntype->id.declaration++; 
+                Ntype->id.type=(yyvsp[(2) - (6)].type); 
+                Ntype->id.name=(yyvsp[(3) - (6)].string); 
+                Ntype->id.value=(yyvsp[(5) - (6)].string);
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
+                
                 printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d) \n",yylineno);
             }
     break;
 
   case 50:
-#line 275 "yacc.y"
+#line 303 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->const1=false;Ntype->id.declaration=true;Ntype->id.type=(yyvsp[(1) - (5)].type); Ntype->id.name=(yyvsp[(2) - (5)].string); Ntype->id.v=(yyvsp[(4) - (5)].string);
+                Ntype->constant=false;
+                Ntype->id.declaration++;
+                Ntype->id.type=(yyvsp[(1) - (5)].type); 
+                Ntype->id.name=(yyvsp[(2) - (5)].string); 
+                Ntype->id.value=(yyvsp[(4) - (5)].string);
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
+                
                 printf("exp: datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 51:
-#line 284 "yacc.y"
+#line 317 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->id.name=(yyvsp[(1) - (4)].string); Ntype->id.v=(yyvsp[(3) - (4)].string); Ntype->type=Char;
+                Ntype->id.name=(yyvsp[(1) - (4)].string);
+                Ntype->id.value=(yyvsp[(3) - (4)].string); 
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
+                
                 printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
 
             }
     break;
 
   case 52:
-#line 294 "yacc.y"
+#line 329 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->const1=true;Ntype->id.declaration=true; Ntype->id.name=(yyvsp[(3) - (6)].string); Ntype->id.v=(yyvsp[(5) - (6)].string);
+                Ntype->constant=true;
+                Ntype->id.declaration++; 
+                Ntype->id.name=(yyvsp[(3) - (6)].string); 
+                Ntype->id.value=(yyvsp[(5) - (6)].string);
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
+                
                 printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d) \n",yylineno);
             }
     break;
 
   case 53:
-#line 303 "yacc.y"
+#line 342 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->const1=false;Ntype->id.declaration=true; Ntype->id.name=(yyvsp[(2) - (5)].string); Ntype->id.v=(yyvsp[(4) - (5)].string);
+                Ntype->constant=false;
+                Ntype->id.declaration++; 
+                Ntype->id.name=(yyvsp[(2) - (5)].string); 
+                Ntype->id.value=(yyvsp[(4) - (5)].string);
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
+                
                 printf("exp: datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 54:
-#line 312 "yacc.y"
+#line 355 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
-                Ntype->const1=false; Ntype->id.declaration=true; Ntype->id.type=(yyvsp[(1) - (3)].type);Ntype->id.name=(yyvsp[(2) - (3)].string);
+                Ntype->constant=false;
+                Ntype->id.declaration++; 
+                Ntype->id.type=(yyvsp[(1) - (3)].type);
+                Ntype->id.name=(yyvsp[(2) - (3)].string);
                 (yyval.nPtr)=add_to_symboltable(symboltable,Ntype,yylineno);
+                
                 printf("exp: datatype( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 55:
-#line 321 "yacc.y"
+#line 368 "yacc.y"
     {printf("exp: ifstatment( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 56:
-#line 324 "yacc.y"
+#line 371 "yacc.y"
     {printf("exp: Whileloop( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 57:
-#line 327 "yacc.y"
+#line 374 "yacc.y"
     {printf("exp: switchcase( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 58:
-#line 329 "yacc.y"
+#line 376 "yacc.y"
     {printf("exp: repuntil( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 59:
-#line 332 "yacc.y"
+#line 379 "yacc.y"
     {printf("exp: Forloop( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 60:
-#line 336 "yacc.y"
+#line 383 "yacc.y"
     {
             (yyval.type)=Int;
              printf("datatype: TYPE_INT( )\n");
@@ -1991,7 +2038,7 @@ yyreduce:
     break;
 
   case 61:
-#line 341 "yacc.y"
+#line 388 "yacc.y"
     {
              (yyval.type)=String;
             printf("datatype: TYPE_STRING( )\n");
@@ -1999,7 +2046,7 @@ yyreduce:
     break;
 
   case 62:
-#line 346 "yacc.y"
+#line 393 "yacc.y"
     {
             (yyval.type)=Float;
              printf("datatype: TYPE_FLOAT( )\n");
@@ -2007,7 +2054,7 @@ yyreduce:
     break;
 
   case 63:
-#line 351 "yacc.y"
+#line 398 "yacc.y"
     {
             (yyval.type)=Char;
             printf("datatype: TYPE_CHAR( )\n");
@@ -2015,7 +2062,7 @@ yyreduce:
     break;
 
   case 64:
-#line 356 "yacc.y"
+#line 403 "yacc.y"
     {
             (yyval.type)=Bool;
             printf("datatype: TYPE_BOOL( )\n");
@@ -2024,7 +2071,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2028 "y.tab.c"
+#line 2075 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2238,7 +2285,7 @@ yyreturn:
 }
 
 
-#line 364 "yacc.y"
+#line 411 "yacc.y"
 
 
 void yyerror(char *s){

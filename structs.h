@@ -14,9 +14,8 @@ typedef struct
 	int scope;
 	char* name;
 	bool used;
-	bool value;
-    char* v; // value
-	bool declaration;
+	char* value;
+	int declaration;
 } idNodeType;
 
 /* operators */
@@ -29,7 +28,7 @@ typedef struct {
  typedef struct nodeTypeTag 
 {
     nodeEnum type;              /* type of node */
-    bool const1;
+    bool constant;
     union 
     {
         conNodeType con;        /* constants */
