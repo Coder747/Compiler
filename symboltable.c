@@ -29,8 +29,7 @@ int search_symboltable(ArrayList*st,nodeType *Nptr,int line)
             { 
                 return i;// return the index
             }
-           
-    }
+        }
      return -1;
 
     }
@@ -120,7 +119,6 @@ char* get_value(ArrayList*st,nodeType* Nptr,int line)
                     printf("adding to the symbol table failed\n");
             }
            
-
            
         }
         
