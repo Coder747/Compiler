@@ -1,22 +1,26 @@
 #include <stdbool.h>
 
 typedef enum { Con, Id, Opr } nodeEnum;
-typedef enum { Int, Float, Char, Bool, String, ConstInt, ConstFloat, ConstChar, ConstBool, ConstString ,noType} typeEnum;
-/* constants */
-typedef struct {
-	typeEnum type;
-	char* value;
-} conNodeType;
-/* identifiers */
+
+typedef enum { Int, Float, Char,String, Bool, ConstInt, ConstFloat, ConstChar, ConstBool, ConstString ,noType} typeEnum;
+
+
+
+typedef struct
+{
+    typeEnum t;
+    char* v;
+}Const; /* constants numbers/strings/etc*/
 typedef struct 
 {
     typeEnum type;
+    typeEnum othertype;
 	int scope;
 	char* name;
-	bool used;
+	bool same;
 	char* value;
 	int declaration;
-} idNodeType;
+} idNodeType;/* identifiers */
 
 /* operators */
 typedef struct {
@@ -27,11 +31,11 @@ typedef struct {
 
  typedef struct nodeTypeTag 
 {
-    nodeEnum type;              /* type of node */
+    nodeEnum typeofvariable;
     bool constant;
     union 
     {
-        conNodeType con;        /* constants */
+        
         idNodeType id;          /* identifiers */
         oprNodeType opr;        /* operators */
     };

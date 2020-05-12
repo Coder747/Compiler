@@ -1,5 +1,5 @@
-rakam x =1 5alsana
-rakam y=2 5alsana
-x= y 5alsana
+3ayem y=6.0 5alsana
+rakam x= 4 5alsana
 sa7ghalat a =false 5alsana
+x= a 5alsana
 rakam z 5alsana

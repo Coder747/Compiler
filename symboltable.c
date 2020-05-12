@@ -34,7 +34,7 @@ int search_symboltable(ArrayList*st,nodeType *Nptr,int line)
 
     }
 
-typeEnum get_type(ArrayList*st,nodeType* Nptr,int line)
+nodeType* get_info(ArrayList*st,nodeType* Nptr,int line)
 {
     int index;
     index=search_symboltable(st,Nptr,line);
@@ -43,87 +43,75 @@ typeEnum get_type(ArrayList*st,nodeType* Nptr,int line)
         nodeType* nextdata=NULL;
         nextdata= st->get(st,index);
         printf("%s checking type  %s \n",Nptr->id.name,nextdata->id.name);
-        return nextdata->id.type;
+        return nextdata;
     }
     else 
     {
         printf("getting type wasn't found in the symbol table rip\n");
         //panic(line);
     }
-    return noType;
-}
-
-char* get_value(ArrayList*st,nodeType* Nptr,int line)
-{
-    int index;
-    index=search_symboltable(st,Nptr,line);
-    if(index!=-1)
-    {
-        nodeType* nextdata=NULL;
-        nextdata= st->get(st,index);
-        printf("%s checking value  %s \n",Nptr->id.name,nextdata->id.name);
-        return nextdata->id.value;
-    }
-    else 
-    {
-        printf("getting value wasn't found in the symbol table rip\n");
-        //panic(line);
-    }
     return NULL;
 }
 
 
-    nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
-    {
+nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
+{
         int index=search_symboltable(st,Nptr,line);
+
+        if(Nptr->id.type!=Nptr->id.othertype)
+        {
+            printf("different types hello?\n");
+            ////panic(line);
+        }
+
         if(index==-1)
         {
             if(Nptr->id.declaration==0)
-           { 
-               printf("Undeclared variable\n");
-                //panic(line);
-           }
-           st->add(st,Nptr);
+            { 
+                printf("Undeclared variable\n");
+                ////panic(line);
+            }
+            
+            st->add(st,Nptr);
         }
-        else //found in the symbol table
+    else //found in the symbol table
+    {
+        
+        nodeType* nextdata;
+        nextdata= st->get(st,index);
+        if(Nptr->id.declaration>1)// redeclaration of the variable
         {
+            printf("declaration number = %d ", Nptr->id.declaration);
+            printf("redeclaration of the variable %s and %s error\n",Nptr->id.name,nextdata->id.name);
+            ////panic(line);
             
-            nodeType* nextdata;
-            nextdata= st->get(st,index);
-            if(Nptr->id.declaration>1)// redeclaration of the variable
-            {
-                printf("declaration number = %d ", Nptr->id.declaration);
-                printf("redeclaration of the variable %s and %s error\n",Nptr->id.name,nextdata->id.name);
-                //panic(line);
-                
-            }
-            
-            else if(Nptr->id.type != nextdata->id.type) // conflict of types
-            {
-                printf("Different type error\n");
-                //panic(line);
-            }
-            else if(Nptr->constant)
-            {
-                printf("trying to overwrite a constant variable error\n");
-                //panic(line);
-            }
-            else  
-            {
-                if( st->remove(st,index) == ALSUCCESS)
-                { 
-                    st->add(st,Nptr);
-                    printf("warning varaible got overwritten\n"); 
-                }
-                else 
-                    printf("adding to the symbol table failed\n");
-            }
-           
-           
         }
         
-        return  Nptr;
-            
-      
-
+        else if(Nptr->id.type != nextdata->id.type) // conflict of types
+        {
+            printf("Different type error\n");
+            ////panic(line);
+        }
+        else if(Nptr->constant)
+        {
+            printf("trying to overwrite a constant variable error\n");
+            ////panic(line);
+        }
+        else  
+        {
+            if( st->remove(st,index) == ALSUCCESS)
+            { 
+                st->add(st,Nptr);
+                printf("warning varaible got overwritten\n"); 
+            }
+            else 
+                printf("adding to the symbol table failed\n");
+        }
+        
+        
     }
+    
+    return  Nptr;
+}
+
+    

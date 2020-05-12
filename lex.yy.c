@@ -1041,55 +1041,64 @@ YY_RULE_SETUP
 case 37:
 YY_RULE_SETUP
 #line 51 "lex_variables.l"
-{yylval.string = strdup(yytext); return VALUE_INT;}
+{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Int;
+											return VALUE_INT;
+											}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 52 "lex_variables.l"
-{yylval.string = strdup(yytext); return VALUE_BOOL;}
+#line 55 "lex_variables.l"
+{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Bool;
+											 return VALUE_BOOL;
+											}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 53 "lex_variables.l"
-{yylval.string = strdup(yytext); return VALUE_CHAR;}
+#line 58 "lex_variables.l"
+{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Char;
+											 return VALUE_CHAR;
+											}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 54 "lex_variables.l"
-{yylval.string = strdup(yytext); return VALUE_STRING;}
+#line 61 "lex_variables.l"
+{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=String;
+											 return VALUE_STRING;
+											}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 55 "lex_variables.l"
-{yylval.string = strdup(yytext); return IDENTIFIER;}
+#line 64 "lex_variables.l"
+{yylval.string = strdup(yytext);return IDENTIFIER;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 56 "lex_variables.l"
-{yylval.string = strdup(yytext); return VALUE_FLOAT;}
+#line 66 "lex_variables.l"
+{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Float; 
+											 return VALUE_FLOAT;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 57 "lex_variables.l"
+#line 68 "lex_variables.l"
 ;
 	YY_BREAK
 case 44:
 /* rule 44 can match eol */
 YY_RULE_SETUP
-#line 60 "lex_variables.l"
+#line 71 "lex_variables.l"
 printf("\n");
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 62 "lex_variables.l"
+#line 73 "lex_variables.l"
 printf("Eh el habd ely enta katbo fe line number: %d. bos tany 3ala: %s\n",yylineno,strdup(yytext));
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 64 "lex_variables.l"
+#line 75 "lex_variables.l"
 ECHO;
 	YY_BREAK
-#line 1093 "lex.yy.c"
+#line 1102 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2098,7 +2107,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 64 "lex_variables.l"
+#line 75 "lex_variables.l"
 
 
 

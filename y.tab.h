@@ -55,11 +55,11 @@
      BRACKET_OPEN = 271,
      BRACKET_CLOSE = 272,
      OPERATOR_NOT = 273,
-     VALUE_INT = 274,
-     VALUE_STRING = 275,
-     VALUE_CHAR = 276,
-     VALUE_FLOAT = 277,
-     VALUE_BOOL = 278,
+     VALUE_STRING = 274,
+     VALUE_CHAR = 275,
+     VALUE_FLOAT = 276,
+     VALUE_BOOL = 277,
+     VALUE_INT = 278,
      IDENTIFIER = 279,
      CONST = 280,
      IF = 281,
@@ -100,11 +100,11 @@
 #define BRACKET_OPEN 271
 #define BRACKET_CLOSE 272
 #define OPERATOR_NOT 273
-#define VALUE_INT 274
-#define VALUE_STRING 275
-#define VALUE_CHAR 276
-#define VALUE_FLOAT 277
-#define VALUE_BOOL 278
+#define VALUE_STRING 274
+#define VALUE_CHAR 275
+#define VALUE_FLOAT 276
+#define VALUE_BOOL 277
+#define VALUE_INT 278
 #define IDENTIFIER 279
 #define CONST 280
 #define IF 281
@@ -137,10 +137,11 @@ typedef union YYSTYPE
     int num;
     char* string;
     nodeType* nPtr;
+    Const* ForConst;
     typeEnum type;
 }
 /* Line 1529 of yacc.c.  */
-#line 144 "y.tab.h"
+#line 145 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
