@@ -15,34 +15,170 @@
     abort();
  } 
 
-int search_symboltable(ArrayList*st,nodeType *Nptr,int line)
+
+ void sendtotest(nodeType* nptr)
 {
+    if(nptr==NULL)
+        return;
+    switch(nptr->typeofvariable)
+    {
+        case Con:
+        {
+
+            printf("%d con\n",nptr->con.intpls);
+            break;
+        }
+        case Id:
+        {
+            printf("%s id\n",nptr->id.value);
+            break;
+        }
+        case Opr:
+        {
+            printf(" pls\n");
+            sendtotest(nptr->opr.op[0]);
+            if(nptr->opr.nops>1)
+            sendtotest(nptr->opr.op[1]);
+            break;
+
+        }
+    } 
+}
+int excute_int(int x, int y,int operand)
+{
+    switch(operand)
+    {
+        case 1:{return x*y; break;}//multiply
+        case 2:{return x/y; break;}//divide
+        case 3:{return x+y; break;}// add
+        case 4:{return x-y; break;}//subtract
+        default: {printf("default\n");return 0;}
+    } 
+}
+float excute_float(float x, float y,int operand)
+{
+    switch(operand)
+    {
+        case 1:{return x*y; break;}//multiply
+        case 2:{return x/y; break;}//divide
+        case 3:{return x+y; break;}// add
+        case 4:{return x-y; break;}//subtract
+        default: return 0.0;
+    } 
+}
+
+int type1;
+void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operand)
+{
+    
+   
+    if(nptr==NULL)
+        return ;
+        
+    switch(nptr->typeofvariable)
+    {
+        case Con:
+        {
+            if(nptr->con.t==Int)
+            {    
+                type1=Int;
+                *final_int=excute_int(nptr->con.intpls,*final_int, operand);
+            }  
+            else if(nptr->con.t==Float)
+            {
+                type1=Float;
+                //printf("con %d \n",nptr->con.floatpls);
+                *final_float=excute_float(nptr->con.floatpls,*final_float,operand);
+            }
+
+            break;
+        }
+        case Id:
+        {
+            if(nptr->id.type==Int)
+            {    
+                type1=Int;
+                
+                //printf("id %d \n",nptr->id.intpls);
+                *final_int=excute_int(nptr->id.intpls,*final_int, operand);
+            }  
+            else if(nptr->id.type==Float)
+            {
+                type1=Float;
+                printf("id %f \n",nptr->id.floatpls);
+                *final_float=excute_float(nptr->id.floatpls,*final_float,operand);
+            }
+            break;
+        }
+        case Opr:
+        {
+            // nptr->generaltype=type1;
+            get_final_value(nptr->opr.op[0],final_int,final_float,nptr->opr.oper);
+            if(nptr->opr.nops>1)
+            get_final_value(nptr->opr.op[1],final_int,final_float,nptr->opr.oper);
+          
+           //printf("final %d \n",nptr->final_int);
+           
+                
+            break;
+
+        }
+    } 
+    
+        
+}
+
+
+nodeType* search_symboltable(ArrayList*st,nodeType *Nptr,int line)
+{
+    nodeType* nextdata=NULL;
+    nextdata=malloc(sizeof(nodeType));
     for(int i=0;i<st->length;i++)
         {
-            nodeType* nextdata=NULL;
             nextdata= st->get(st,i);
             if(nextdata==NULL)
             {
-                return -1;
+                break;
             }
             if(strcmp(Nptr->id.name,nextdata->id.name)==0) // if there exists a variable with the name needed
             { 
-                return i;// return the index
+                printf("found %s! ", Nptr->id.name);
+                
+
+                  if(Nptr->id.declaration>1)// redeclaration of the variable
+                {
+                    printf("declaration number = %d ", Nptr->id.declaration);
+                    printf("redeclaration of the variable %s and %s error\n",Nptr->id.name,nextdata->id.name);
+                    ////panic(line);
+                    
+                }
+       
+                
+                    nextdata->index=i;
+                    return nextdata;// return the index
+                
             }
         }
-     return -1;
+        if(st->prev!=NULL)
+        {
+            nextdata=search_symboltable(st->prev,Nptr,line);
+            return nextdata;
+        }
+        else 
+            return NULL;
 
     }
 
 nodeType* get_info(ArrayList*st,nodeType* Nptr,int line)
 {
     int index;
-    index=search_symboltable(st,Nptr,line);
-    if(index!=-1)
+    nodeType* nextdata;
+    //nextdata=malloc(sizeof(nodeType));
+    nextdata=search_symboltable(st,Nptr,line);
+    printf("pls\n");
+    if(nextdata!=NULL)
     {
-        nodeType* nextdata=NULL;
-        nextdata= st->get(st,index);
-        printf("%s checking type  %s \n",Nptr->id.name,nextdata->id.name);
+        printf(" checking type of %s is %d \n",Nptr->id.name,nextdata->id.type);
         return nextdata;
     }
     else 
@@ -56,62 +192,55 @@ nodeType* get_info(ArrayList*st,nodeType* Nptr,int line)
 
 nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
 {
-        int index=search_symboltable(st,Nptr,line);
+    nodeType*nextdata;
+    nextdata=search_symboltable(st,Nptr,line);
 
-        if(Nptr->id.type!=Nptr->id.othertype)
+    
+    if(nextdata==NULL) // wasn't found in the symboltable
+    {
+        if(Nptr->id.declaration==0)
+        { 
+            printf("Undeclared variable\n");
+            ////panic(line);
+        }
+        
+        st->add(st,Nptr);
+        
+    }
+    
+
+    else //found in the symbol table
+    {
+        int index=nextdata->index;  // for removing
+        if(nextdata->id.type!=Nptr->id.othertype)
         {
             printf("different types hello?\n");
             ////panic(line);
         }
-
-        if(index==-1)
-        {
-            if(Nptr->id.declaration==0)
-            { 
-                printf("Undeclared variable\n");
-                ////panic(line);
-            }
-            
-            st->add(st,Nptr);
-        }
-    else //found in the symbol table
-    {
-        
-        nodeType* nextdata;
-        nextdata= st->get(st,index);
-        if(Nptr->id.declaration>1)// redeclaration of the variable
-        {
-            printf("declaration number = %d ", Nptr->id.declaration);
-            printf("redeclaration of the variable %s and %s error\n",Nptr->id.name,nextdata->id.name);
-            ////panic(line);
-            
-        }
-        
-        else if(Nptr->id.type != nextdata->id.type) // conflict of types
-        {
-            printf("Different type error\n");
-            ////panic(line);
-        }
-        else if(Nptr->constant)
+        if(Nptr->constant)
         {
             printf("trying to overwrite a constant variable error\n");
             ////panic(line);
         }
-        else  
-        {
-            if( st->remove(st,index) == ALSUCCESS)
-            { 
-                st->add(st,Nptr);
-                printf("warning varaible got overwritten\n"); 
-            }
-            else 
-                printf("adding to the symbol table failed\n");
+        else if( st->remove(st,index) == ALSUCCESS)
+        { 
+            st->add(st,Nptr);
+            printf("warning varaible got overwritten\n"); 
         }
-        
-        
+        else 
+            printf("adding to the symbol table failed\n");
     }
     
-    return  Nptr;
+    if(Nptr->id.type==Int)
+        printf("variable (%s) added to the symboltable with value integer(%d) \n ",Nptr->id.name,Nptr->final_int);
+    else if (Nptr->id.type==Float)
+        printf("variable (%s) added to the symboltable with value Float(%f) \n ",Nptr->id.name,Nptr->final_float);
+    else 
+        printf("variable (%s) added to the symboltable with value (%s) \n ",Nptr->id.name,Nptr->id.value);
+
+
+        return  Nptr;
 }
+
 
     

@@ -16,6 +16,8 @@ int yylex(void);
 FILE * yyin;
 int yylineno;
 ArrayList* symboltable;
+ArrayList* tableptr;
+int scopenumber;
 
 void yyerror(char *s); 
 // nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line);
@@ -32,7 +34,7 @@ void yyerror(char *s);
 }
 %start program
 // all non-terminal will be stored with nodeType pointer
-// create symboltable.h sybmoltable.c
+// create tableptr.h sybmoltable.c
 // send sizeof NodeType for creation
 // array of NodeType
 // function to add through for loop and going through all the variables
@@ -61,6 +63,7 @@ void yyerror(char *s);
 %type <nPtr> code line  ifstatment statment Condition exp statments Whileloop  Forloop switchstmt switchcase default break case repuntil
 %type<type> datatype
 %type<nPtr> Arithmetic
+%type<string> newscope_open newscope_close
 
 %%
 
@@ -77,8 +80,8 @@ line        : exp
             | error SEMICOLON   
             ;
 
-switchcase  : SWITCH BRACKET_OPEN Condition BRACKET_CLOSE CURLY_OPEN switchstmt CURLY_CLOSE
-            {printf("switchcase: SWITCH( ) Condition( ) CURLY_OPEN switchstmt( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
+switchcase  : SWITCH BRACKET_OPEN Condition BRACKET_CLOSE newscope_open switchstmt newscope_close
+            {printf("switchcase: SWITCH( ) Condition( ) newscope_open switchstmt( ) newscope_close lineNumber(%d)\n",yylineno);}
             ;
 
 default     : DEFAULT COLON statments
@@ -105,31 +108,46 @@ break       : BREAK SEMICOLON
             {printf("break: BREAK( ) SEMICOLON( ) lineNumber(%d)\n",yylineno);}
             ;
 
-repuntil    : REPEAT CURLY_OPEN statments UNTIL BRACKET_OPEN Condition BRACKET_CLOSE CURLY_CLOSE
-            {printf("repuntil: REPEAT( ) CURLY_OPEN statments( ) UNTIL( ) Condition( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
+repuntil    : REPEAT newscope_open statments UNTIL BRACKET_OPEN Condition BRACKET_CLOSE newscope_close
+            {printf("repuntil: REPEAT( ) newscope_open statments( ) UNTIL( ) Condition( ) newscope_close lineNumber(%d)\n",yylineno);}
             ;
 
 
 
-Whileloop   : WHILE BRACKET_OPEN Condition BRACKET_CLOSE CURLY_OPEN statments CURLY_CLOSE
+Whileloop   : WHILE BRACKET_OPEN Condition BRACKET_CLOSE newscope_open statments newscope_close
             {
                 
-                printf("Whileloop: WHILE( ) Condition( ) CURLY_OPEN statments( ) CURLY_CLOSE lineNumber(%d)\n" ,yylineno);
+                printf("Whileloop: WHILE( ) Condition( ) newscope_open statments( ) newscope_close lineNumber(%d)\n" ,yylineno);
             }
             ;
 
-Forloop     : FOR BRACKET_OPEN IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE CURLY_OPEN statments CURLY_CLOSE
-            {printf("Forloop: FOR( ) BRACKET_OPEN IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE CURLY_OPEN statments( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
-            |FOR BRACKET_OPEN datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE CURLY_OPEN statments CURLY_CLOSE
-            {printf("Forloop: FOR( ) BRACKET_OPEN datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE CURLY_OPEN statments( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
+Forloop     : FOR BRACKET_OPEN IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE newscope_open statments newscope_close
+            {printf("Forloop: FOR( ) BRACKET_OPEN IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
+            |FOR BRACKET_OPEN datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE newscope_open statments newscope_close
+            {printf("Forloop: FOR( ) BRACKET_OPEN datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
             ;
 
+newscope_open:  CURLY_OPEN
+            {
+                scopenumber++;
+                tableptr= createNewScope(tableptr, sizeof(nodeType));
+                $$=$1;
+            }
+newscope_close: CURLY_CLOSE
+            {
+                scopenumber--;
+                tableptr=tableptr->prev;
+                $$=$1;
+            }
 
-ifstatment  : IF BRACKET_OPEN Condition BRACKET_CLOSE CURLY_OPEN statments CURLY_CLOSE ELSE CURLY_OPEN statments CURLY_CLOSE
-            {printf("ifstatment: IF ( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE CURLY_OPEN statment( ) CURLY_CLOSE ELSE( ) CURLY_OPEN statment( ) CURLY_CLOSE lineNumber(%d)\n",yylineno);}
+ifstatment  : IF BRACKET_OPEN Condition BRACKET_CLOSE newscope_open statments newscope_close ELSE newscope_open statments newscope_close
+            {
 
-            | IF BRACKET_OPEN Condition BRACKET_CLOSE CURLY_OPEN statments  CURLY_CLOSE
-            {printf("ifstatment: IF( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE CURLY_OPEN statment( ) CURLY_CLOSE lineNumber(%d) \n",yylineno);}
+                printf("ifstatment: IF ( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE newscope_open statment( ) newscope_close ELSE( ) newscope_open statment( ) newscope_close lineNumber(%d)\n",yylineno);
+            }
+
+            | IF BRACKET_OPEN Condition BRACKET_CLOSE newscope_open statments  newscope_close
+            {printf("ifstatment: IF( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE newscope_open statment( ) newscope_close lineNumber(%d) \n",yylineno);}
             ;
 
 
@@ -168,9 +186,43 @@ Condition   : Condition L Condition
             ;
 
 
+
+             
+
 Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
-            {
-             printf("Arithmetic: Arithmetic( ) OPERATOR_MULTIPLY( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
+            {// 1=mul,2=divide,3=add,4=subtract
+                nodeType* Ntype;
+                nodeType* Ntype1;
+                nodeType* Ntype2;
+                Ntype=malloc(sizeof(nodeType));
+                Ntype1=malloc(sizeof(nodeType));
+                Ntype2=malloc(sizeof(nodeType));
+                Ntype1=$1;
+                Ntype2=$3;
+                
+                Ntype->typeofvariable= Opr;
+                Ntype->opr.oper=1; // OPERATOR_MULTIPLY
+                Ntype->opr.nops=2; // number of operations
+                Ntype->opr.op[0]=Ntype1;
+                Ntype->opr.op[1]=Ntype2;
+                
+                Ntype->generaltype=Ntype1->generaltype;
+                Ntype->generaltype2=Ntype2->generaltype;
+                
+                if(Ntype->generaltype!=Ntype->generaltype2)
+                {
+                    printf("type error \n");
+                    panic(yylineno);
+                }
+
+                Ntype->final_int=1;
+                Ntype->final_float=1.0;
+
+                get_final_value(Ntype,&Ntype->final_int,&Ntype->final_float,Ntype->opr.oper);
+                
+                $$=Ntype;
+             printf("Arithmetic: Arithmetic( ) OPERATOR_MULTIPLY( ) Arithmetic( )lineNumber(%d)\n",yylineno);
+            }
             | Arithmetic OPERATOR_DIVIDE Arithmetic
             {printf("Arithmetic: Arithmetic( ) OPERATOR_DIVIDE( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
             | Arithmetic OPERATOR_PLUS Arithmetic
@@ -187,8 +239,9 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 ptr=$1;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->typeofvariable=Con; //constant number
-                Ntype->id.type=Int;
-                Ntype->id.value=ptr->v;
+                Ntype->con=*ptr;
+                Ntype->final_int=ptr->intpls;
+                Ntype->generaltype=Int;
                 $$=Ntype;
                 
                 printf("Arithmetic: VALUE_INT( ) lineNumber(%d)\n",yylineno);
@@ -201,9 +254,10 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 Ntype=malloc(sizeof(nodeType));
                 Const* ptr;
                 ptr=$1;
-                Ntype->id.value=ptr->v;
                 Ntype->typeofvariable=Con; //constant number
-                Ntype->id.type=Float;
+                Ntype->con=*ptr;
+                Ntype->final_float=ptr->floatpls;
+                Ntype->generaltype=Float;
                 $$=Ntype;
                 
                 printf("Arithmetic: VALUE_FLOAT( ) lineNumber(%d)\n",yylineno);
@@ -217,10 +271,10 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->typeofvariable=Id;
                 Ntype->id.name=$1;
-                Ntype1=get_info(symboltable,Ntype,yylineno);
-                Ntype->id.type= Ntype1->id.type;
-                Ntype->id.value= Ntype1->id.value;
+                Ntype=get_info(tableptr,Ntype,yylineno);
+                Ntype->generaltype=Ntype->id.type;
                 $$=Ntype;
+
                 printf("Arithmetic: IDENTIFIER( ) lineNumber(%d)\n",yylineno);
             }
             ;
@@ -234,10 +288,10 @@ Boolexp     :BRACKET_OPEN VALUE_BOOL BRACKET_CLOSE
                 Const* ptr;
                 ptr=malloc(sizeof(Const));
                 ptr=$2;
-                if (strcmp(ptr->v,"true")==0)
-                    ptr->v="false";
+                if (strcmp(ptr->others,"true")==0)
+                    ptr->others="false"; 
                 else 
-                    ptr->v="true";
+                    ptr->others="true";
                 $$=ptr;
                 printf("Boolexp: OPERATOR_NOT( ) VALUE_BOOL( )lineNumber(%d)\n",yylineno);
             }
@@ -252,16 +306,85 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
                 Ntype=malloc(sizeof(nodeType));
-                arthmetic_ptr=malloc(sizeof(nodeType));
                 arthmetic_ptr=$3;
-                Ntype->typeofvariable=Id;
                 Ntype->id.name=$1; 
-                Ntype->id.value= arthmetic_ptr->id.value;
-                Ntype->id.othertype= arthmetic_ptr->id.type;
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                Ntype->id.othertype= arthmetic_ptr->generaltype;
+                Ntype=get_info(tableptr,Ntype,yylineno);
+                 if(arthmetic_ptr->typeofvariable==Id)
+                {
+                    if(arthmetic_ptr->id.type==Int)
+                        Ntype->id.intpls=arthmetic_ptr->id.intpls;
+                    else
+                        Ntype->id.floatpls=arthmetic_ptr->id.floatpls;
+                    
+                }
+                else if(arthmetic_ptr->typeofvariable==Con)
+                {
+                    if(arthmetic_ptr->con.t==Int)
+                        Ntype->id.intpls=arthmetic_ptr->con.intpls;
+                    else
+                        Ntype->id.floatpls=arthmetic_ptr->con.floatpls;
+                }
+
+                Ntype->generaltype=arthmetic_ptr->generaltype;
+                printf("name = %s \n",Ntype->id.name);
+                printf("type = %s \n",Ntype->id.type);
+                Ntype->typeofvariable=Id;
+                Ntype->final_int=arthmetic_ptr->final_int;
+                Ntype->final_float=arthmetic_ptr->final_float;
+                
+                
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
             }
+            | datatype IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
+            {
+                nodeType* Ntype;
+                nodeType* arthmetic_ptr;
+                Ntype=malloc(sizeof(nodeType));
+                arthmetic_ptr=$4;
+                Ntype->constant=false;
+                Ntype->id.declaration++;
+               
+                Ntype->id.name=$2; 
+                Ntype->typeofvariable=Id;
+                Ntype->id.type=$1; 
+                if(arthmetic_ptr->typeofvariable==Id)
+                {
+                   Ntype->id.othertype= arthmetic_ptr->id.type;
+                   if(arthmetic_ptr->id.type==Int)
+                        Ntype->id.intpls=arthmetic_ptr->id.intpls;
+                    else 
+                        Ntype->id.floatpls=arthmetic_ptr->id.floatpls;
+                }
+                else if(arthmetic_ptr->typeofvariable==Con)
+                {
+                    
+                    Ntype->id.othertype= arthmetic_ptr->con.t;
+                    if(arthmetic_ptr->con.t==Int)
+                    {
+                         Ntype->id.othertype=Int;
+                         
+                         Ntype->id.intpls=arthmetic_ptr->con.intpls;
+                    }
+                    else if (arthmetic_ptr->con.t==Float)
+                    {        
+                         Ntype->id.othertype=Float;
+                        
+                         Ntype->id.floatpls=arthmetic_ptr->con.floatpls;
+                    }
+                }
+
+                Ntype->final_int=arthmetic_ptr->final_int;
+                Ntype->final_float=arthmetic_ptr->final_float;
+
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
+                
+                printf("exp : datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
+            }
+
+
             | CONST datatype IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
             {
                 nodeType* Ntype;
@@ -277,28 +400,11 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.value= arthmetic_ptr->id.value;
                 Ntype->id.othertype=arthmetic_ptr->id.type;
 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_INT( ) lineNumber(%d) \n",yylineno);
             }
 
-            | datatype IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
-            {
-                nodeType* Ntype;
-                nodeType* arthmetic_ptr;
-                Ntype=malloc(sizeof(nodeType));
-                arthmetic_ptr=malloc(sizeof(nodeType));
-                arthmetic_ptr=$4;
-                Ntype->constant=false;
-                Ntype->id.declaration++;
-                Ntype->id.type=$1; 
-                Ntype->id.name=$2; 
-                Ntype->id.value= arthmetic_ptr->id.value;
-                Ntype->id.othertype=arthmetic_ptr->id.type;
-                
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
-                
-                printf("exp : datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
-            }
+            
             | datatype IDENTIFIER SEMICOLON 
             {
                 nodeType* Ntype;
@@ -307,7 +413,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.declaration++; 
                 Ntype->id.type=$1;
                 Ntype->id.name=$2;
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: datatype( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
             }
@@ -317,11 +423,11 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype=malloc(sizeof(nodeType));
                 Const* ptr;
                 ptr=$3;
-                Ntype->id.value=ptr->v;
+                Ntype->id.value=ptr->others;
                 Ntype->id.othertype=ptr->t;
                 Ntype->typeofvariable=Id;
                 Ntype->id.name= $1;
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) Boolexp( ) lineNumber(%d)\n",yylineno);
             }
 
@@ -331,14 +437,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype=malloc(sizeof(nodeType));
                 Const* ptr;
                 ptr=$5;
-                Ntype->id.value=ptr->v;
+                Ntype->id.value=ptr->others;
                 Ntype->id.type=Bool;
                 Ntype->id.othertype=ptr->t;
                 Ntype->constant=true;
                 Ntype->id.declaration++;
                 Ntype->typeofvariable=Id;
                 Ntype->id.name=$3; 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 printf("exp: CONST( ) TYPE_BOOL( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_BOOL( ) lineNumber(%d) \n",yylineno);
             }
 
@@ -348,14 +454,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype=malloc(sizeof(nodeType));
                 Const* ptr;
                 ptr=$4;
-                Ntype->id.value=ptr->v;
+                Ntype->id.value=ptr->others;
                 Ntype->id.type=Bool;
                 Ntype->id.othertype=ptr->t;
                 Ntype->typeofvariable=Id;
                 Ntype->constant=false;
                 Ntype->id.declaration++;
                 Ntype->id.name=$2; 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp : datatype( ) TYPE_BOOL( ) OPERATOR_ASSIGNMENT VALUE_BOOL( ) lineNumber(%d)\n",yylineno);
             }
@@ -368,7 +474,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.declaration++;
                 Ntype->id.type=Bool;  
                 Ntype->id.name=$2; 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp : datatype( ) TYPE_BOOL( ) lineNumber(%d)\n",yylineno);
             }
@@ -382,14 +488,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
 
                 Const* ptr;
                 ptr=$5;
-                Ntype->id.value=ptr->v;
+                Ntype->id.value=ptr->others;
                 Ntype->id.type=String;
                 Ntype->id.othertype=ptr->t;
                 Ntype->constant=true;
                 Ntype->typeofvariable=Id;
                 Ntype->id.declaration++;
                 Ntype->id.name=$3; 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: CONST( ) TYPE_STRING( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d) \n",yylineno);
             }
@@ -401,13 +507,13 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->constant=false;
                 Const* ptr;
                 ptr=$4;
-                Ntype->id.value=ptr->v;
+                Ntype->id.value=ptr->others;
                 Ntype->id.type=String;
                 Ntype->id.othertype=ptr->t;
                 Ntype->typeofvariable=Id;
                 Ntype->id.declaration++;
                 Ntype->id.name=$2; 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: TYPE_STRING( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
             } 
@@ -421,7 +527,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.declaration++;
                 Ntype->id.type=String; 
                 Ntype->id.name=$2; 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: TYPE_STRING( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
             } 
@@ -431,11 +537,11 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype=malloc(sizeof(nodeType));
                 Const* ptr;
                 ptr=$3;
-                Ntype->id.value=ptr->v;
+                Ntype->id.value=ptr->others;
                 Ntype->id.othertype= String;
                 Ntype->typeofvariable=Id;
                 Ntype->id.name=$1; 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
             }
@@ -446,7 +552,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype=malloc(sizeof(nodeType));
                 Const* ptr;
                 ptr=$5;
-                Ntype->id.value=ptr->v;
+                Ntype->id.value=ptr->others;
                 Ntype->id.othertype=Char;
                 Ntype->id.type=Char; 
                 if(Ntype->id.type!=ptr->t)
@@ -458,7 +564,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->typeofvariable=Id;
                 Ntype->id.name=$3; 
 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: CONST( ) TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d) \n",yylineno);
             }
@@ -469,7 +575,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype=malloc(sizeof(nodeType));
                 Const* ptr;
                 ptr=$4;
-                Ntype->id.value=ptr->v;
+                Ntype->id.value=ptr->others;
                 Ntype->id.othertype=Char;
                 Ntype->id.type=Char; 
                 if(Ntype->id.type!=ptr->t)
@@ -481,7 +587,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.declaration++; 
                 Ntype->id.name=$2; 
 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             } 
@@ -495,7 +601,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->typeofvariable=Id;
                 Ntype->id.declaration++; 
                 Ntype->id.name=$2; 
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: TYPE_CHAR( ) IDENTIFIER( )lineNumber(%d)\n",yylineno);
             } 
@@ -505,12 +611,12 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype=malloc(sizeof(nodeType));
                 Const* ptr;
                 ptr=$3;
-                Ntype->id.value=ptr->v;
+                Ntype->id.value=ptr->others;
                 Ntype->id.othertype=Char; 
                
                 Ntype->typeofvariable=Id;
                 Ntype->id.name=$1;
-                $$=add_to_symboltable(symboltable,Ntype,yylineno);
+                $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
@@ -532,13 +638,15 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
         
 datatype :TYPE_INT
         {
-            $$=Int;
+            
              printf("datatype: TYPE_INT( )\n");
+             $$=Int;
         }
         | TYPE_FLOAT
         {
-            $$=Float;
+            
             printf("datatype: TYPE_FLOAT( )\n");
+            $$=Float;
         }
          ;
 
@@ -554,7 +662,8 @@ int main (void)
 {
     
      symboltable=newArrayListSized(sizeof(nodeType),100);
-     
+     tableptr=symboltable;
+     scopenumber=0;
 
     yyin = fopen("test.txt","r+");
     if(yyin == NULL)
@@ -567,6 +676,5 @@ int main (void)
     return 0;
       
 }
-
 
 

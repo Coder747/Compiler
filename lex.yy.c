@@ -1041,28 +1041,28 @@ YY_RULE_SETUP
 case 37:
 YY_RULE_SETUP
 #line 51 "lex_variables.l"
-{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Int;
+{yylval.ForConst->intpls = atoi(strdup(yytext)); yylval.ForConst->t=Int;
 											return VALUE_INT;
 											}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 55 "lex_variables.l"
-{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Bool;
+{yylval.ForConst->others = strdup(yytext); yylval.ForConst->t=Bool;
 											 return VALUE_BOOL;
 											}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 58 "lex_variables.l"
-{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Char;
+{yylval.ForConst->others = strdup(yytext); yylval.ForConst->t=Char;
 											 return VALUE_CHAR;
 											}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 61 "lex_variables.l"
-{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=String;
+{yylval.ForConst->others = strdup(yytext); yylval.ForConst->t=String;
 											 return VALUE_STRING;
 											}
 	YY_BREAK
@@ -1074,7 +1074,7 @@ YY_RULE_SETUP
 case 42:
 YY_RULE_SETUP
 #line 66 "lex_variables.l"
-{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Float; 
+{yylval.ForConst->floatpls = atof(strdup(yytext)); yylval.ForConst->t=Float; 
 											 return VALUE_FLOAT;}
 	YY_BREAK
 case 43:

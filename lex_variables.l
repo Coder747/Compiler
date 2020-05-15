@@ -48,22 +48,22 @@ le7ad				{yylval.string = strdup(yytext); return UNTIL;}
 \-					{yylval.string = strdup(yytext); return OPERATOR_SUBTRACT;}
 \!					{yylval.string = strdup(yytext); return OPERATOR_NOT;}
 
-[0-9]+										{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Int;
+[0-9]+										{yylval.ForConst->intpls = atoi(strdup(yytext)); yylval.ForConst->t=Int;
 											return VALUE_INT;
 											}
 
-[Tt]rue|[Ff]alse							{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Bool;
+[Tt]rue|[Ff]alse							{yylval.ForConst->others = strdup(yytext); yylval.ForConst->t=Bool;
 											 return VALUE_BOOL;
 											}
-\'[a-zA-z]\'								{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Char;
+\'[a-zA-z]\'								{yylval.ForConst->others = strdup(yytext); yylval.ForConst->t=Char;
 											 return VALUE_CHAR;
 											}
-\"(([a-zA-Z0-9_ ])|\\[a-zA-Z])+\"			{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=String;
+\"(([a-zA-Z0-9_ ])|\\[a-zA-Z])+\"			{yylval.ForConst->others = strdup(yytext); yylval.ForConst->t=String;
 											 return VALUE_STRING;
 											}
 [a-zA-Z_]([a-zA-Z_]|[0-9])* 				{yylval.string = strdup(yytext);return IDENTIFIER;}
 
-([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)			{yylval.ForConst->v = strdup(yytext); yylval.ForConst->t=Float; 
+([0-9]+\.[0-9]*)|([0-9]*\.[0-9]+)			{yylval.ForConst->floatpls = atof(strdup(yytext)); yylval.ForConst->t=Float; 
 											 return VALUE_FLOAT;}
 [\t  ]+										;
 

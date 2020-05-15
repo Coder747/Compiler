@@ -2,30 +2,35 @@
 
 typedef enum { Con, Id, Opr } nodeEnum;
 
-typedef enum { Int, Float, Char,String, Bool, ConstInt, ConstFloat, ConstChar, ConstBool, ConstString ,noType} typeEnum;
+typedef enum { Float,Int, Char,String, Bool, ConstInt, ConstFloat, ConstChar, ConstBool, ConstString ,noType} typeEnum;
 
 
 
 typedef struct
 {
     typeEnum t;
-    char* v;
+    char* others;
+    int intpls;
+    float floatpls;
 }Const; /* constants numbers/strings/etc*/
+
 typedef struct 
 {
     typeEnum type;
     typeEnum othertype;
 	int scope;
 	char* name;
-	bool same;
 	char* value;
+    int intpls;
+    float floatpls;
 	int declaration;
 } idNodeType;/* identifiers */
 
+
 /* operators */
 typedef struct {
-    int oper;                   /* operator */
-    int nops;                   /* number of operands */	
+    int oper;                   /* operator 1= multiply 2 = divide 3 = add 4 = subtract*/
+    int nops;                   /* number of operands */
     struct nodeTypeTag *op[1];	/* operands, extended at runtime */
 } oprNodeType;
 
@@ -33,9 +38,14 @@ typedef struct {
 {
     nodeEnum typeofvariable;
     bool constant;
+    int final_int;
+    float final_float;
+    typeEnum generaltype;
+    typeEnum generaltype2;
+    int index;
     union 
     {
-        
+        Const con;
         idNodeType id;          /* identifiers */
         oprNodeType opr;        /* operators */
     };
