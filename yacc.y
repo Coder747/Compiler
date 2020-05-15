@@ -303,7 +303,7 @@ Boolexp     :BRACKET_OPEN VALUE_BOOL BRACKET_CLOSE
 
 exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
             {
-                nodeType* Ntype;
+                nodeType* Ntype;;
                 nodeType* arthmetic_ptr;
                 Ntype=malloc(sizeof(nodeType));
                 arthmetic_ptr=$3;
