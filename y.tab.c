@@ -552,11 +552,11 @@ static const yytype_uint16 yyrline[] =
        0,    72,    72,    74,    75,    78,    80,    83,    87,    89,
       93,    95,    99,   101,   103,   107,   111,   117,   124,   126,
      130,   136,   143,   149,   154,   158,   160,   164,   166,   168,
-     170,   172,   174,   176,   178,   180,   182,   184,   192,   225,
-     227,   229,   231,   234,   250,   265,   283,   285,   297,   303,
-     340,   387,   407,   419,   433,   450,   467,   483,   502,   520,
-     533,   548,   571,   594,   607,   623,   626,   629,   631,   634,
-     638,   644
+     170,   172,   174,   176,   178,   180,   182,   184,   192,   226,
+     228,   230,   232,   235,   251,   266,   284,   286,   298,   304,
+     341,   388,   408,   420,   434,   451,   468,   484,   503,   521,
+     534,   549,   572,   595,   608,   624,   627,   630,   632,   635,
+     639,   645
 };
 #endif
 
@@ -1818,6 +1818,7 @@ yyreduce:
                 
                 Ntype->generaltype=Ntype1->generaltype;
                 Ntype->generaltype2=Ntype2->generaltype;
+                
                 if(Ntype->generaltype!=Ntype->generaltype2)
                 {
                     printf("type error \n");
@@ -1835,27 +1836,27 @@ yyreduce:
     break;
 
   case 39:
-#line 226 "yacc.y"
+#line 227 "yacc.y"
     {printf("Arithmetic: Arithmetic( ) OPERATOR_DIVIDE( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 40:
-#line 228 "yacc.y"
+#line 229 "yacc.y"
     {printf("Arithmetic: Arithmetic( ) OPERATOR_PLUS( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 41:
-#line 230 "yacc.y"
+#line 231 "yacc.y"
     {printf("Arithmetic: Arithmetic( ) OPERATOR_SUBTRACT( ) Arithmetic( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 42:
-#line 232 "yacc.y"
+#line 233 "yacc.y"
     {printf("Arithmetic: BRACKET_OPEN Arithmetic( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);}
     break;
 
   case 43:
-#line 235 "yacc.y"
+#line 236 "yacc.y"
     {
                 nodeType* Ntype;
                 Const* ptr;
@@ -1873,7 +1874,7 @@ yyreduce:
     break;
 
   case 44:
-#line 251 "yacc.y"
+#line 252 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -1890,7 +1891,7 @@ yyreduce:
     break;
 
   case 45:
-#line 266 "yacc.y"
+#line 267 "yacc.y"
     {   
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -1907,12 +1908,12 @@ yyreduce:
     break;
 
   case 46:
-#line 284 "yacc.y"
+#line 285 "yacc.y"
     {printf("Boolexp: BRACKET_OPEN VALUE_BOOL( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);(yyval.ForConst)=(yyvsp[(2) - (3)].ForConst);}
     break;
 
   case 47:
-#line 286 "yacc.y"
+#line 287 "yacc.y"
     {
                 Const* ptr;
                 ptr=malloc(sizeof(Const));
@@ -1927,7 +1928,7 @@ yyreduce:
     break;
 
   case 48:
-#line 298 "yacc.y"
+#line 299 "yacc.y"
     {
                 (yyval.ForConst)=(yyvsp[(1) - (1)].ForConst);
                 printf("Boolexp:VALUE_BOOL( )lineNumber(%d)\n",yylineno)
@@ -1935,7 +1936,7 @@ yyreduce:
     break;
 
   case 49:
-#line 304 "yacc.y"
+#line 305 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
@@ -1975,7 +1976,7 @@ yyreduce:
     break;
 
   case 50:
-#line 341 "yacc.y"
+#line 342 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
@@ -2023,7 +2024,7 @@ yyreduce:
     break;
 
   case 51:
-#line 388 "yacc.y"
+#line 389 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
@@ -2044,7 +2045,7 @@ yyreduce:
     break;
 
   case 52:
-#line 408 "yacc.y"
+#line 409 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2059,7 +2060,7 @@ yyreduce:
     break;
 
   case 53:
-#line 420 "yacc.y"
+#line 421 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2075,7 +2076,7 @@ yyreduce:
     break;
 
   case 54:
-#line 434 "yacc.y"
+#line 435 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2094,7 +2095,7 @@ yyreduce:
     break;
 
   case 55:
-#line 451 "yacc.y"
+#line 452 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2114,7 +2115,7 @@ yyreduce:
     break;
 
   case 56:
-#line 468 "yacc.y"
+#line 469 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2130,7 +2131,7 @@ yyreduce:
     break;
 
   case 57:
-#line 484 "yacc.y"
+#line 485 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2151,7 +2152,7 @@ yyreduce:
     break;
 
   case 58:
-#line 503 "yacc.y"
+#line 504 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2171,7 +2172,7 @@ yyreduce:
     break;
 
   case 59:
-#line 521 "yacc.y"
+#line 522 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2187,7 +2188,7 @@ yyreduce:
     break;
 
   case 60:
-#line 534 "yacc.y"
+#line 535 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2204,7 +2205,7 @@ yyreduce:
     break;
 
   case 61:
-#line 549 "yacc.y"
+#line 550 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2229,7 +2230,7 @@ yyreduce:
     break;
 
   case 62:
-#line 572 "yacc.y"
+#line 573 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2254,7 +2255,7 @@ yyreduce:
     break;
 
   case 63:
-#line 595 "yacc.y"
+#line 596 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2270,7 +2271,7 @@ yyreduce:
     break;
 
   case 64:
-#line 608 "yacc.y"
+#line 609 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2288,32 +2289,32 @@ yyreduce:
     break;
 
   case 65:
-#line 624 "yacc.y"
+#line 625 "yacc.y"
     {printf("exp: ifstatment( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 66:
-#line 627 "yacc.y"
+#line 628 "yacc.y"
     {printf("exp: Whileloop( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 67:
-#line 630 "yacc.y"
+#line 631 "yacc.y"
     {printf("exp: switchcase( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 68:
-#line 632 "yacc.y"
+#line 633 "yacc.y"
     {printf("exp: repuntil( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 69:
-#line 635 "yacc.y"
+#line 636 "yacc.y"
     {printf("exp: Forloop( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 70:
-#line 639 "yacc.y"
+#line 640 "yacc.y"
     {
             
              printf("datatype: TYPE_INT( )\n");
@@ -2322,7 +2323,7 @@ yyreduce:
     break;
 
   case 71:
-#line 645 "yacc.y"
+#line 646 "yacc.y"
     {
             
             printf("datatype: TYPE_FLOAT( )\n");
@@ -2332,7 +2333,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2336 "y.tab.c"
+#line 2337 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2546,7 +2547,7 @@ yyreturn:
 }
 
 
-#line 653 "yacc.y"
+#line 654 "yacc.y"
 
 
 void yyerror(char *s){
