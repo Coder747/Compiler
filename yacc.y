@@ -190,7 +190,7 @@ Condition   : Condition L Condition
              
 
 Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
-            {// 1=mul,2=divide,3=add,4=subtract
+            {// mul=1,divide=2,add=3,sub=4
                 nodeType* Ntype;
                 nodeType* Ntype1;
                 nodeType* Ntype2;
@@ -199,36 +199,74 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 Ntype2=malloc(sizeof(nodeType));
                 Ntype1=$1;
                 Ntype2=$3;
-                
-                Ntype->typeofvariable= Opr;
-                Ntype->opr.oper=1; // OPERATOR_MULTIPLY
-                Ntype->opr.nops=2; // number of operations
-                Ntype->opr.op[0]=Ntype1;
-                Ntype->opr.op[1]=Ntype2;
-                
-                Ntype->generaltype=Ntype1->generaltype;
-                Ntype->generaltype2=Ntype2->generaltype;
-                
-                if(Ntype->generaltype!=Ntype->generaltype2)
-                {
-                    printf("type error \n");
-                    panic(yylineno);
-                }
 
+                
                 Ntype->final_int=1;
                 Ntype->final_float=1.0;
-
-                get_final_value(Ntype,&Ntype->final_int,&Ntype->final_float,Ntype->opr.oper);
+                
+                arithmetic_opr(Ntype,Ntype1,Ntype2,yylineno,1); //MULTIPLY = 1
                 
                 $$=Ntype;
              printf("Arithmetic: Arithmetic( ) OPERATOR_MULTIPLY( ) Arithmetic( )lineNumber(%d)\n",yylineno);
             }
             | Arithmetic OPERATOR_DIVIDE Arithmetic
-            {printf("Arithmetic: Arithmetic( ) OPERATOR_DIVIDE( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
+            {
+                nodeType* Ntype;
+                nodeType* Ntype1;
+                nodeType* Ntype2;
+                Ntype=malloc(sizeof(nodeType));
+                Ntype1=malloc(sizeof(nodeType));
+                Ntype2=malloc(sizeof(nodeType));
+                Ntype1=$1;
+                Ntype2=$3;
+
+                Ntype->final_int=1;
+                Ntype->final_float=1.0;
+                
+                arithmetic_opr(Ntype,Ntype1,Ntype2,yylineno,2);  //DIVIDE = 2
+                
+                $$=Ntype;
+
+                printf("Arithmetic: Arithmetic( ) OPERATOR_DIVIDE( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
             | Arithmetic OPERATOR_PLUS Arithmetic
-            {printf("Arithmetic: Arithmetic( ) OPERATOR_PLUS( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
+            {
+                nodeType* Ntype;
+                nodeType* Ntype1;
+                nodeType* Ntype2;
+                Ntype=malloc(sizeof(nodeType));
+                Ntype1=malloc(sizeof(nodeType));
+                Ntype2=malloc(sizeof(nodeType));
+                Ntype1=$1;
+                Ntype2=$3;
+
+                Ntype->final_int=0;
+                Ntype->final_float=0.0;
+                
+                arithmetic_opr(Ntype,Ntype1,Ntype2,yylineno,3);  //ADD = 3
+                
+                $$=Ntype;
+                
+            
+                printf("Arithmetic: Arithmetic( ) OPERATOR_PLUS( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
             | Arithmetic OPERATOR_SUBTRACT Arithmetic
-            {printf("Arithmetic: Arithmetic( ) OPERATOR_SUBTRACT( ) Arithmetic( ) lineNumber(%d)\n",yylineno);}
+            {
+                nodeType* Ntype;
+                nodeType* Ntype1;
+                nodeType* Ntype2;
+                Ntype=malloc(sizeof(nodeType));
+                Ntype1=malloc(sizeof(nodeType));
+                Ntype2=malloc(sizeof(nodeType));
+                Ntype1=$1;
+                Ntype2=$3;
+
+                Ntype->final_int=0;
+                Ntype->final_float=0.0;
+
+                arithmetic_opr(Ntype,Ntype1,Ntype2,yylineno,4);   //SUBTRACT = 4
+                
+                $$=Ntype;
+                
+                printf("Arithmetic: Arithmetic( ) OPERATOR_SUBTRACT( ) Arithmetic( ) lineNumber(%d)\n",yylineno);}
             | BRACKET_OPEN Arithmetic BRACKET_CLOSE
             {printf("Arithmetic: BRACKET_OPEN Arithmetic( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);}
 
@@ -364,18 +402,33 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                     Ntype->id.othertype= arthmetic_ptr->con.t;
                     if(arthmetic_ptr->con.t==Int)
                     {
-                         Ntype->id.othertype=Int;
-                         
                          Ntype->id.intpls=arthmetic_ptr->con.intpls;
                     }
                     else if (arthmetic_ptr->con.t==Float)
-                    {        
-                         Ntype->id.othertype=Float;
-                        
+                    {      
                          Ntype->id.floatpls=arthmetic_ptr->con.floatpls;
                     }
                 }
+                else 
+                {
+                    Ntype->id.othertype= arthmetic_ptr->generaltype;
+                    if(arthmetic_ptr->generaltype==Int)
+                    {
+                         
+                         Ntype->id.intpls=arthmetic_ptr->final_int;
+                    }
+                    else if (arthmetic_ptr->generaltype==Float)
+                    {        
+                        
+                         Ntype->id.floatpls=arthmetic_ptr->final_float;
+                    }
+                }
 
+                if(Ntype->id.type!=Ntype->id.othertype)
+                {
+                    printf("error type miss match\n");
+                    panic(yylineno);
+                }
                 Ntype->final_int=arthmetic_ptr->final_int;
                 Ntype->final_float=arthmetic_ptr->final_float;
 

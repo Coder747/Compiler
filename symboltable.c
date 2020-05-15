@@ -242,5 +242,29 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
         return  Nptr;
 }
 
+int arithmetic_opr(nodeType *Ntype,nodeType *Ntype1,nodeType *Ntype2,int yylineno,int operation){
+
+                Ntype->typeofvariable= Opr;
+                Ntype->opr.oper=operation; // OPERATOR_MULTIPLY
+                Ntype->opr.nops=2; // number of operations
+                Ntype->opr.op[0]=Ntype1;
+                Ntype->opr.op[1]=Ntype2;
+                
+                Ntype->generaltype=Ntype1->generaltype;
+                Ntype->generaltype2=Ntype2->generaltype;
+                
+                if(Ntype->generaltype!=Ntype->generaltype2)
+                {
+                    printf("type error \n");
+                    panic(yylineno);
+                }
+
+
+                get_final_value(Ntype,&Ntype->final_int,&Ntype->final_float,Ntype->opr.oper);
+
+                return Ntype; 
+
+
+}
 
     
