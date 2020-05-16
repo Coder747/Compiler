@@ -44,6 +44,7 @@ typedef struct {
     typeEnum generaltype2;
     int registerno;
     int index;
+    bool taken;
     union 
     {
         Const con;

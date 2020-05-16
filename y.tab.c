@@ -177,6 +177,8 @@ int yylex(void);
 FILE * yyin;
 int yylineno;
 
+ArrayList* symboltable;
+ArrayList* tableptr;
 int scopenumber;
 
 void yyerror(char *s); 
@@ -204,7 +206,7 @@ void yyerror(char *s);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 27 "yacc.y"
+#line 29 "yacc.y"
 {
     int num;
     char* string;
@@ -213,7 +215,7 @@ typedef union YYSTYPE
     typeEnum type;
 }
 /* Line 193 of yacc.c.  */
-#line 217 "y.tab.c"
+#line 219 "y.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -226,7 +228,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 230 "y.tab.c"
+#line 232 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -548,14 +550,14 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    71,    71,    73,    74,    77,    79,    82,    86,    88,
-      92,    94,    98,   100,   102,   106,   110,   116,   123,   125,
-     129,   135,   142,   148,   153,   157,   159,   163,   165,   167,
-     169,   171,   173,   175,   177,   179,   181,   183,   191,   212,
-     231,   251,   270,   273,   289,   304,   322,   324,   336,   342,
-     387,   457,   486,   507,   521,   547,   573,   598,   625,   652,
-     674,   691,   719,   746,   768,   786,   789,   792,   794,   797,
-     801,   807
+       0,    73,    73,    75,    76,    79,    81,    84,    88,    90,
+      94,    96,   100,   102,   104,   108,   112,   118,   125,   127,
+     131,   137,   144,   150,   155,   159,   161,   165,   167,   169,
+     171,   173,   175,   177,   179,   181,   183,   185,   193,   213,
+     232,   252,   271,   274,   290,   305,   323,   325,   337,   343,
+     388,   458,   487,   509,   523,   549,   575,   600,   627,   654,
+     676,   693,   721,   748,   770,   788,   791,   794,   796,   799,
+     803,   809
 };
 #endif
 
@@ -1609,77 +1611,77 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 71 "yacc.y"
+#line 73 "yacc.y"
     {printf("\nProgram End \n\n");}
     break;
 
   case 3:
-#line 73 "yacc.y"
+#line 75 "yacc.y"
     {printf("code: code line --> Line Number (%d) \n", yylineno);}
     break;
 
   case 4:
-#line 74 "yacc.y"
+#line 76 "yacc.y"
     {printf("code: Epsilon   --> Line Number (%d) \n", yylineno); (yyval.nPtr)=NULL;}
     break;
 
   case 5:
-#line 78 "yacc.y"
+#line 80 "yacc.y"
     {printf("line: exp( )\n");}
     break;
 
   case 7:
-#line 83 "yacc.y"
+#line 85 "yacc.y"
     {printf("switchcase: SWITCH( ) Condition( ) newscope_open switchstmt( ) newscope_close lineNumber(%d)\n",yylineno);}
     break;
 
   case 8:
-#line 87 "yacc.y"
+#line 89 "yacc.y"
     {printf("default: DEFAULT( ) COLON statments( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 9:
-#line 89 "yacc.y"
+#line 91 "yacc.y"
     {printf("default: DEFAULT( ) COLON statments( ) break( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 10:
-#line 93 "yacc.y"
+#line 95 "yacc.y"
     {printf("switchstmt: case( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 11:
-#line 95 "yacc.y"
+#line 97 "yacc.y"
     {printf("switchstmt: switchstmt( ) case( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 12:
-#line 99 "yacc.y"
+#line 101 "yacc.y"
     {printf("case: CASE( ) Condition( ) COLON statments( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 13:
-#line 101 "yacc.y"
+#line 103 "yacc.y"
     {printf("case: CASE( ) Condition( ) COLON statments( ) break( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 14:
-#line 103 "yacc.y"
+#line 105 "yacc.y"
     {printf("case: default( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 15:
-#line 107 "yacc.y"
+#line 109 "yacc.y"
     {printf("break: BREAK( ) SEMICOLON( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 16:
-#line 111 "yacc.y"
+#line 113 "yacc.y"
     {printf("repuntil: REPEAT( ) newscope_open statments( ) UNTIL( ) Condition( ) newscope_close lineNumber(%d)\n",yylineno);}
     break;
 
   case 17:
-#line 117 "yacc.y"
+#line 119 "yacc.y"
     {
                 
                 printf("Whileloop: WHILE( ) Condition( ) newscope_open statments( ) newscope_close lineNumber(%d)\n" ,yylineno);
@@ -1687,17 +1689,17 @@ yyreduce:
     break;
 
   case 18:
-#line 124 "yacc.y"
+#line 126 "yacc.y"
     {printf("Forloop: FOR( ) BRACKET_OPEN IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
     break;
 
   case 19:
-#line 126 "yacc.y"
+#line 128 "yacc.y"
     {printf("Forloop: FOR( ) BRACKET_OPEN datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
     break;
 
   case 20:
-#line 130 "yacc.y"
+#line 132 "yacc.y"
     {
                 scopenumber++;
                 tableptr= createNewScope(tableptr, sizeof(nodeType));
@@ -1706,7 +1708,7 @@ yyreduce:
     break;
 
   case 21:
-#line 136 "yacc.y"
+#line 138 "yacc.y"
     {
                 scopenumber--;
                 tableptr=tableptr->prev;
@@ -1715,7 +1717,7 @@ yyreduce:
     break;
 
   case 22:
-#line 143 "yacc.y"
+#line 145 "yacc.y"
     {
 
                 printf("ifstatment: IF ( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE newscope_open statment( ) newscope_close ELSE( ) newscope_open statment( ) newscope_close lineNumber(%d)\n",yylineno);
@@ -1723,82 +1725,82 @@ yyreduce:
     break;
 
   case 23:
-#line 149 "yacc.y"
+#line 151 "yacc.y"
     {printf("ifstatment: IF( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE newscope_open statment( ) newscope_close lineNumber(%d) \n",yylineno);}
     break;
 
   case 24:
-#line 154 "yacc.y"
+#line 156 "yacc.y"
     {printf("statment: exp( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 25:
-#line 158 "yacc.y"
+#line 160 "yacc.y"
     {printf("statments: statment( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 26:
-#line 160 "yacc.y"
+#line 162 "yacc.y"
     {printf("statments: statments( ) statment( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 27:
-#line 164 "yacc.y"
+#line 166 "yacc.y"
     {printf("Condition: Condition( ) L( ) Condition( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 28:
-#line 166 "yacc.y"
+#line 168 "yacc.y"
     {printf("Condition: Condition( ) G( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 29:
-#line 168 "yacc.y"
+#line 170 "yacc.y"
     {printf("Condition: Condition( ) LE( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 30:
-#line 170 "yacc.y"
+#line 172 "yacc.y"
     {printf("Condition: Condition( ) GE( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 31:
-#line 172 "yacc.y"
+#line 174 "yacc.y"
     {printf("Condition: Condition( ) EQ( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 32:
-#line 174 "yacc.y"
+#line 176 "yacc.y"
     {printf("Condition: Condition( ) NE( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 33:
-#line 176 "yacc.y"
+#line 178 "yacc.y"
     {printf("Condition: Condition( ) OR( ) Condition( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 34:
-#line 178 "yacc.y"
+#line 180 "yacc.y"
     {printf("Condition: Condition( ) AND( ) Condition( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 35:
-#line 180 "yacc.y"
+#line 182 "yacc.y"
     {printf("Condition: Arithmetic lineNumber(%d)\n",yylineno);}
     break;
 
   case 36:
-#line 182 "yacc.y"
+#line 184 "yacc.y"
     {printf("Condition: VALUE_STRING( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 37:
-#line 184 "yacc.y"
+#line 186 "yacc.y"
     {printf("Condition: Boolexp lineNumber(%d)\n",yylineno);}
     break;
 
   case 38:
-#line 192 "yacc.y"
+#line 194 "yacc.y"
     {// mul=1,divide=2,add=3,sub=4
                 nodeType* Ntype;
                 nodeType* Ntype1;
@@ -1808,21 +1810,20 @@ yyreduce:
                 Ntype2=malloc(sizeof(nodeType));
                 Ntype1=(yyvsp[(1) - (3)].nPtr);
                 Ntype2=(yyvsp[(3) - (3)].nPtr);
-
-                //codegen(Ntype);
                 
                 Ntype->final_int=1;
                 Ntype->final_float=1.0;
                 
                 Ntype=arithmetic_opr(Ntype,Ntype1,Ntype2,yylineno,1); //MULTIPLY = 1
                 
+                sendtotest(Ntype);
                 (yyval.nPtr)=Ntype;
              printf("Arithmetic: Arithmetic( ) OPERATOR_MULTIPLY( ) Arithmetic( )lineNumber(%d)\n",yylineno);
             }
     break;
 
   case 39:
-#line 213 "yacc.y"
+#line 214 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* Ntype1;
@@ -1844,7 +1845,7 @@ yyreduce:
     break;
 
   case 40:
-#line 232 "yacc.y"
+#line 233 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* Ntype1;
@@ -1867,7 +1868,7 @@ yyreduce:
     break;
 
   case 41:
-#line 252 "yacc.y"
+#line 253 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* Ntype1;
@@ -1889,12 +1890,12 @@ yyreduce:
     break;
 
   case 42:
-#line 271 "yacc.y"
+#line 272 "yacc.y"
     {printf("Arithmetic: BRACKET_OPEN Arithmetic( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);}
     break;
 
   case 43:
-#line 274 "yacc.y"
+#line 275 "yacc.y"
     {
                 nodeType* Ntype;
                 Const* ptr;
@@ -1912,7 +1913,7 @@ yyreduce:
     break;
 
   case 44:
-#line 290 "yacc.y"
+#line 291 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -1929,7 +1930,7 @@ yyreduce:
     break;
 
   case 45:
-#line 305 "yacc.y"
+#line 306 "yacc.y"
     {   
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -1946,12 +1947,12 @@ yyreduce:
     break;
 
   case 46:
-#line 323 "yacc.y"
+#line 324 "yacc.y"
     {printf("Boolexp: BRACKET_OPEN VALUE_BOOL( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);(yyval.ForConst)=(yyvsp[(2) - (3)].ForConst);}
     break;
 
   case 47:
-#line 325 "yacc.y"
+#line 326 "yacc.y"
     {
                 Const* ptr;
                 ptr=malloc(sizeof(Const));
@@ -1966,7 +1967,7 @@ yyreduce:
     break;
 
   case 48:
-#line 337 "yacc.y"
+#line 338 "yacc.y"
     {
                 (yyval.ForConst)=(yyvsp[(1) - (1)].ForConst);
                 printf("Boolexp:VALUE_BOOL( )lineNumber(%d)\n",yylineno)
@@ -1974,7 +1975,7 @@ yyreduce:
     break;
 
   case 49:
-#line 343 "yacc.y"
+#line 344 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
@@ -1982,10 +1983,9 @@ yyreduce:
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
                 arthmetic_ptr=(yyvsp[(3) - (4)].nPtr);
-                Ntype->id.name=(yyvsp[(1) - (4)].string); 
-                Ntype->id.othertype= arthmetic_ptr->generaltype;
+                Ntype->id.name=(yyvsp[(1) - (4)].string);
                 Ntype=get_info(tableptr,Ntype,yylineno);
-                
+                Ntype->id.othertype= arthmetic_ptr->generaltype;
                  if(arthmetic_ptr->typeofvariable==Id)
                 {
                     if(arthmetic_ptr->id.type==Int)
@@ -2009,12 +2009,13 @@ yyreduce:
                         Ntype->id.floatpls=arthmetic_ptr->final_float;
                 }
 
-                // printf("name = %s \n",Ntype->id.name);
-                // printf("type = %d \n",Ntype->id.type);
                 Ntype->typeofvariable=Id;
                 Ntype->final_int=arthmetic_ptr->final_int;
                 Ntype->final_float=arthmetic_ptr->final_float;
 
+
+                sendtotest(Ntype);
+                // sendtotest(arthmetic_ptr);
                 (yyval.nPtr)=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
@@ -2022,7 +2023,7 @@ yyreduce:
     break;
 
   case 50:
-#line 388 "yacc.y"
+#line 389 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
@@ -2093,7 +2094,7 @@ yyreduce:
     break;
 
   case 51:
-#line 458 "yacc.y"
+#line 459 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
@@ -2123,7 +2124,7 @@ yyreduce:
     break;
 
   case 52:
-#line 487 "yacc.y"
+#line 488 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2140,6 +2141,7 @@ yyreduce:
                     panic(yylineno);
                 } 
                 Ntype->id.type=(yyvsp[(1) - (3)].type);
+                printf("type %d",Ntype->id.type);
                 (yyval.nPtr)=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: datatype( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
@@ -2147,7 +2149,7 @@ yyreduce:
     break;
 
   case 53:
-#line 508 "yacc.y"
+#line 510 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2163,7 +2165,7 @@ yyreduce:
     break;
 
   case 54:
-#line 522 "yacc.y"
+#line 524 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2191,7 +2193,7 @@ yyreduce:
     break;
 
   case 55:
-#line 548 "yacc.y"
+#line 550 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* check;
@@ -2220,7 +2222,7 @@ yyreduce:
     break;
 
   case 56:
-#line 574 "yacc.y"
+#line 576 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* check;
@@ -2245,7 +2247,7 @@ yyreduce:
     break;
 
   case 57:
-#line 599 "yacc.y"
+#line 601 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2274,7 +2276,7 @@ yyreduce:
     break;
 
   case 58:
-#line 626 "yacc.y"
+#line 628 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2303,7 +2305,7 @@ yyreduce:
     break;
 
   case 59:
-#line 653 "yacc.y"
+#line 655 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2328,7 +2330,7 @@ yyreduce:
     break;
 
   case 60:
-#line 675 "yacc.y"
+#line 677 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2347,7 +2349,7 @@ yyreduce:
     break;
 
   case 61:
-#line 692 "yacc.y"
+#line 694 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2377,7 +2379,7 @@ yyreduce:
     break;
 
   case 62:
-#line 720 "yacc.y"
+#line 722 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2406,7 +2408,7 @@ yyreduce:
     break;
 
   case 63:
-#line 747 "yacc.y"
+#line 749 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2431,7 +2433,7 @@ yyreduce:
     break;
 
   case 64:
-#line 769 "yacc.y"
+#line 771 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2451,32 +2453,32 @@ yyreduce:
     break;
 
   case 65:
-#line 787 "yacc.y"
+#line 789 "yacc.y"
     {printf("exp: ifstatment( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 66:
-#line 790 "yacc.y"
+#line 792 "yacc.y"
     {printf("exp: Whileloop( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 67:
-#line 793 "yacc.y"
+#line 795 "yacc.y"
     {printf("exp: switchcase( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 68:
-#line 795 "yacc.y"
+#line 797 "yacc.y"
     {printf("exp: repuntil( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 69:
-#line 798 "yacc.y"
+#line 800 "yacc.y"
     {printf("exp: Forloop( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 70:
-#line 802 "yacc.y"
+#line 804 "yacc.y"
     {
             
              printf("datatype: TYPE_INT( )\n");
@@ -2485,7 +2487,7 @@ yyreduce:
     break;
 
   case 71:
-#line 808 "yacc.y"
+#line 810 "yacc.y"
     {
             
             printf("datatype: TYPE_FLOAT( )\n");
@@ -2495,7 +2497,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2499 "y.tab.c"
+#line 2501 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2709,7 +2711,7 @@ yyreturn:
 }
 
 
-#line 816 "yacc.y"
+#line 818 "yacc.y"
 
 
 void yyerror(char *s){

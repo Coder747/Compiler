@@ -18,28 +18,71 @@ ArrayList* tableptr;
  } 
 
 
+int count1=0; int count2=0;int ops=0; int operand=0;
+
  void sendtotest(nodeType* nptr)
 {
     if(nptr==NULL)
         return;
+        
     switch(nptr->typeofvariable)
     {
+        
         case Con:
         {   
-            printf("%d con\n",nptr->con.intpls);
+             if(nptr->con.t==Int)
+            {    
+                printf("Mov R%d,%d\n ", count1,nptr->con.intpls);
+                count1++;
+                ops++;
+                nptr->taken=true;
+                if(ops==2)
+                {
+                    switch(operand)
+                    {
+                        case 1:{printf("MUL R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
+                        case 2:{printf("Div R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
+                        case 3:{printf("ADD R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
+                        case 4:{printf("SUB R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
+                    }
+                    
+                    count1++;
+                    ops--;
+                }
+            }  
+            else if(nptr->con.t==Float)
+            {
+               printf("Mov Rf%d,%d\n ", count2++,nptr->con.intpls);
+            }
             break;
         }
         case Id:
         {
-            printf("%s id\n",nptr->id.value);
+           if(nptr->id.type==Int)
+            {    
+                
+                printf("loadi R%d, %s \n",count1,nptr->id.name);
+                nptr->registerno=count1;
+                count1++;
+            }  
+            else if(nptr->id.type==Float)
+            {
+                printf("wordi %f \n",nptr->id.floatpls);
+                //*final_float=excute_float(nptr->id.floatpls,*final_float,operand);
+            }
             break;
         }
         case Opr:
         {
-            printf(" pls\n");
-            sendtotest(nptr->opr.op[0]);
-            if(nptr->opr.nops>1)
+            
+            operand= nptr->opr.oper;
+            if(!nptr->opr.op[0]->taken)
+                sendtotest(nptr->opr.op[0]);
+
+            if(!nptr->opr.op[1]->taken)
             sendtotest(nptr->opr.op[1]);
+           
+            
             break;
 
         }
@@ -80,7 +123,6 @@ void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operan
         {
             if(nptr->con.t==Int)
             {    
-                printf("con %d\n ", nptr->con.intpls);
                 *final_int=excute_int(nptr->con.intpls,*final_int, operand);
 
             }  
@@ -98,7 +140,7 @@ void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operan
             if(nptr->id.type==Int)
             {    
                 
-                printf("id %d \n",nptr->id.intpls);
+                //printf("id %d \n",nptr->id.intpls);
                 *final_int=excute_int(nptr->id.intpls,*final_int, operand);
             }  
             else if(nptr->id.type==Float)
@@ -253,40 +295,4 @@ nodeType* arithmetic_opr(nodeType *Ntype,nodeType *Ntype1,nodeType *Ntype2,int y
                 return Ntype; 
 
 
-}
-
-int counti=0; int countf=0;
-void codegen(nodeType* nptr)
-{
-
-    
-    switch(nptr->typeofvariable)
-    {
-        case Con:
-        {
-            if(nptr->con.t==Int)
-                printf("Mov R%d, %d",counti++,nptr->con.intpls);
-            else if(nptr->con.t==Float)
-                printf("Mov R%df, %f",countf++,nptr->con.floatpls);
-        }
-        case Id :
-        {
-           
-            if(nptr->con.t==Int)
-            { 
-                printf("LD R%d, %s",counti++,nptr->id.name);
-            }
-            else if(nptr->con.t==Float)
-                printf("Ld R%df, %f",countf++,nptr->con.floatpls);
-            else 
-                printf("Mov R%d, %s",counti++,nptr->con.others);
-        }
-        case Opr:
-        {
-            codegen(nptr->opr.op[0]);
-            if(nptr->opr.nops>1)
-            codegen(nptr->opr.op[1]);
-
-        }
-    }
 }

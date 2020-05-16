@@ -1,10 +1,2 @@
-rakam x = 5*3*35 5alsana
-
-talama(x<5)
-{
-    rakam y = 5*3 5alsana
-    talama(y<5)
-    {
-        rakam z = 6 5alsana
-    }
-}
+rakam x 5alsana
+x=5*3*35*10*4 5alsana
