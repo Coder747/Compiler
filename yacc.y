@@ -204,7 +204,7 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 Ntype->final_int=1;
                 Ntype->final_float=1.0;
                 
-                arithmetic_opr(Ntype,Ntype1,Ntype2,yylineno,1); //MULTIPLY = 1
+                Ntype=arithmetic_opr(Ntype,Ntype1,Ntype2,yylineno,1); //MULTIPLY = 1
                 
                 $$=Ntype;
              printf("Arithmetic: Arithmetic( ) OPERATOR_MULTIPLY( ) Arithmetic( )lineNumber(%d)\n",yylineno);
@@ -341,7 +341,7 @@ Boolexp     :BRACKET_OPEN VALUE_BOOL BRACKET_CLOSE
 
 exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
             {
-                nodeType* Ntype;;
+                nodeType* Ntype;
                 nodeType* arthmetic_ptr;
                 Ntype=malloc(sizeof(nodeType));
                 arthmetic_ptr=$3;
@@ -363,15 +363,20 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                     else
                         Ntype->id.floatpls=arthmetic_ptr->con.floatpls;
                 }
+                else 
+                {
+                    if(arthmetic_ptr->generaltype==Int)
+                        Ntype->id.intpls=arthmetic_ptr->final_int;
+                    else
+                        Ntype->id.floatpls=arthmetic_ptr->final_float;
+                }
 
-                Ntype->generaltype=arthmetic_ptr->generaltype;
                 printf("name = %s \n",Ntype->id.name);
-                printf("type = %s \n",Ntype->id.type);
+                printf("type = %d \n",Ntype->id.type);
                 Ntype->typeofvariable=Id;
                 Ntype->final_int=arthmetic_ptr->final_int;
                 Ntype->final_float=arthmetic_ptr->final_float;
-                
-                
+
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
@@ -380,12 +385,18 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
             {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
+                nodeType * check;
                 Ntype=malloc(sizeof(nodeType));
                 arthmetic_ptr=$4;
                 Ntype->constant=false;
-                Ntype->id.declaration++;
-               
                 Ntype->id.name=$2; 
+                Ntype->id.declaration++;
+                check = search_symboltable(tableptr,Ntype,yylineno);
+                if(check!=NULL)
+                {
+                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    panic(yylineno);
+                }
                 Ntype->typeofvariable=Id;
                 Ntype->id.type=$1; 
                 if(arthmetic_ptr->typeofvariable==Id)

@@ -1,3 +1,3 @@
 rakam x = 6 5alsana
 3ayem z= 7.0 5alsana
-3ayem y= 30/10.0 5alsana
+3ayem x= 10*10 5alsana

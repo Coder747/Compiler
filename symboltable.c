@@ -23,8 +23,7 @@
     switch(nptr->typeofvariable)
     {
         case Con:
-        {
-
+        {   
             printf("%d con\n",nptr->con.intpls);
             break;
         }
@@ -132,7 +131,6 @@ void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operan
 nodeType* search_symboltable(ArrayList*st,nodeType *Nptr,int line)
 {
     nodeType* nextdata=NULL;
-    nextdata=malloc(sizeof(nodeType));
     for(int i=0;i<st->length;i++)
         {
             nextdata= st->get(st,i);
@@ -143,15 +141,6 @@ nodeType* search_symboltable(ArrayList*st,nodeType *Nptr,int line)
             if(strcmp(Nptr->id.name,nextdata->id.name)==0) // if there exists a variable with the name needed
             { 
                 printf("found %s! ", Nptr->id.name);
-                
-
-                  if(Nptr->id.declaration>1)// redeclaration of the variable
-                {
-                    printf("declaration number = %d ", Nptr->id.declaration);
-                    printf("redeclaration of the variable %s and %s error\n",Nptr->id.name,nextdata->id.name);
-                    ////panic(line);
-                    
-                }
        
                 
                     nextdata->index=i;
@@ -212,7 +201,10 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
     else //found in the symbol table
     {
         int index=nextdata->index;  // for removing
-        if(nextdata->id.type!=Nptr->id.othertype)
+
+       
+
+         if(nextdata->id.type!=Nptr->id.othertype)
         {
             printf("different types hello?\n");
             ////panic(line);
@@ -222,15 +214,15 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
             printf("trying to overwrite a constant variable error\n");
             ////panic(line);
         }
-        else if( st->remove(st,index) == ALSUCCESS)
+        else if( st->set(st,index,Nptr) == ALSUCCESS)
         { 
-            st->add(st,Nptr);
             printf("warning varaible got overwritten\n"); 
         }
         else 
             printf("adding to the symbol table failed\n");
     }
     
+
     if(Nptr->id.type==Int)
         printf("variable (%s) added to the symboltable with value integer(%d) \n ",Nptr->id.name,Nptr->final_int);
     else if (Nptr->id.type==Float)
@@ -242,7 +234,7 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
         return  Nptr;
 }
 
-int arithmetic_opr(nodeType *Ntype,nodeType *Ntype1,nodeType *Ntype2,int yylineno,int operation){
+nodeType* arithmetic_opr(nodeType *Ntype,nodeType *Ntype1,nodeType *Ntype2,int yylineno,int operation){
 
                 Ntype->typeofvariable= Opr;
                 Ntype->opr.oper=operation; // OPERATOR_MULTIPLY
