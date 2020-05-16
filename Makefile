@@ -10,3 +10,8 @@ run: lex.yy.c
 
 clean:
 	clear && printf '\e[3J'
+clear:
+	rm y.tab.c
+	rm y.tab.h
+	rm lex.yy.c
+	rm a.out
