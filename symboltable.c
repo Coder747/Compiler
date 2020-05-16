@@ -7,6 +7,8 @@
 #include "structs.h"
 #include "arraylist.h"
 
+ArrayList* symboltable;
+ArrayList* tableptr;
 
  void panic(int line)
  {
@@ -66,10 +68,8 @@ float excute_float(float x, float y,int operand)
     } 
 }
 
-int type1;
 void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operand)
 {
-    
    
     if(nptr==NULL)
         return ;
@@ -80,12 +80,13 @@ void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operan
         {
             if(nptr->con.t==Int)
             {    
-                type1=Int;
+                printf("con %d\n ", nptr->con.intpls);
                 *final_int=excute_int(nptr->con.intpls,*final_int, operand);
+
             }  
             else if(nptr->con.t==Float)
             {
-                type1=Float;
+               
                 //printf("con %d \n",nptr->con.floatpls);
                 *final_float=excute_float(nptr->con.floatpls,*final_float,operand);
             }
@@ -96,22 +97,19 @@ void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operan
         {
             if(nptr->id.type==Int)
             {    
-                type1=Int;
                 
-                //printf("id %d \n",nptr->id.intpls);
+                printf("id %d \n",nptr->id.intpls);
                 *final_int=excute_int(nptr->id.intpls,*final_int, operand);
             }  
             else if(nptr->id.type==Float)
             {
-                type1=Float;
                 printf("id %f \n",nptr->id.floatpls);
-                *final_float=excute_float(nptr->id.floatpls,*final_float,operand);
+                //*final_float=excute_float(nptr->id.floatpls,*final_float,operand);
             }
             break;
         }
         case Opr:
         {
-            // nptr->generaltype=type1;
             get_final_value(nptr->opr.op[0],final_int,final_float,nptr->opr.oper);
             if(nptr->opr.nops>1)
             get_final_value(nptr->opr.op[1],final_int,final_float,nptr->opr.oper);
@@ -120,7 +118,6 @@ void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operan
            
                 
             break;
-
         }
     } 
     
@@ -164,16 +161,15 @@ nodeType* get_info(ArrayList*st,nodeType* Nptr,int line)
     nodeType* nextdata;
     //nextdata=malloc(sizeof(nodeType));
     nextdata=search_symboltable(st,Nptr,line);
-    printf("pls\n");
     if(nextdata!=NULL)
     {
-        printf(" checking type of %s is %d \n",Nptr->id.name,nextdata->id.type);
+        printf(" getting variable %s \n",Nptr->id.name);
         return nextdata;
     }
     else 
     {
-        printf("getting type wasn't found in the symbol table rip\n");
-        //panic(line);
+        printf("variable %s wasn't found in the symbol table rip\n",Nptr->id.name);
+        panic(line);
     }
     return NULL;
 }
@@ -259,4 +255,38 @@ nodeType* arithmetic_opr(nodeType *Ntype,nodeType *Ntype1,nodeType *Ntype2,int y
 
 }
 
+int counti=0; int countf=0;
+void codegen(nodeType* nptr)
+{
+
     
+    switch(nptr->typeofvariable)
+    {
+        case Con:
+        {
+            if(nptr->con.t==Int)
+                printf("Mov R%d, %d",counti++,nptr->con.intpls);
+            else if(nptr->con.t==Float)
+                printf("Mov R%df, %f",countf++,nptr->con.floatpls);
+        }
+        case Id :
+        {
+           
+            if(nptr->con.t==Int)
+            { 
+                printf("LD R%d, %s",counti++,nptr->id.name);
+            }
+            else if(nptr->con.t==Float)
+                printf("Ld R%df, %f",countf++,nptr->con.floatpls);
+            else 
+                printf("Mov R%d, %s",counti++,nptr->con.others);
+        }
+        case Opr:
+        {
+            codegen(nptr->opr.op[0]);
+            if(nptr->opr.nops>1)
+            codegen(nptr->opr.op[1]);
+
+        }
+    }
+}

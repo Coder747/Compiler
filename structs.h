@@ -42,6 +42,7 @@ typedef struct {
     float final_float;
     typeEnum generaltype;
     typeEnum generaltype2;
+    int registerno;
     int index;
     union 
     {

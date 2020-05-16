@@ -1,3 +1,10 @@
-rakam x = 6 5alsana
-3ayem z= 7.0 5alsana
-3ayem x= 10*10 5alsana
+rakam x = 5*3*35 5alsana
+
+talama(x<5)
+{
+    rakam y = 5*3 5alsana
+    talama(y<5)
+    {
+        rakam z = 6 5alsana
+    }
+}
