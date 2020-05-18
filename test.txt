@@ -1,2 +1,5 @@
-3ayem x 5alsana
-x=5.0*3.0*8.6*1.0 5alsana
+rakam x = 5 5alsana
+
+gomla string 5alsana
+gomla s="hellooo" 5alsana
+s="hello world" 5alsana

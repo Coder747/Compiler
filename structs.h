@@ -4,6 +4,7 @@ typedef enum { Con, Id, Opr } nodeEnum;
 
 typedef enum { Float,Int, Char,String, Bool, ConstInt, ConstFloat, ConstChar, ConstBool, ConstString ,noType} typeEnum;
 
+typedef enum {store,load,loadops}check1;
 
 
 typedef struct
@@ -24,6 +25,7 @@ typedef struct
     int intpls;
     float floatpls;
 	int declaration;
+    check1 check;
 } idNodeType;/* identifiers */
 
 

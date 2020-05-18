@@ -16,10 +16,12 @@ ArrayList* tableptr;
  } 
 
 
-int count1=0; int count2=0;int ops=0; int operand=0;
+int count1=0; int count2=0;int ops=0; 
 
- void sendtotest(nodeType* nptr)
+ void sendtotest(nodeType* nptr,int operand)
 {
+    FILE *fp;
+    fp =fopen("Quadruples.txt","a"); 
     if(nptr==NULL)
         return;
         
@@ -30,60 +32,33 @@ int count1=0; int count2=0;int ops=0; int operand=0;
         {   
              if(nptr->con.t==Int)
             {    
-                printf("MOV R%d,%d\n", count1++,nptr->con.intpls);
+                fprintf(fp,"MOV R%d,%d\n", count1++,nptr->con.intpls);
                 ops++;
                 nptr->taken=true;
-                if(ops==2)
-                {
-                    switch(operand)
-                    {
-                        case 1:{printf("MUL R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
-                        case 2:{printf("DIV R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
-                        case 3:{printf("ADD R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
-                        case 4:{printf("SUB R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
-                    }
-                    
-                    count1++;
-                    ops--;
-                }
             }  
             else if(nptr->con.t==Float)
             {
-               printf("\nMOV Rf%d,%f\n", count2++,nptr->con.floatpls);
+               fprintf(fp,"MOV Rf%d,%f\n", count2++,nptr->con.floatpls);
                ops++;
-               nptr->taken=true;
-            //    if (ops == 1 && nptr->taken){
-            //         printf("LOADF R%d, %f \n",count2,nptr->id.floatpls);
-            //         break;
-            //    }               
+               nptr->taken=true;              
 
 
                if(ops==2)
                 {
                     switch(operand)
                     {
-                        case 1:{printf("MUL Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
-                        case 2:{printf("DIV Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
-                        case 3:{printf("ADD Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
-                        case 4:{printf("SUB Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
+                        case 1:{fprintf(fp,"MUL Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
+                        case 2:{fprintf(fp,"DIV Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
+                        case 3:{fprintf(fp,"ADD Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
+                        case 4:{fprintf(fp,"SUB Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
                     }
                     
                     count2++;
                     ops--;
                 }
-            }
-            else if(nptr->con.t==String){
-                printf("MOV R%d,%s\n", count1++,nptr->con.others);     //if input contains a string
-
-            }
-            else if(nptr->con.t==Char){
-                printf("MOV R%d,%s\n", count1++,nptr->con.others);     //if input contains a string
-
-            }
-            else if(nptr->con.t==Bool){
-                printf("MOV R%d,%s\n", count1++,nptr->con.others);     //if input contains a string
-
-            }           
+            }  
+            else
+                fprintf(fp,"MOV R%d,%s\n", count1++,nptr->con.others);       
             break;
         }
         case Id:
@@ -91,33 +66,76 @@ int count1=0; int count2=0;int ops=0; int operand=0;
            if(nptr->id.type==Int)
             {    
                 
-                printf("STOREi %s, R%d \n",nptr->id.name,--count1);     //--count is a temporary solution
-                nptr->registerno=count1;
-                count1++;
+                if(nptr->id.check==store)// store
+                fprintf(fp,"STOREi %s, R%d \n",nptr->id.name,count1==0?0:count1-1);//--count is a temporary solution
+                else if (nptr->id.check==load)
+                fprintf(fp,"LOADi %s, R%d \n",nptr->id.name,count1);
+                else if(nptr->id.check==loadops)
+                {
+                    fprintf(fp,"LOADi %s, R%d \n",nptr->id.name,count1);
+                    ops++;
+                }
+                count1++; 
             }  
             else if(nptr->id.type==Float)
             {
-                 printf("STOREf %s, R%d \n",nptr->id.name,--count2);
-                nptr->registerno=count2;
-                count2++;
-                //*final_float=excute_float(nptr->id.floatpls,*final_float,operand);
+                 if(nptr->id.check==store)// store
+                fprintf(fp,"STOREf %s, R%d \n",nptr->id.name,count1==0?0:count1-1);//--count is a temporary solution
+                else 
+                fprintf(fp,"LOADf %s, R%d \n",nptr->id.name,count1);
+                count1++;
             }
+              else if(nptr->id.type==String)
+            {
+                if(nptr->id.check==load)
+                    fprintf(fp,"LOADs R%d,%s\n",count1,nptr->id.name);     //if input contains a string
+                else 
+                fprintf(fp,"STOREs %s, R%d \n",nptr->id.name,count1==0?0:count1-1);
+                count1++;
+            }
+            else if(nptr->id.type==Char)
+            {
+                fprintf(fp,"MOV R%d,%s\n", count1++,nptr->id.value);     //if input contains a string
+
+            }
+            else if(nptr->id.type==Bool)
+            {
+                fprintf(fp,"MOV R%d,%s\n", count1++,nptr->id.value);     //if input contains a string
+            }  
             break;
         }
         case Opr:
         {
-            operand= nptr->opr.oper;
-            if(!nptr->opr.op[0]->taken)
-                sendtotest(nptr->opr.op[0]);
-
-            if(!nptr->opr.op[1]->taken)
-                sendtotest(nptr->opr.op[1]);
+            
+            
+             operand= nptr->opr.oper;
+             fprintf(fp,"oprand = %d\n",operand);
+            //if(!nptr->opr.op[0]->taken)
+                sendtotest(nptr->opr.op[0],operand);
+                
+                
+            //if(!nptr->opr.op[1]->taken)
+                sendtotest(nptr->opr.op[1],operand);//
            
             
             break;
 
         }
     } 
+
+                if(ops==2)
+                {
+                    switch(operand)
+                    {
+                        case 1:{fprintf(fp,"MUL R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
+                        case 2:{fprintf(fp,"DIV R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
+                        case 3:{fprintf(fp,"ADD R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
+                        case 4:{fprintf(fp,"SUB R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
+                    }
+                    
+                    count1++;
+                    ops=0;
+                }
 }
 int excute_int(int x, int y,int operand)
 {
@@ -211,8 +229,6 @@ nodeType* search_symboltable(ArrayList*st,nodeType *Nptr,int line)
             if(strcmp(Nptr->id.name,nextdata->id.name)==0) // if there exists a variable with the name needed
             { 
                 printf("found %s! ", Nptr->id.name);
-       
-                
                     nextdata->index=i;
                     return nextdata;// return the index
                 
@@ -306,7 +322,7 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
 nodeType* arithmetic_opr(nodeType *Ntype,nodeType *Ntype1,nodeType *Ntype2,int yylineno,int operation){
 
                 Ntype->typeofvariable= Opr;
-                Ntype->opr.oper=operation; // OPERATOR_MULTIPLY
+                Ntype->opr.oper=operation; // OPERATOR
                 Ntype->opr.nops=2; // number of operations
                 Ntype->opr.op[0]=Ntype1;
                 Ntype->opr.op[1]=Ntype2;

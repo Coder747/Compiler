@@ -14,12 +14,10 @@ run: a.out
 
 clean:
 	clear && printf '\e[3J'
-
+	> Quadruples.txt
 clear:
 	rm y.tab.c
 	rm y.tab.h
 	rm lex.yy.c
 	rm a.out
 
-target: dependcy
-	commands
