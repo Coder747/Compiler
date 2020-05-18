@@ -449,6 +449,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->final_int=arthmetic_ptr->final_int;
                 Ntype->final_float=arthmetic_ptr->final_float;
 
+                //sendtotest(Ntype);
+
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp : datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
@@ -502,6 +504,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 } 
                 Ntype->id.type=$1;
                 printf("type %d",Ntype->id.type);
+                sendtotest(Ntype);
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp: datatype( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);

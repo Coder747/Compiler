@@ -1,2 +1,2 @@
-rakam x 5alsana
-x=5*3*35*10*4 5alsana
+3ayem x 5alsana
+x=5.0*3.0*8.6*1.0 5alsana

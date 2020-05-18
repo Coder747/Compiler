@@ -73,7 +73,7 @@ le7ad				{yylval.string = strdup(yytext); return UNTIL;}
 .							printf("Eh el habd ely enta katbo fe line number: %d. bos tany 3ala: %s\n",yylineno,strdup(yytext));
 
 %%
-
+//
 int yywrap(void){
 	return 1;
 }

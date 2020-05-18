@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-// #include "arraylist.c"
-// #include "structs.h"
 #include "structs.h"
 #include "arraylist.h"
 
@@ -32,8 +30,7 @@ int count1=0; int count2=0;int ops=0; int operand=0;
         {   
              if(nptr->con.t==Int)
             {    
-                printf("Mov R%d,%d\n ", count1,nptr->con.intpls);
-                count1++;
+                printf("MOV R%d,%d\n", count1++,nptr->con.intpls);
                 ops++;
                 nptr->taken=true;
                 if(ops==2)
@@ -41,7 +38,7 @@ int count1=0; int count2=0;int ops=0; int operand=0;
                     switch(operand)
                     {
                         case 1:{printf("MUL R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
-                        case 2:{printf("Div R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
+                        case 2:{printf("DIV R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
                         case 3:{printf("ADD R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
                         case 4:{printf("SUB R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
                     }
@@ -52,8 +49,41 @@ int count1=0; int count2=0;int ops=0; int operand=0;
             }  
             else if(nptr->con.t==Float)
             {
-               printf("Mov Rf%d,%d\n ", count2++,nptr->con.intpls);
+               printf("\nMOV Rf%d,%f\n", count2++,nptr->con.floatpls);
+               ops++;
+               nptr->taken=true;
+            //    if (ops == 1 && nptr->taken){
+            //         printf("LOADF R%d, %f \n",count2,nptr->id.floatpls);
+            //         break;
+            //    }               
+
+
+               if(ops==2)
+                {
+                    switch(operand)
+                    {
+                        case 1:{printf("MUL Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
+                        case 2:{printf("DIV Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
+                        case 3:{printf("ADD Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
+                        case 4:{printf("SUB Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
+                    }
+                    
+                    count2++;
+                    ops--;
+                }
             }
+            else if(nptr->con.t==String){
+                printf("MOV R%d,%s\n", count1++,nptr->con.others);     //if input contains a string
+
+            }
+            else if(nptr->con.t==Char){
+                printf("MOV R%d,%s\n", count1++,nptr->con.others);     //if input contains a string
+
+            }
+            else if(nptr->con.t==Bool){
+                printf("MOV R%d,%s\n", count1++,nptr->con.others);     //if input contains a string
+
+            }           
             break;
         }
         case Id:
@@ -61,26 +91,27 @@ int count1=0; int count2=0;int ops=0; int operand=0;
            if(nptr->id.type==Int)
             {    
                 
-                printf("loadi R%d, %s \n",count1,nptr->id.name);
+                printf("STOREi %s, R%d \n",nptr->id.name,--count1);     //--count is a temporary solution
                 nptr->registerno=count1;
                 count1++;
             }  
             else if(nptr->id.type==Float)
             {
-                printf("wordi %f \n",nptr->id.floatpls);
+                 printf("STOREf %s, R%d \n",nptr->id.name,--count2);
+                nptr->registerno=count2;
+                count2++;
                 //*final_float=excute_float(nptr->id.floatpls,*final_float,operand);
             }
             break;
         }
         case Opr:
         {
-            
             operand= nptr->opr.oper;
             if(!nptr->opr.op[0]->taken)
                 sendtotest(nptr->opr.op[0]);
 
             if(!nptr->opr.op[1]->taken)
-            sendtotest(nptr->opr.op[1]);
+                sendtotest(nptr->opr.op[1]);
            
             
             break;

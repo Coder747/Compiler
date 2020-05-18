@@ -20,3 +20,6 @@ clear:
 	rm y.tab.h
 	rm lex.yy.c
 	rm a.out
+
+target: dependcy
+	commands
