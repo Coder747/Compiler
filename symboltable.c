@@ -95,12 +95,19 @@ int count1=0; int count2=0;int ops=0;
             }
             else if(nptr->id.type==Char)
             {
-                fprintf(fp,"MOV R%d,%s\n", count1++,nptr->id.value);     //if input contains a string
+                if(nptr->id.check==load)
+                    fprintf(fp,"LOADc R%d,%s\n",count1,nptr->id.name);     //if input contains a string
+                else 
+                fprintf(fp,"STOREc %s, R%d \n",nptr->id.name,count1==0?0:count1-1);
+                count1++;   //if input contains a string
 
             }
             else if(nptr->id.type==Bool)
             {
-                fprintf(fp,"MOV R%d,%s\n", count1++,nptr->id.value);     //if input contains a string
+                if(nptr->id.check==load)
+                fprintf(fp,"LOADb R%d,%s\n", count1++,nptr->id.name);     //if input contains a string
+                else
+                fprintf(fp,"STOREb %s, R%d \n",nptr->id.name,count1==0?0:count1-1);
             }  
             break;
         }

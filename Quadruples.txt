@@ -1,7 +1,5 @@
-MOV R0,5
-STOREi x, R0 
-LOADs R2,string
-MOV R3,"hellooo"
-STOREs s, R3 
-MOV R5,"hello world"
-STOREs s, R5 
+LOADc R0,s
+MOV R1,'c'
+STOREc s, R1 
+MOV R3,'d'
+STOREc g, R3 
