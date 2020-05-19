@@ -32,33 +32,18 @@ int count1=0; int count2=0;int ops=0;
         {   
              if(nptr->con.t==Int)
             {    
-                fprintf(fp,"MOV R%d,%d\n", count1++,nptr->con.intpls);
+                fprintf(fp,"MOV R%d,%d\n", count1,nptr->con.intpls);
                 ops++;
                 nptr->taken=true;
             }  
             else if(nptr->con.t==Float)
             {
-               fprintf(fp,"MOV Rf%d,%f\n", count2++,nptr->con.floatpls);
+               fprintf(fp,"MOV Rf%d,%f\n", count1,nptr->con.floatpls);
                ops++;
-               nptr->taken=true;              
-
-
-               if(ops==2)
-                {
-                    switch(operand)
-                    {
-                        case 1:{fprintf(fp,"MUL Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
-                        case 2:{fprintf(fp,"DIV Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
-                        case 3:{fprintf(fp,"ADD Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
-                        case 4:{fprintf(fp,"SUB Rf%d,Rf%d,Rf%d\n",count2,count2-1,count2-2);break;}
-                    }
-                    
-                    count2++;
-                    ops--;
-                }
             }  
             else
-                fprintf(fp,"MOV R%d,%s\n", count1++,nptr->con.others);       
+                fprintf(fp,"MOV R%d,%s\n", count1,nptr->con.others); 
+            count1++;      
             break;
         }
         case Id:
@@ -67,12 +52,13 @@ int count1=0; int count2=0;int ops=0;
             {    
                 
                 if(nptr->id.check==store)// store
-                fprintf(fp,"STOREi %s, R%d \n",nptr->id.name,count1==0?0:count1-1);//--count is a temporary solution
+                    fprintf(fp,"STOREi %s, R%d \n",nptr->id.name,count1==0?0:count1-1);//--count is a temporary solution
                 else if (nptr->id.check==load)
-                fprintf(fp,"LOADi %s, R%d \n",nptr->id.name,count1);
+                    fprintf(fp,"LOADi R%d,%s \n",count1,nptr->id.name);
                 else if(nptr->id.check==loadops)
                 {
-                    fprintf(fp,"LOADi %s, R%d \n",nptr->id.name,count1);
+
+                    fprintf(fp,"LOADi R%d,%s \n",count1,nptr->id.name);
                     ops++;
                 }
                 count1++; 
@@ -82,7 +68,7 @@ int count1=0; int count2=0;int ops=0;
                  if(nptr->id.check==store)// store
                 fprintf(fp,"STOREf %s, R%d \n",nptr->id.name,count1==0?0:count1-1);//--count is a temporary solution
                 else 
-                fprintf(fp,"LOADf %s, R%d \n",nptr->id.name,count1);
+                fprintf(fp,"LOADf R%d,%s \n",count1,nptr->id.name);
                 count1++;
             }
               else if(nptr->id.type==String)
@@ -105,9 +91,10 @@ int count1=0; int count2=0;int ops=0;
             else if(nptr->id.type==Bool)
             {
                 if(nptr->id.check==load)
-                fprintf(fp,"LOADb R%d,%s\n", count1++,nptr->id.name);     //if input contains a string
+                fprintf(fp,"LOADb R%d,%s\n", count1,nptr->id.name);     //if input contains a string
                 else
                 fprintf(fp,"STOREb %s, R%d \n",nptr->id.name,count1==0?0:count1-1);
+                count1++;
             }  
             break;
         }
@@ -129,7 +116,7 @@ int count1=0; int count2=0;int ops=0;
 
         }
     } 
-
+        printf("ops = %d \n",ops);
                 if(ops==2)
                 {
                     switch(operand)
@@ -139,7 +126,6 @@ int count1=0; int count2=0;int ops=0;
                         case 3:{fprintf(fp,"ADD R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
                         case 4:{fprintf(fp,"SUB R%d,R%d,R%d\n",count1,count1-1,count1-2);break;}
                     }
-                    
                     count1++;
                     ops=0;
                 }
@@ -235,7 +221,7 @@ nodeType* search_symboltable(ArrayList*st,nodeType *Nptr,int line)
             }
             if(strcmp(Nptr->id.name,nextdata->id.name)==0) // if there exists a variable with the name needed
             { 
-                printf("found %s! ", Nptr->id.name);
+                //printf("found %s! ", Nptr->id.name);
                     nextdata->index=i;
                     return nextdata;// return the index
                 
@@ -298,8 +284,8 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
 
          if(nextdata->id.type!=Nptr->id.othertype)
         {
-            printf("different types hello?\n");
-            ////panic(line);
+            printf("different types error?\n");
+            panic(line);
         }
         if(Nptr->constant)
         {

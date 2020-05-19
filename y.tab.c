@@ -554,10 +554,10 @@ static const yytype_uint16 yyrline[] =
       94,    96,   100,   102,   104,   108,   112,   118,   125,   127,
      131,   137,   144,   150,   155,   159,   161,   165,   167,   169,
      171,   173,   175,   177,   179,   181,   183,   185,   193,   213,
-     233,   253,   272,   275,   291,   306,   324,   326,   338,   346,
-     392,   465,   494,   519,   539,   571,   603,   629,   661,   693,
-     718,   740,   773,   805,   828,   852,   855,   858,   860,   863,
-     867,   873
+     233,   253,   272,   275,   291,   306,   323,   325,   337,   345,
+     406,   480,   509,   534,   555,   588,   621,   648,   681,   714,
+     740,   762,   796,   829,   853,   879,   882,   885,   887,   890,
+     894,   900
 };
 #endif
 
@@ -1941,7 +1941,6 @@ yyreduce:
                 Ntype->id.name=(yyvsp[(1) - (1)].string);
                 Ntype=get_info(tableptr,Ntype,yylineno);
                 Ntype->generaltype=Ntype->id.type;
-                Ntype->id.check=loadops;
                 (yyval.nPtr)=Ntype;
 
                 printf("Arithmetic: IDENTIFIER( ) lineNumber(%d)\n",yylineno);
@@ -1949,12 +1948,12 @@ yyreduce:
     break;
 
   case 46:
-#line 325 "yacc.y"
+#line 324 "yacc.y"
     {printf("Boolexp: BRACKET_OPEN VALUE_BOOL( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);(yyval.ForConst)=(yyvsp[(2) - (3)].ForConst);}
     break;
 
   case 47:
-#line 327 "yacc.y"
+#line 326 "yacc.y"
     {
                 Const* ptr;
                 ptr=malloc(sizeof(Const));
@@ -1969,7 +1968,7 @@ yyreduce:
     break;
 
   case 48:
-#line 339 "yacc.y"
+#line 338 "yacc.y"
     {
                 (yyval.ForConst)=(yyvsp[(1) - (1)].ForConst);
                 printf("Boolexp:VALUE_BOOL( )lineNumber(%d)\n",yylineno);
@@ -1977,7 +1976,7 @@ yyreduce:
     break;
 
   case 49:
-#line 347 "yacc.y"
+#line 346 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
@@ -1991,23 +1990,37 @@ yyreduce:
                  if(arthmetic_ptr->typeofvariable==Id)
                 {
                     if(arthmetic_ptr->id.type==Int)
-                        Ntype->id.intpls=arthmetic_ptr->id.intpls;
-                    else
+                    {  
+                         Ntype->id.intpls=arthmetic_ptr->id.intpls;
+                         arthmetic_ptr->id.check=loadops;
+                    }
+
+                    else if(arthmetic_ptr->id.type==Float)
+                    {   
                         Ntype->id.floatpls=arthmetic_ptr->id.floatpls;
+                        arthmetic_ptr->id.check=loadops;
+                    }
+                    else 
+                    {
+                        Ntype->id.value=arthmetic_ptr->id.value;
+                        arthmetic_ptr->id.check=load;
+                    }
                     
                 }
                 else if(arthmetic_ptr->typeofvariable==Con)
                 {
                     if(arthmetic_ptr->con.t==Int)
                         Ntype->id.intpls=arthmetic_ptr->con.intpls;
-                    else
+                    else if(arthmetic_ptr->con.t==Float)
                         Ntype->id.floatpls=arthmetic_ptr->con.floatpls;
+                    else
+                        Ntype->id.value=arthmetic_ptr->con.others;
                 }
                 else 
                 {
                     if(arthmetic_ptr->generaltype==Int)
                         Ntype->id.intpls=arthmetic_ptr->final_int;
-                    else
+                    else 
                         Ntype->id.floatpls=arthmetic_ptr->final_float;
                 }
 
@@ -2016,9 +2029,10 @@ yyreduce:
                 Ntype->final_float=arthmetic_ptr->final_float;
                 
                 Ntype->id.check=store;
+                ops=0;
                 sendtotest(arthmetic_ptr,-1);
                 sendtotest(Ntype,-1);
-                ops=0;
+                
                 (yyval.nPtr)=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
@@ -2026,7 +2040,7 @@ yyreduce:
     break;
 
   case 50:
-#line 393 "yacc.y"
+#line 407 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
@@ -2090,6 +2104,7 @@ yyreduce:
                 Ntype->final_int=arthmetic_ptr->final_int;
                 Ntype->final_float=arthmetic_ptr->final_float;
                 Ntype->id.check=store;
+                ops=0;
                 sendtotest(arthmetic_ptr,-1);
                 sendtotest(Ntype,-1);
 
@@ -2100,7 +2115,7 @@ yyreduce:
     break;
 
   case 51:
-#line 466 "yacc.y"
+#line 481 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* arthmetic_ptr;
@@ -2123,14 +2138,14 @@ yyreduce:
                  Ntype->id.check=store;
                 Ntype->id.value= arthmetic_ptr->id.value;
                 Ntype->id.othertype=arthmetic_ptr->id.type;
-
+                ops=0;
                 (yyval.nPtr)=add_to_symboltable(tableptr,Ntype,yylineno);
                 printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_INT( ) lineNumber(%d) \n",yylineno);
             }
     break;
 
   case 52:
-#line 495 "yacc.y"
+#line 510 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2158,7 +2173,7 @@ yyreduce:
     break;
 
   case 53:
-#line 520 "yacc.y"
+#line 535 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2169,6 +2184,7 @@ yyreduce:
                 Ntype->con=*ptr;
                 Ntype->id.name= (yyvsp[(1) - (4)].string);
                 Ntype=get_info(tableptr,Ntype,yylineno);
+                Ntype->generaltype=Bool;
                 Ntype->id.check=store;
                 Ntype->id.value=ptr->others;
                 Ntype->id.othertype=ptr->t;
@@ -2180,7 +2196,7 @@ yyreduce:
     break;
 
   case 54:
-#line 540 "yacc.y"
+#line 556 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2192,6 +2208,7 @@ yyreduce:
                 Const* ptr;
                 ptr=(yyvsp[(5) - (6)].ForConst);
                 Ntype1->con=*ptr;
+                Ntype->generaltype=Bool;
                 Ntype->id.value=ptr->others;
                 Ntype->id.check=store;
                 Ntype->id.type=Bool;
@@ -2214,7 +2231,7 @@ yyreduce:
     break;
 
   case 55:
-#line 572 "yacc.y"
+#line 589 "yacc.y"
     {
                 
                 nodeType* check;
@@ -2227,6 +2244,7 @@ yyreduce:
                 Const* ptr;
                 ptr=(yyvsp[(4) - (5)].ForConst);
                 Ntype1->con=*ptr;
+                Ntype->generaltype=Bool;
                 Ntype->id.value=ptr->others;
                 Ntype->id.check=store;
                 Ntype->id.type=Bool;
@@ -2249,13 +2267,14 @@ yyreduce:
     break;
 
   case 56:
-#line 604 "yacc.y"
+#line 622 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* check;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
+                Ntype->generaltype=Bool;
                 Ntype->constant=false;
                 Ntype->typeofvariable=Id;
                 Ntype->id.declaration++;
@@ -2275,7 +2294,7 @@ yyreduce:
     break;
 
   case 57:
-#line 630 "yacc.y"
+#line 649 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2289,6 +2308,7 @@ yyreduce:
                 Ntype->id.value=ptr->others;
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
+                Ntype->generaltype=String;
                 Ntype->id.type=String;
                 Ntype->id.othertype=ptr->t;
                 Ntype->constant=true;
@@ -2309,7 +2329,7 @@ yyreduce:
     break;
 
   case 58:
-#line 662 "yacc.y"
+#line 682 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2319,6 +2339,7 @@ yyreduce:
                 Ntype->constant=false;
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
+                Ntype->generaltype=String;
                 Const* ptr;
                 ptr=(yyvsp[(4) - (5)].ForConst);
                 Ntype1->con=*ptr;
@@ -2343,7 +2364,7 @@ yyreduce:
     break;
 
   case 59:
-#line 694 "yacc.y"
+#line 715 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2352,6 +2373,7 @@ yyreduce:
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
                 Ntype->typeofvariable=Id;
+                Ntype->generaltype=String;               
                 Ntype->id.declaration++;
                 Ntype->id.type=String; 
                 Ntype->id.name=(yyvsp[(2) - (3)].string); 
@@ -2371,7 +2393,7 @@ yyreduce:
     break;
 
   case 60:
-#line 719 "yacc.y"
+#line 741 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2395,7 +2417,7 @@ yyreduce:
     break;
 
   case 61:
-#line 741 "yacc.y"
+#line 763 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2405,6 +2427,7 @@ yyreduce:
                 Const* ptr;
                 ptr=(yyvsp[(5) - (6)].ForConst);
                 Ntype1->con=*ptr;
+                Ntype->generaltype=Char;
                 Ntype->id.value=ptr->others;
                 Ntype->id.scope=scopenumber;
                 Ntype->id.check=store;
@@ -2430,7 +2453,7 @@ yyreduce:
     break;
 
   case 62:
-#line 774 "yacc.y"
+#line 797 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2438,6 +2461,7 @@ yyreduce:
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
+                Ntype->generaltype=Char;
                 nodeType* check;
                 Const* ptr;
                 ptr=(yyvsp[(4) - (5)].ForConst);
@@ -2464,7 +2488,7 @@ yyreduce:
     break;
 
   case 63:
-#line 806 "yacc.y"
+#line 830 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2473,6 +2497,7 @@ yyreduce:
                 nodeType* check;
                 Ntype->constant=false;
                 Ntype->id.type=Char;
+                Ntype->generaltype=Char;
                 Ntype->id.check=load;
                 Ntype->typeofvariable=Id;
                 Ntype->id.declaration++; 
@@ -2490,19 +2515,20 @@ yyreduce:
     break;
 
   case 64:
-#line 829 "yacc.y"
+#line 854 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
+                Ntype->id.name=(yyvsp[(1) - (4)].string);
+                Ntype=get_info(tableptr,Ntype,yylineno);
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
                 Const* ptr;
                 ptr=(yyvsp[(3) - (4)].ForConst);
                 Ntype1->con=*ptr;
-                Ntype->id.name=(yyvsp[(1) - (4)].string);
-                Ntype=get_info(tableptr,Ntype,yylineno);
+                Ntype->generaltype=Char;
                 Ntype->id.check=store;
                 Ntype->id.value=ptr->others;
                 Ntype->id.othertype=Char; 
@@ -2516,32 +2542,32 @@ yyreduce:
     break;
 
   case 65:
-#line 853 "yacc.y"
+#line 880 "yacc.y"
     {printf("exp: ifstatment( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 66:
-#line 856 "yacc.y"
+#line 883 "yacc.y"
     {printf("exp: Whileloop( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 67:
-#line 859 "yacc.y"
+#line 886 "yacc.y"
     {printf("exp: switchcase( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 68:
-#line 861 "yacc.y"
+#line 888 "yacc.y"
     {printf("exp: repuntil( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 69:
-#line 864 "yacc.y"
+#line 891 "yacc.y"
     {printf("exp: Forloop( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 70:
-#line 868 "yacc.y"
+#line 895 "yacc.y"
     {
             
              printf("datatype: TYPE_INT( )\n");
@@ -2550,7 +2576,7 @@ yyreduce:
     break;
 
   case 71:
-#line 874 "yacc.y"
+#line 901 "yacc.y"
     {
             
             printf("datatype: TYPE_FLOAT( )\n");
@@ -2560,7 +2586,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2564 "y.tab.c"
+#line 2590 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2774,7 +2800,7 @@ yyreturn:
 }
 
 
-#line 882 "yacc.y"
+#line 909 "yacc.y"
 
 
 void yyerror(char *s){

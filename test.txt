@@ -1,3 +1,8 @@
+rakam x 5alsana
+rakam y = 5 5alsana
+x=y 5alsana
 7arf s 5alsana
 s='c' 5alsana
 7arf g = 'd' 5alsana
+s=g 5alsana
+s='k' 5alsana

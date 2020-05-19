@@ -1,5 +1,14 @@
-LOADc R0,s
-MOV R1,'c'
-STOREc s, R1 
-MOV R3,'d'
-STOREc g, R3 
+LOADi R0,x 
+MOV R1,5
+STOREi y, R1 
+LOADi R3,y 
+STOREi x, R3 
+LOADc R5,s
+MOV R6,'c'
+STOREc s, R6 
+MOV R8,'d'
+STOREc g, R8 
+LOADc R10,g
+STOREc s, R10 
+MOV R12,'k'
+STOREc s, R12 

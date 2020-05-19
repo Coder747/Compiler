@@ -313,7 +313,6 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 Ntype->id.name=$1;
                 Ntype=get_info(tableptr,Ntype,yylineno);
                 Ntype->generaltype=Ntype->id.type;
-                Ntype->id.check=loadops;
                 $$=Ntype;
 
                 printf("Arithmetic: IDENTIFIER( ) lineNumber(%d)\n",yylineno);
@@ -357,23 +356,37 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                  if(arthmetic_ptr->typeofvariable==Id)
                 {
                     if(arthmetic_ptr->id.type==Int)
-                        Ntype->id.intpls=arthmetic_ptr->id.intpls;
-                    else
+                    {  
+                         Ntype->id.intpls=arthmetic_ptr->id.intpls;
+                         arthmetic_ptr->id.check=loadops;
+                    }
+
+                    else if(arthmetic_ptr->id.type==Float)
+                    {   
                         Ntype->id.floatpls=arthmetic_ptr->id.floatpls;
+                        arthmetic_ptr->id.check=loadops;
+                    }
+                    else 
+                    {
+                        Ntype->id.value=arthmetic_ptr->id.value;
+                        arthmetic_ptr->id.check=load;
+                    }
                     
                 }
                 else if(arthmetic_ptr->typeofvariable==Con)
                 {
                     if(arthmetic_ptr->con.t==Int)
                         Ntype->id.intpls=arthmetic_ptr->con.intpls;
-                    else
+                    else if(arthmetic_ptr->con.t==Float)
                         Ntype->id.floatpls=arthmetic_ptr->con.floatpls;
+                    else
+                        Ntype->id.value=arthmetic_ptr->con.others;
                 }
                 else 
                 {
                     if(arthmetic_ptr->generaltype==Int)
                         Ntype->id.intpls=arthmetic_ptr->final_int;
-                    else
+                    else 
                         Ntype->id.floatpls=arthmetic_ptr->final_float;
                 }
 
@@ -382,9 +395,10 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->final_float=arthmetic_ptr->final_float;
                 
                 Ntype->id.check=store;
+                ops=0;
                 sendtotest(arthmetic_ptr,-1);
                 sendtotest(Ntype,-1);
-                ops=0;
+                
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
                 printf("exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
@@ -453,6 +467,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->final_int=arthmetic_ptr->final_int;
                 Ntype->final_float=arthmetic_ptr->final_float;
                 Ntype->id.check=store;
+                ops=0;
                 sendtotest(arthmetic_ptr,-1);
                 sendtotest(Ntype,-1);
 
@@ -485,7 +500,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                  Ntype->id.check=store;
                 Ntype->id.value= arthmetic_ptr->id.value;
                 Ntype->id.othertype=arthmetic_ptr->id.type;
-
+                ops=0;
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_INT( ) lineNumber(%d) \n",yylineno);
             }
@@ -527,6 +542,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->con=*ptr;
                 Ntype->id.name= $1;
                 Ntype=get_info(tableptr,Ntype,yylineno);
+                Ntype->generaltype=Bool;
                 Ntype->id.check=store;
                 Ntype->id.value=ptr->others;
                 Ntype->id.othertype=ptr->t;
@@ -548,6 +564,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Const* ptr;
                 ptr=$5;
                 Ntype1->con=*ptr;
+                Ntype->generaltype=Bool;
                 Ntype->id.value=ptr->others;
                 Ntype->id.check=store;
                 Ntype->id.type=Bool;
@@ -581,6 +598,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Const* ptr;
                 ptr=$4;
                 Ntype1->con=*ptr;
+                Ntype->generaltype=Bool;
                 Ntype->id.value=ptr->others;
                 Ntype->id.check=store;
                 Ntype->id.type=Bool;
@@ -607,6 +625,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
+                Ntype->generaltype=Bool;
                 Ntype->constant=false;
                 Ntype->typeofvariable=Id;
                 Ntype->id.declaration++;
@@ -640,6 +659,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.value=ptr->others;
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
+                Ntype->generaltype=String;
                 Ntype->id.type=String;
                 Ntype->id.othertype=ptr->t;
                 Ntype->constant=true;
@@ -668,6 +688,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->constant=false;
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
+                Ntype->generaltype=String;
                 Const* ptr;
                 ptr=$4;
                 Ntype1->con=*ptr;
@@ -699,6 +720,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
                 Ntype->typeofvariable=Id;
+                Ntype->generaltype=String;               
                 Ntype->id.declaration++;
                 Ntype->id.type=String; 
                 Ntype->id.name=$2; 
@@ -747,6 +769,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Const* ptr;
                 ptr=$5;
                 Ntype1->con=*ptr;
+                Ntype->generaltype=Char;
                 Ntype->id.value=ptr->others;
                 Ntype->id.scope=scopenumber;
                 Ntype->id.check=store;
@@ -778,6 +801,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
+                Ntype->generaltype=Char;
                 nodeType* check;
                 Const* ptr;
                 ptr=$4;
@@ -811,6 +835,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* check;
                 Ntype->constant=false;
                 Ntype->id.type=Char;
+                Ntype->generaltype=Char;
                 Ntype->id.check=load;
                 Ntype->typeofvariable=Id;
                 Ntype->id.declaration++; 
@@ -831,13 +856,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype=malloc(sizeof(nodeType));
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
+                Ntype->id.name=$1;
+                Ntype=get_info(tableptr,Ntype,yylineno);
                 Ntype->id.scope=scopenumber;
                 printf("scope = %d\n",Ntype->id.scope);
                 Const* ptr;
                 ptr=$3;
                 Ntype1->con=*ptr;
-                Ntype->id.name=$1;
-                Ntype=get_info(tableptr,Ntype,yylineno);
+                Ntype->generaltype=Char;
                 Ntype->id.check=store;
                 Ntype->id.value=ptr->others;
                 Ntype->id.othertype=Char; 
@@ -848,6 +874,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 sendtotest(Ntype,-1);
                 printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
+            
 
             | ifstatment
             {printf("exp: ifstatment( )lineNumber(%d)\n",yylineno);}
