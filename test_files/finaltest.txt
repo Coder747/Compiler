@@ -1,0 +1,83 @@
+sabet rakam rakam1 = 3+(5-3)*7+20 5alsana
+bolbol bolbol1 = false 5alsana
+bolbol bolbol2 = !bolbol1 5alsana
+3ayem 3ayem1 = 21.2324 5alsana
+
+
+men (rakam menCond1 = 0 5alsana menCond1 < 5 5alsana menCond1=menCond1+1) {
+	rakam insidemen1=0 5alsana
+	insidemen1 = insidemen1+1 5alsana
+}
+
+talama (rakam1 < 10) {
+	rakam1 = 4
+}
+
+
+
+
+shoflykeda (rakam1 == 4) {
+	rakam insideshoflykeda1 5alsana
+	insideshoflykeda1 = 6 5alsana
+} 
+walla {
+	rakam insidewalla1 5alsana
+	insidewalla1 = 2 5alsana
+}
+
+garabkeda (rakam1) {
+	law 1:  
+		rakam law1 5alsana
+		law1 = 1 5alsana
+		eksar 5alsana
+	lawmafesh:
+		3ayem lawmafesh3ayem 5alsana
+		lawmafesh3ayem = 1.1 5alsana
+		eksar 5alsana
+}
+
+
+shoflykeda (rakam1==5){
+	shoflykeda (true) {
+		rakam insideshoflykeda2 5alsana
+	}
+}
+walla {
+	rakam insidewalla2 5alsana
+}
+
+
+rakam errHand1 5alsana
+rakam errHand2 = errHand1 + 2 5alsana     // Semantic Error
+3ayem errHand3 = True 5alsana // Semantic Error
+1aqs
+1qww 5alsana			// Lexical Error 
+rakam 2 5alsana			// Syntax Error 
+rakam 2abs 5alsana		// Lexical Error 
+bolbol law 5alsana		// Syntax Error 
+3ayem lawmafesh 5alsana 	// Syntax Error
+
+shoflykeda (shoflykedaCond2 == 5) {
+	rakam 3ayem	
+}				// Syntax Error
+rakam x 5alsana
+
+
+men (rakam z = 0 5alsana z < 5 5alsana z=z+1) {
+	bolbol insidemenLoop 5alsana
+	z = 5 5alsana
+	garabkeda (z) {
+	law 1:  
+		rakam garabkedalaw 5alsana
+		eksar 5alsana
+	lawmafesh:
+		rakam garabkedalawmafesh 5alsana
+		eksar 5alsana
+	}
+	talama(z<1) {
+		3ayem insidetalama 5alsana
+		shoflykeda(z==9){
+			rakam insideshoflykeda 5alsana
+		}
+	}
+}

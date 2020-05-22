@@ -25,6 +25,7 @@ void yyerror(char *s);
 
 %}
 
+
 %union
 {
     int num;
@@ -72,45 +73,45 @@ void yyerror(char *s);
 
 program : code {printf("\nProgram End \n\n");};
 
-code : code line {printf("code: code line --> Line Number (%d) \n", yylineno);}
-     |           {printf("code: Epsilon   --> Line Number (%d) \n", yylineno); $$=NULL;}
+code : code line {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"code: code line --> Line Number (%d) \n", yylineno);}
+     |           {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"code: Epsilon   --> Line Number (%d) \n", yylineno); $$=NULL;}
      ;
 
 line        : exp
-            {printf("line: exp( )\n");}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"line: exp( )\n");}
             | error SEMICOLON   
             ;
 
 switchcase  : SWITCH BRACKET_OPEN Condition BRACKET_CLOSE newscope_open switchstmt newscope_close
-            {printf("switchcase: SWITCH( ) Condition( ) newscope_open switchstmt( ) newscope_close lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"switchcase: SWITCH( ) Condition( ) newscope_open switchstmt( ) newscope_close lineNumber(%d)\n",yylineno);}
             ;
 
 default     : DEFAULT COLON statments
-            {printf("default: DEFAULT( ) COLON statments( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"default: DEFAULT( ) COLON statments( ) lineNumber(%d)\n",yylineno);}
             | DEFAULT COLON statments break
-            {printf("default: DEFAULT( ) COLON statments( ) break( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"default: DEFAULT( ) COLON statments( ) break( ) lineNumber(%d)\n",yylineno);}
             ;
 
 switchstmt  : case 
-            {printf("switchstmt: case( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"switchstmt: case( ) lineNumber(%d)\n",yylineno);}
             | switchstmt case
-            {printf("switchstmt: switchstmt( ) case( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"switchstmt: switchstmt( ) case( ) lineNumber(%d)\n",yylineno);}
             ;
 
 case        : CASE Condition COLON statments 
-            {printf("case: CASE( ) Condition( ) COLON statments( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"case: CASE( ) Condition( ) COLON statments( ) lineNumber(%d)\n",yylineno);}
             | CASE  Condition COLON statments break
-            {printf("case: CASE( ) Condition( ) COLON statments( ) break( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"case: CASE( ) Condition( ) COLON statments( ) break( ) lineNumber(%d)\n",yylineno);}
             | default
-            {printf("case: default( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"case: default( ) lineNumber(%d)\n",yylineno);}
             ;
 
 break       : BREAK SEMICOLON
-            {printf("break: BREAK( ) SEMICOLON( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"break: BREAK( ) SEMICOLON( ) lineNumber(%d)\n",yylineno);}
             ;
 
 repuntil    : REPEAT newscope_open statments UNTIL BRACKET_OPEN Condition BRACKET_CLOSE newscope_close
-            {printf("repuntil: REPEAT( ) newscope_open statments( ) UNTIL( ) Condition( ) newscope_close lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"repuntil: REPEAT( ) newscope_open statments( ) UNTIL( ) Condition( ) newscope_close lineNumber(%d)\n",yylineno);}
             ;
 
 
@@ -118,14 +119,14 @@ repuntil    : REPEAT newscope_open statments UNTIL BRACKET_OPEN Condition BRACKE
 Whileloop   : WHILE BRACKET_OPEN Condition BRACKET_CLOSE newscope_open statments newscope_close
             {
                 
-                printf("Whileloop: WHILE( ) Condition( ) newscope_open statments( ) newscope_close lineNumber(%d)\n" ,yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Whileloop: WHILE( ) Condition( ) newscope_open statments( ) newscope_close lineNumber(%d)\n" ,yylineno);
             }
             ;
 
 Forloop     : FOR BRACKET_OPEN IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE newscope_open statments newscope_close
-            {printf("Forloop: FOR( ) BRACKET_OPEN IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Forloop: FOR( ) BRACKET_OPEN IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
             |FOR BRACKET_OPEN datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE newscope_open statments newscope_close
-            {printf("Forloop: FOR( ) BRACKET_OPEN datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Forloop: FOR( ) BRACKET_OPEN datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
             ;
 
 newscope_open:  CURLY_OPEN
@@ -144,46 +145,46 @@ newscope_close: CURLY_CLOSE
 ifstatment  : IF BRACKET_OPEN Condition BRACKET_CLOSE newscope_open statments newscope_close ELSE newscope_open statments newscope_close
             {
 
-                printf("ifstatment: IF ( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE newscope_open statment( ) newscope_close ELSE( ) newscope_open statment( ) newscope_close lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"ifstatment: IF ( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE newscope_open statment( ) newscope_close ELSE( ) newscope_open statment( ) newscope_close lineNumber(%d)\n",yylineno);
             }
 
             | IF BRACKET_OPEN Condition BRACKET_CLOSE newscope_open statments  newscope_close
-            {printf("ifstatment: IF( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE newscope_open statment( ) newscope_close lineNumber(%d) \n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"ifstatment: IF( ) BRACKET_OPEN Condition( ) BRACKET_CLOSE newscope_open statment( ) newscope_close lineNumber(%d) \n",yylineno);}
             ;
 
 
 statment    :exp
-            {printf("statment: exp( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"statment: exp( ) lineNumber(%d)\n",yylineno);}
             ;
 
 statments    : statment
-             {printf("statments: statment( ) lineNumber(%d)\n",yylineno);}
+             {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"statments: statment( ) lineNumber(%d)\n",yylineno);}
              |statments statment
-             {printf("statments: statments( ) statment( )lineNumber(%d)\n",yylineno);}
+             {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"statments: statments( ) statment( )lineNumber(%d)\n",yylineno);}
              ;
 
 Condition   : Condition L Condition
-            {printf("Condition: Condition( ) L( ) Condition( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Condition( ) L( ) Condition( ) lineNumber(%d)\n",yylineno);}
             | Condition G Condition
-            {printf("Condition: Condition( ) G( ) Condition( )lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Condition( ) G( ) Condition( )lineNumber(%d)\n",yylineno);}
             | Condition LE Condition
-            {printf("Condition: Condition( ) LE( ) Condition( )lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Condition( ) LE( ) Condition( )lineNumber(%d)\n",yylineno);}
             | Condition GE Condition
-            {printf("Condition: Condition( ) GE( ) Condition( )lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Condition( ) GE( ) Condition( )lineNumber(%d)\n",yylineno);}
             | Condition EQ Condition
-            {printf("Condition: Condition( ) EQ( ) Condition( )lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Condition( ) EQ( ) Condition( )lineNumber(%d)\n",yylineno);}
             | Condition NE Condition
-            {printf("Condition: Condition( ) NE( ) Condition( )lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Condition( ) NE( ) Condition( )lineNumber(%d)\n",yylineno);}
             | Condition OR Condition
-            {printf("Condition: Condition( ) OR( ) Condition( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Condition( ) OR( ) Condition( ) lineNumber(%d)\n",yylineno);}
             | Condition AND Condition
-            {printf("Condition: Condition( ) AND( ) Condition( )lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Condition( ) AND( ) Condition( )lineNumber(%d)\n",yylineno);}
             |Arithmetic
-            {printf("Condition: Arithmetic lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Arithmetic lineNumber(%d)\n",yylineno);}
             | VALUE_STRING
-            {printf("Condition: VALUE_STRING( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: VALUE_STRING( ) lineNumber(%d)\n",yylineno);}
             | Boolexp
-            {printf("Condition: Boolexp lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Condition: Boolexp lineNumber(%d)\n",yylineno);}
             ;
 
 
@@ -208,7 +209,7 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 
                // sendtotest(Ntype,1);
                 $$=Ntype;
-             printf("Arithmetic: Arithmetic( ) OPERATOR_MULTIPLY( ) Arithmetic( )lineNumber(%d)\n",yylineno);
+             FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Arithmetic: Arithmetic( ) OPERATOR_MULTIPLY( ) Arithmetic( )lineNumber(%d)\n",yylineno);
             }
             | Arithmetic OPERATOR_DIVIDE Arithmetic
             {
@@ -229,7 +230,7 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 //sendtotest(Ntype,2);
                 $$=Ntype;
 
-                printf("Arithmetic: Arithmetic( ) OPERATOR_DIVIDE( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Arithmetic: Arithmetic( ) OPERATOR_DIVIDE( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
             | Arithmetic OPERATOR_PLUS Arithmetic
             {
                 nodeType* Ntype;
@@ -249,7 +250,7 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 $$=Ntype;
                 
             
-                printf("Arithmetic: Arithmetic( ) OPERATOR_PLUS( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Arithmetic: Arithmetic( ) OPERATOR_PLUS( ) Arithmetic( )lineNumber(%d)\n",yylineno);}
             | Arithmetic OPERATOR_SUBTRACT Arithmetic
             {
                 nodeType* Ntype;
@@ -268,9 +269,9 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 //sendtotest(Ntype,4);
                 $$=Ntype;
                 
-                printf("Arithmetic: Arithmetic( ) OPERATOR_SUBTRACT( ) Arithmetic( ) lineNumber(%d)\n",yylineno);}
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Arithmetic: Arithmetic( ) OPERATOR_SUBTRACT( ) Arithmetic( ) lineNumber(%d)\n",yylineno);}
             | BRACKET_OPEN Arithmetic BRACKET_CLOSE
-            {printf("Arithmetic: BRACKET_OPEN Arithmetic( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Arithmetic: BRACKET_OPEN Arithmetic( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);}
 
             | VALUE_INT 
             {
@@ -284,7 +285,7 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 Ntype->generaltype=Int;
                 $$=Ntype;
                 
-                printf("Arithmetic: VALUE_INT( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Arithmetic: VALUE_INT( ) lineNumber(%d)\n",yylineno);
 
             }
 
@@ -300,7 +301,7 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 Ntype->generaltype=Float;
                 $$=Ntype;
                 
-                printf("Arithmetic: VALUE_FLOAT( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Arithmetic: VALUE_FLOAT( ) lineNumber(%d)\n",yylineno);
             }
 
             | IDENTIFIER 
@@ -316,13 +317,13 @@ Arithmetic  :Arithmetic OPERATOR_MULTIPLY Arithmetic
                 Ntype->id.check=loadops;
                 $$=Ntype;
 
-                printf("Arithmetic: IDENTIFIER( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Arithmetic: IDENTIFIER( ) lineNumber(%d)\n",yylineno);
             }
             ;
 
 
 Boolexp     :BRACKET_OPEN VALUE_BOOL BRACKET_CLOSE 
-            {printf("Boolexp: BRACKET_OPEN VALUE_BOOL( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);$$=$2;}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Boolexp: BRACKET_OPEN VALUE_BOOL( ) BRACKET_CLOSE lineNumber(%d)\n",yylineno);$$=$2;}
             | OPERATOR_NOT VALUE_BOOL
             {
                 Const* ptr;
@@ -333,12 +334,12 @@ Boolexp     :BRACKET_OPEN VALUE_BOOL BRACKET_CLOSE
                 else 
                     ptr->others="true";
                 $$=ptr;
-                printf("Boolexp: OPERATOR_NOT( ) VALUE_BOOL( )lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Boolexp: OPERATOR_NOT( ) VALUE_BOOL( )lineNumber(%d)\n",yylineno);
             }
             |VALUE_BOOL
             {
                 $$=$1;
-                printf("Boolexp:VALUE_BOOL( )lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Boolexp:VALUE_BOOL( )lineNumber(%d)\n",yylineno);
             }
             
             ;
@@ -387,7 +388,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 ops=0;
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
-                printf("exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
             }
             | datatype IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
             {
@@ -447,7 +448,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
 
                 if(Ntype->id.type!=Ntype->id.othertype)
                 {
-                    printf("error type miss match\n");
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"error type miss match\n");
                     panic(yylineno);
                 }
                 Ntype->final_int=arthmetic_ptr->final_int;
@@ -458,7 +459,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
 
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
-                printf("exp : datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
             }
 
 
@@ -487,7 +488,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.othertype=arthmetic_ptr->id.type;
 
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
-                printf("exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_INT( ) lineNumber(%d) \n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_INT( ) lineNumber(%d) \n",yylineno);
             }
 
             
@@ -513,7 +514,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.check=load;
                 sendtotest(Ntype,-1);
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
-                printf("exp: datatype( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: datatype( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
 
             }
             | IDENTIFIER OPERATOR_ASSIGNMENT Boolexp SEMICOLON
@@ -533,7 +534,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) Boolexp( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) Boolexp( ) lineNumber(%d)\n",yylineno);
             }
 
             | CONST TYPE_BOOL IDENTIFIER OPERATOR_ASSIGNMENT Boolexp SEMICOLON
@@ -559,13 +560,13 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                printf("exp: CONST( ) TYPE_BOOL( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_BOOL( ) lineNumber(%d) \n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) TYPE_BOOL( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_BOOL( ) lineNumber(%d) \n",yylineno);
             }
 
             | TYPE_BOOL IDENTIFIER OPERATOR_ASSIGNMENT Boolexp SEMICOLON
@@ -577,7 +578,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Const* ptr;
                 ptr=$4;
                 Ntype1->con=*ptr;
@@ -592,13 +593,13 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                printf("exp : datatype( ) TYPE_BOOL( ) OPERATOR_ASSIGNMENT VALUE_BOOL( ) lineNumber(%d)\n",yylineno);
+                fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : datatype( ) TYPE_BOOL( ) OPERATOR_ASSIGNMENT VALUE_BOOL( ) lineNumber(%d)\n",yylineno);
             }
             | TYPE_BOOL IDENTIFIER SEMICOLON
             {
@@ -606,7 +607,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* check;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Ntype->constant=false;
                 Ntype->typeofvariable=Id;
                 Ntype->id.declaration++;
@@ -616,12 +617,12 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype,-1);
-                printf("exp : datatype( ) TYPE_BOOL( ) lineNumber(%d)\n",yylineno);
+                fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : datatype( ) TYPE_BOOL( ) lineNumber(%d)\n",yylineno);
             }
 
             
@@ -639,7 +640,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.check=store;
                 Ntype->id.value=ptr->others;
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE *fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Ntype->id.type=String;
                 Ntype->id.othertype=ptr->t;
                 Ntype->constant=true;
@@ -649,13 +650,13 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                printf("exp: CONST( ) TYPE_STRING( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d) \n",yylineno);
+                fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) TYPE_STRING( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d) \n",yylineno);
             }
 
             | TYPE_STRING IDENTIFIER OPERATOR_ASSIGNMENT VALUE_STRING SEMICOLON
@@ -667,7 +668,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->constant=false;
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE *fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Const* ptr;
                 ptr=$4;
                 Ntype1->con=*ptr;
@@ -681,13 +682,13 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                printf("exp: TYPE_STRING( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
+                fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_STRING( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
             } 
 
             | TYPE_STRING IDENTIFIER SEMICOLON
@@ -697,7 +698,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* check;
                 Ntype->constant=false;
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE *fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Ntype->typeofvariable=Id;
                 Ntype->id.declaration++;
                 Ntype->id.type=String; 
@@ -705,7 +706,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 Ntype->id.check= load;
@@ -713,7 +714,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
-                printf("exp: TYPE_STRING( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
+                fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_STRING( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
             } 
             | IDENTIFIER OPERATOR_ASSIGNMENT VALUE_STRING SEMICOLON
             {
@@ -734,7 +735,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
             }
 
             | CONST TYPE_CHAR IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
@@ -767,7 +768,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                printf("exp: CONST( ) TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d) \n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d) \n",yylineno);
             }
              
             | TYPE_CHAR IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
@@ -799,7 +800,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                printf("exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             } 
             
             | TYPE_CHAR IDENTIFIER SEMICOLON
@@ -823,7 +824,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype,-1);
-                printf("exp: TYPE_CHAR( ) IDENTIFIER( )lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( )lineNumber(%d)\n",yylineno);
             } 
             | IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
             {
@@ -846,34 +847,34 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                printf("exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
+                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
 
             | ifstatment
-            {printf("exp: ifstatment( )lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: ifstatment( )lineNumber(%d)\n",yylineno);}
 
             | Whileloop
-            {printf("exp: Whileloop( )lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: Whileloop( )lineNumber(%d)\n",yylineno);}
 
             | switchcase
-            {printf("exp: switchcase( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: switchcase( ) lineNumber(%d)\n",yylineno);}
             | repuntil
-            {printf("exp: repuntil( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: repuntil( ) lineNumber(%d)\n",yylineno);}
 
             |Forloop
-            {printf("exp: Forloop( ) lineNumber(%d)\n",yylineno);}
+            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: Forloop( ) lineNumber(%d)\n",yylineno);}
             ;
         
 datatype :TYPE_INT
         {
             
-             printf("datatype: TYPE_INT( )\n");
+             FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"datatype: TYPE_INT( )\n");
              $$=Int;
         }
         | TYPE_FLOAT
         {
             
-            printf("datatype: TYPE_FLOAT( )\n");
+            FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"datatype: TYPE_FLOAT( )\n");
             $$=Float;
         }
          ;
@@ -888,19 +889,17 @@ void yyerror(char *s){
 
 int main (void)
 {
-    
-     symboltable=newArrayListSized(sizeof(nodeType),100);
-     tableptr=symboltable;
-     scopenumber=0;
+    symboltable=newArrayListSized(sizeof(nodeType),100);
+    tableptr=symboltable;
+    scopenumber=0;
 
-    yyin = fopen("test.txt","r+");
+    yyin = fopen("test_files/test.txt","r+");
     if(yyin == NULL)
         printf("Error NULL \n");
     else{
         printf("Parsing... \n\n");
         yyparse();
     }
-    fclose(yyin);
     return 0;
       
 }

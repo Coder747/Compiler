@@ -5,7 +5,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include "structs.h"
-#include "arraylist.h"
+#include "z_arraylist/arraylist.h"
 int count=0;
 void yyerror(char *);
 #include "y.tab.h"
@@ -70,7 +70,9 @@ le7ad				{yylval.string = strdup(yytext); return UNTIL;}
 
 \n 							printf("\n");
 
-.							printf("Eh el habd ely enta katbo fe line number: %d. bos tany 3ala: %s\n",yylineno,strdup(yytext));
+.							{FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
+							fprintf(fpp,"Eh el habd ely enta katbo fe line number: %d. bos tany 3ala: %s\n",yylineno,strdup(yytext));
+							fclose(fpp);}
 
 %%
 //

@@ -3,15 +3,18 @@
 #include <stdarg.h>
 #include <string.h>
 #include "structs.h"
-#include "arraylist.h"
+#include "z_arraylist/arraylist.h"
 
 ArrayList* symboltable;
 ArrayList* tableptr;
 
  void panic(int line)
  {
-    (void)fprintf(stderr,"\nPanic in line %d \n",line);
-    (void)perror("Semantic error");
+    
+    // (void)fprintf(stderr,"\nPanic in line %d \n",line);
+    // (void)perror("Semantic error");
+    FILE *fp = fopen("Outputs/Errors-Warnings.txt","a");
+    fprintf(fp,"Semantic Error at line number %d\n",line);
     abort();
  } 
 
@@ -21,7 +24,7 @@ int count1=0; int count2=0;int ops=0;
  void sendtotest(nodeType* nptr,int operand)
 {
     FILE *fp;
-    fp =fopen("Quadruples.txt","a"); 
+    fp =fopen("Outputs/Quadruples.txt","a"); 
     if(nptr==NULL)
         return;
         

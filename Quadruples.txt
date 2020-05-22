@@ -1,5 +1,0 @@
-LOADc R0,s
-MOV R1,'c'
-STOREc s, R1 
-MOV R3,'d'
-STOREc g, R3 
