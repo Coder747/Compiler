@@ -359,7 +359,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* arthmetic_ptr;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 arthmetic_ptr=$3;
                 Ntype->id.name=$1;
                 Ntype=get_info(tableptr,Ntype,yylineno);
@@ -397,7 +397,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 ops=0;
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
             }
             | datatype IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
             {
@@ -406,7 +406,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType * check;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 arthmetic_ptr=$4;
                 Ntype->constant=false;
                 Ntype->id.name=$2; 
@@ -414,7 +414,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 Ntype->typeofvariable=Id;
@@ -468,7 +469,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
 
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) lineNumber(%d)\n",yylineno);
             }
 
 
@@ -481,14 +482,15 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.type=$2; 
                 Ntype->id.name=$3;
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d \n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 arthmetic_ptr=$5;
                 Ntype->constant=true;
                 Ntype->id.declaration++;
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 Ntype->typeofvariable=Id;
@@ -497,7 +499,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.othertype=arthmetic_ptr->id.type;
 
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_INT( ) lineNumber(%d) \n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_INT( ) lineNumber(%d) \n",yylineno);
             }
 
             
@@ -508,22 +510,23 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* check;
                 Ntype->constant=false;
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Ntype->id.declaration++;
                 Ntype->id.name=$2;
                 Ntype->typeofvariable=Id;
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 } 
                 Ntype->id.type=$1;
-                printf("type %d\n",Ntype->id.type);
+                fprintf(fpp,"type %d\n",Ntype->id.type);
                 Ntype->id.check=load;
                 sendtotest(Ntype,-1);
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: datatype( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: datatype( ) IDENTIFIER( ) lineNumber(%d)\n",yylineno);
 
             }
             | IDENTIFIER OPERATOR_ASSIGNMENT Boolexp SEMICOLON
@@ -554,7 +557,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype1=malloc(sizeof(nodeType));
                 nodeType* check;
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Const* ptr;
                 ptr=$5;
                 Ntype1->con=*ptr;
@@ -569,13 +572,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) TYPE_BOOL( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_BOOL( ) lineNumber(%d) \n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) TYPE_BOOL( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_BOOL( ) lineNumber(%d) \n",yylineno);
             }
 
             | TYPE_BOOL IDENTIFIER OPERATOR_ASSIGNMENT Boolexp SEMICOLON
@@ -587,7 +591,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
+                FILE *fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Const* ptr;
                 ptr=$4;
                 Ntype1->con=*ptr;
@@ -602,13 +606,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : datatype( ) TYPE_BOOL( ) OPERATOR_ASSIGNMENT VALUE_BOOL( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : datatype( ) TYPE_BOOL( ) OPERATOR_ASSIGNMENT VALUE_BOOL( ) lineNumber(%d)\n",yylineno);
             }
             | TYPE_BOOL IDENTIFIER SEMICOLON
             {
@@ -626,12 +631,13 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype,-1);
-                fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : datatype( ) TYPE_BOOL( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp : datatype( ) TYPE_BOOL( ) lineNumber(%d)\n",yylineno);
             }
 
             | TYPE_BOOL IDENTIFIER OPERATOR_ASSIGNMENT IDENTIFIER SEMICOLON
@@ -641,7 +647,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 nodeType* check;
                 Ntype1->id.name=$4;
                 Ntype1=get_info(tableptr,Ntype1,yylineno);
@@ -656,13 +662,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE * fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
 
              | TYPE_BOOL IDENTIFIER OPERATOR_ASSIGNMENT OPERATOR_NOT IDENTIFIER SEMICOLON
@@ -672,7 +679,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 nodeType* check;
                 Ntype1->id.name=$5;
                 Ntype1=get_info(tableptr,Ntype1,yylineno);
@@ -691,13 +698,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
 
 
@@ -725,7 +733,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -757,7 +766,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -781,7 +791,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 Ntype->id.check= load;
@@ -803,14 +814,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.name=$1; 
                 Ntype=get_info(tableptr,Ntype,yylineno);
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Ntype->id.othertype= String;
                 Ntype->id.value=ptr->others;
                 Ntype->id.check=store;
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_STRING( ) lineNumber(%d)\n",yylineno);
             }
             | TYPE_STRING IDENTIFIER OPERATOR_ASSIGNMENT IDENTIFIER SEMICOLON
             {
@@ -819,7 +830,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 nodeType* check;
                 Ntype1->id.name=$4;
                 Ntype1=get_info(tableptr,Ntype1,yylineno);
@@ -834,13 +845,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
 
             | CONST TYPE_CHAR IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
@@ -856,7 +868,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 Ntype->id.value=ptr->others;
                 Ntype->id.scope=scopenumber;
                 Ntype->id.check=store;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Ntype->id.othertype=ptr->t;
                 Ntype->id.type=Char;
                 Ntype->constant=true;
@@ -866,14 +878,15 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
 
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d) \n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: CONST( ) TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d) \n",yylineno);
             }
              
             | TYPE_CHAR IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
@@ -883,7 +896,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 nodeType* check;
                 Const* ptr;
                 ptr=$4;
@@ -899,13 +912,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             } 
             | TYPE_CHAR IDENTIFIER OPERATOR_ASSIGNMENT IDENTIFIER SEMICOLON
             {
@@ -914,7 +928,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 nodeType* check;
                 Ntype1->id.name=$4;
                 Ntype1=get_info(tableptr,Ntype1,yylineno);
@@ -929,13 +943,14 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
 
 
@@ -944,7 +959,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 nodeType* check;
                 Ntype->constant=false;
                 Ntype->id.type=Char;
@@ -955,12 +970,13 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    printf("redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( )lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: TYPE_CHAR( ) IDENTIFIER( )lineNumber(%d)\n",yylineno);
             } 
             | IDENTIFIER OPERATOR_ASSIGNMENT VALUE_CHAR SEMICOLON
             {
@@ -969,7 +985,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                printf("scope = %d\n",Ntype->id.scope);
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Const* ptr;
                 ptr=$3;
                 Ntype1->con=*ptr;
@@ -983,7 +999,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
                 sendtotest(Ntype1,-1);
                 sendtotest(Ntype,-1);
-                FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
+                fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: IDENTIFIER( ) OPERATOR_ASSIGNMENT( ) VALUE_CHAR( ) lineNumber(%d)\n",yylineno);
             }
 
             | ifstatment
@@ -1020,7 +1036,9 @@ datatype :TYPE_INT
 %%
 
 void yyerror(char *s){
-    printf("Error: %s\n",s);
+    FILE * fpp = fopen("Outputs/Errors-Warnings.txt","a");
+    fprintf(fpp,"Error: %s at line number %d\n",s,yylineno);
+    fclose(fpp);
 }
 
 

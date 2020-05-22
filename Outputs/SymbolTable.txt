@@ -1,0 +1,91 @@
+variable (insideshoflykeda) added to the symboltable with value integer(0) 
+ scope = 4
+type 1
+found z! getting variable z 
+variable (insidetalama) added to the symboltable with value Float(0.000000) 
+ scope = 3
+type 0
+found z! getting variable z 
+variable (garabkedalawmafesh) added to the symboltable with value integer(0) 
+ scope = 3
+type 1
+variable (garabkedalaw) added to the symboltable with value integer(0) 
+ scope = 3
+type 1
+found z! getting variable z 
+found z! adding to the symbol table failed
+variable (z) added to the symboltable with value integer(5) 
+ found z! getting variable z 
+scope = 2
+variable (insidemenLoop) added to the symboltable with value ((null)) 
+ scope = 2
+found z! getting variable z 
+found z! getting variable z 
+variable (z) added to the symboltable with value integer(0) 
+ scope = 1
+type 1
+variable (errHand2) added to the symboltable with value integer(2) 
+ scope = 1
+found errHand1! getting variable errHand1 
+variable (errHand1) added to the symboltable with value integer(0) 
+ scope = 1
+type 1
+variable (insidewalla2) added to the symboltable with value integer(0) 
+ scope = 2
+type 1
+variable (insideshoflykeda2) added to the symboltable with value integer(0) 
+ scope = 3
+type 1
+found rakam1! getting variable rakam1 
+found lawmafesh3ayem! warning varaible got overwritten
+variable (lawmafesh3ayem) added to the symboltable with value Float(1.100000) 
+ found lawmafesh3ayem! getting variable lawmafesh3ayem 
+scope = 2
+variable (lawmafesh3ayem) added to the symboltable with value Float(0.000000) 
+ scope = 2
+type 0
+found law1! warning varaible got overwritten
+variable (law1) added to the symboltable with value integer(1) 
+ found law1! getting variable law1 
+scope = 2
+variable (law1) added to the symboltable with value integer(0) 
+ scope = 2
+type 1
+found rakam1! getting variable rakam1 
+found insidewalla1! warning varaible got overwritten
+variable (insidewalla1) added to the symboltable with value integer(2) 
+ found insidewalla1! getting variable insidewalla1 
+scope = 2
+variable (insidewalla1) added to the symboltable with value integer(0) 
+ scope = 2
+type 1
+found x! warning varaible got overwritten
+variable (x) added to the symboltable with value integer(5) 
+ found x! getting variable x 
+scope = 2
+variable (x) added to the symboltable with value integer(0) 
+ scope = 2
+type 1
+found rakam1! getting variable rakam1 
+found rakam1! getting variable rakam1 
+found insidemen1! warning varaible got overwritten
+variable (insidemen1) added to the symboltable with value integer(1) 
+ found insidemen1! getting variable insidemen1 
+scope = 1
+found insidemen1! getting variable insidemen1 
+variable (insidemen1) added to the symboltable with value integer(0) 
+ scope = 1
+found menCond1! getting variable menCond1 
+found menCond1! getting variable menCond1 
+variable (menCond1) added to the symboltable with value integer(0) 
+ scope = 0
+type 1
+variable (float1) added to the symboltable with value Float(21.230000) 
+ scope = 0
+variable (bool2) added to the symboltable with value (true) 
+ found bool1! getting variable bool1 
+scope = 0
+variable (bool1) added to the symboltable with value (false) 
+ scope = 0
+variable (rakam1) added to the symboltable with value integer(0) 
+ scope = 0

@@ -117,7 +117,7 @@ int count1=0; int count2=0;int ops=0;
             
             
              operand= nptr->opr.oper;
-             fprintf(fp,"oprand = %d\n",operand);
+             //fprintf(fp,"oprand = %d\n",operand);
             //if(!nptr->opr.op[0]->taken)
                 sendtotest(nptr->opr.op[0],operand);
                 
@@ -170,6 +170,7 @@ float excute_float(float x, float y,int operand)
 
 void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operand)
 {
+    FILE * fpp = fopen("Outputs/SymbolTable.txt","a");
    
     if(nptr==NULL)
         return ;
@@ -202,7 +203,7 @@ void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operan
             }  
             else if(nptr->id.type==Float)
             {
-                printf("id %f \n",nptr->id.floatpls);
+                fprintf(fpp,"id %f \n",nptr->id.floatpls);
                 //*final_float=excute_float(nptr->id.floatpls,*final_float,operand);
             }
             break;
@@ -226,6 +227,7 @@ void get_final_value(nodeType* nptr,int* final_int,float* final_float,int operan
 
 nodeType* search_symboltable(ArrayList*st,nodeType *Nptr,int line)
 {
+    FILE * fpp = fopen("Outputs/SymbolTable.txt","a");
     nodeType* nextdata=NULL;
     for(int i=0;i<st->length;i++)
         {
@@ -236,7 +238,7 @@ nodeType* search_symboltable(ArrayList*st,nodeType *Nptr,int line)
             }
             if(strcmp(Nptr->id.name,nextdata->id.name)==0) // if there exists a variable with the name needed
             { 
-                printf("found %s! ", Nptr->id.name);
+                fprintf(fpp,"found %s! ", Nptr->id.name);
                     nextdata->index=i;
                     return nextdata;// return the index
                 
@@ -254,18 +256,19 @@ nodeType* search_symboltable(ArrayList*st,nodeType *Nptr,int line)
 
 nodeType* get_info(ArrayList*st,nodeType* Nptr,int line)
 {
+    FILE * fpp = fopen("Outputs/SymbolTable.txt","a");
     int index;
     nodeType* nextdata;
     //nextdata=malloc(sizeof(nodeType));
     nextdata=search_symboltable(st,Nptr,line);
     if(nextdata!=NULL)
     {
-        printf(" getting variable %s \n",Nptr->id.name);
+        fprintf(fpp,"getting variable %s \n",Nptr->id.name);
         return nextdata;
     }
     else 
     {
-        printf("variable %s wasn't found in the symbol table rip\n",Nptr->id.name);
+        fprintf(fpp,"variable %s wasn't found in the symbol table rip\n",Nptr->id.name);
         panic(line);
     }
     return NULL;
@@ -274,6 +277,7 @@ nodeType* get_info(ArrayList*st,nodeType* Nptr,int line)
 
 nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
 {
+    FILE * fpp = fopen("Outputs/SymbolTable.txt","a");
     nodeType*nextdata;
     nextdata=search_symboltable(st,Nptr,line);
 
@@ -282,7 +286,7 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
     {
         if(Nptr->id.declaration==0)
         { 
-            printf("Undeclared variable\n");
+            fprintf(fpp,"Undeclared variable\n");
             panic(line);
         }
         
@@ -299,36 +303,36 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
     
          if(nextdata->id.type!=Nptr->id.othertype)
         {
-            printf("different types ?\n");
+            fprintf(fpp,"different types ?\n");
             panic(line);
         }
         if(Nptr->constant)
         {
-            printf("trying to overwrite a constant variable error\n");
+            fprintf(fpp,"trying to overwrite a constant variable error\n");
             panic(line);
         }
         else if( st->set(st,index,Nptr) == ALSUCCESS)
         { 
-            printf("warning varaible got overwritten\n"); 
+            fprintf(fpp,"warning varaible got overwritten\n"); 
         }
         else 
-            printf("adding to the symbol table failed\n");
+            fprintf(fpp,"adding to the symbol table failed\n");
     }
     
 
     if(Nptr->id.type==Int)
-        printf("variable (%s) added to the symboltable with value integer(%d) \n ",Nptr->id.name,Nptr->final_int);
+        fprintf(fpp,"variable (%s) added to the symboltable with value integer(%d) \n ",Nptr->id.name,Nptr->final_int);
     else if (Nptr->id.type==Float)
-        printf("variable (%s) added to the symboltable with value Float(%f) \n ",Nptr->id.name,Nptr->final_float);
+        fprintf(fpp,"variable (%s) added to the symboltable with value Float(%f) \n ",Nptr->id.name,Nptr->final_float);
     else 
-        printf("variable (%s) added to the symboltable with value (%s) \n ",Nptr->id.name,Nptr->id.value);
+        fprintf(fpp,"variable (%s) added to the symboltable with value (%s) \n ",Nptr->id.name,Nptr->id.value);
 
 
         return  Nptr;
 }
 
 nodeType* arithmetic_opr(nodeType *Ntype,nodeType *Ntype1,nodeType *Ntype2,int yylineno,int operation){
-
+                FILE * fpp = fopen("Outputs/SymbolTable.txt","a");
                 Ntype->typeofvariable= Opr;
                 Ntype->opr.oper=operation; // OPERATOR
                 Ntype->opr.nops=2; // number of operations
@@ -340,7 +344,7 @@ nodeType* arithmetic_opr(nodeType *Ntype,nodeType *Ntype1,nodeType *Ntype2,int y
                 
                 if(Ntype->generaltype!=Ntype->generaltype2)
                 {
-                    printf("type error \n");
+                    fprintf(fpp,"Type error \n");
                     panic(yylineno);
                 }
 

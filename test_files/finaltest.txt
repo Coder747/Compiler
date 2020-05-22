@@ -10,7 +10,7 @@ men (menCond1 = 0 5alsana menCond1 < 5 5alsana menCond1=menCond1+1) {
 }
 
 talama (rakam1 < 10) {
-
+	rakam rakam1 = 4
 }
 
 
@@ -64,8 +64,8 @@ shoflykeda (shoflykedaCond2 == 5) {
 }				// Syntax Error
 rakam x 5alsana
 
-
-men (rakam z = 0 5alsana z < 5 5alsana z=z+1) {
+rakam z 5alsana
+men (z = 0 5alsana z < 5 5alsana z=z+1) {
 	bolbol insidemenLoop 5alsana
 	z = 5 5alsana
 	garabkeda (z) {
