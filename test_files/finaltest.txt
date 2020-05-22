@@ -1,26 +1,28 @@
 sabet rakam rakam1 = 3+(5-3)*7+20 5alsana
-bolbol bolbol1 = false 5alsana
-bolbol bolbol2 = !bolbol1 5alsana
-3ayem 3ayem1 = 21.2324 5alsana
+bolbol bool1 = false 5alsana
+bolbol bool2 = !bool1 5alsana
 
-
-men (rakam menCond1 = 0 5alsana menCond1 < 5 5alsana menCond1=menCond1+1) {
+3ayem float1 = 21.23 5alsana
+rakam menCond1 5alsana
+men (menCond1 = 0 5alsana menCond1 < 5 5alsana menCond1=menCond1+1) {
 	rakam insidemen1=0 5alsana
 	insidemen1 = insidemen1+1 5alsana
 }
 
 talama (rakam1 < 10) {
-	rakam1 = 4
+
 }
 
 
 
 
-shoflykeda (rakam1 == 4) {
-	rakam insideshoflykeda1 5alsana
-	insideshoflykeda1 = 6 5alsana
+shoflykeda (rakam1 < 4) 
+{
+	rakam x 5alsana
+	x=5 5alsana
 } 
-walla {
+walla 
+{
 	rakam insidewalla1 5alsana
 	insidewalla1 = 2 5alsana
 }

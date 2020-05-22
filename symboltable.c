@@ -5,8 +5,6 @@
 #include "structs.h"
 #include "z_arraylist/arraylist.h"
 
-ArrayList* symboltable;
-ArrayList* tableptr;
 
  void panic(int line)
  {
@@ -285,7 +283,7 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
         if(Nptr->id.declaration==0)
         { 
             printf("Undeclared variable\n");
-            ////panic(line);
+            panic(line);
         }
         
         st->add(st,Nptr);
@@ -295,19 +293,19 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
 
     else //found in the symbol table
     {
-        int index=nextdata->index;  // for removing
+        int index=nextdata->index;  // for overwriting a variable in  the symboltable
 
        
-
+    
          if(nextdata->id.type!=Nptr->id.othertype)
         {
-            printf("different types hello?\n");
-            ////panic(line);
+            printf("different types ?\n");
+            panic(line);
         }
         if(Nptr->constant)
         {
             printf("trying to overwrite a constant variable error\n");
-            ////panic(line);
+            panic(line);
         }
         else if( st->set(st,index,Nptr) == ALSUCCESS)
         { 

@@ -1,0 +1,3 @@
+scope = 0
+exp : datatype( ) TYPE_BOOL( ) OPERATOR_ASSIGNMENT VALUE_BOOL( ) lineNumber(2)
+Semantic Error at line number 68

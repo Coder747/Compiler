@@ -1,3 +1,33 @@
-STOREc g, R1 
-MOV R1,'d'
-LOADc R0,s
+MOV R0,false
+STOREb bool1, R0 
+STOREb bool1, R0 
+STOREb bool2, R0 
+MOV Rf0,21.230000
+STOREf float1, R0 
+LOADi menCond1, R2 
+MOV R3,0
+STOREi insidemen1, R4 
+oprand = 3
+STOREi insidemen1, R5 
+MOV R7,1
+STOREi insidemen1, R7 
+LOADi x, R9 
+MOV R10,5
+STOREi x, R10 
+LOADi insidewalla1, R12 
+MOV R13,2
+STOREi insidewalla1, R13 
+LOADi law1, R15 
+MOV R16,1
+STOREi law1, R16 
+LOADf lawmafesh3ayem, R18 
+MOV Rf1,1.100000
+STOREf lawmafesh3ayem, R18 
+LOADi insideshoflykeda2, R20 
+LOADi insidewalla2, R21 
+LOADi errHand1, R22 
+oprand = 3
+LOADi errHand1, R23 
+MOV R24,2
+ADD R25,R24,R23
+STOREi errHand2, R25 

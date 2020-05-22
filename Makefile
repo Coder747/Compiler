@@ -1,4 +1,4 @@
-TEST = test_files/test.txt
+TEST = test_files/finaltest.txt
 ARRAY = z_arraylist
 
 all: y.tab.c lex.yy.c a.out run
