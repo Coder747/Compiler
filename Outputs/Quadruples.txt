@@ -1,39 +1,39 @@
-LOADi insideshoflykeda, R34 
-LOADf insidetalama, R33 
-LOADi garabkedalawmafesh, R32 
-LOADi garabkedalaw, R31 
-STOREi z, R29 
-MOV R29,5
-LOADb R28,insidemenLoop
-LOADi z, R27 
-STOREi errHand2, R25 
-MOV R24,2
-ADD R25,R24,R23
-LOADi errHand1, R23 
-LOADi errHand1, R22 
-LOADi insidewalla2, R21 
-LOADi insideshoflykeda2, R20 
-STOREf lawmafesh3ayem, R18 
-MOV Rf1,1.100000
-LOADf lawmafesh3ayem, R18 
-STOREi law1, R16 
-MOV R16,1
-LOADi law1, R15 
-STOREi insidewalla1, R13 
-MOV R13,2
-LOADi insidewalla1, R12 
-STOREi x, R10 
-MOV R10,5
-LOADi x, R9 
-STOREi insidemen1, R7 
-MOV R7,1
-STOREi insidemen1, R5 
-STOREi insidemen1, R4 
-MOV R3,0
-LOADi menCond1, R2 
-STOREf float1, R0 
-MOV Rf0,21.230000
-STOREb bool2, R0 
-STOREb bool1, R0 
-STOREb bool1, R0 
 MOV R0,false
+STOREb bool1, R0 
+STOREb bool1, R0 
+STOREb bool2, R0 
+MOV Rf0,21.230000
+STOREf float1, R0 
+LOADi menCond1, R2 
+MOV R3,0
+STOREi insidemen1, R4 
+STOREi insidemen1, R5 
+MOV R7,1
+STOREi insidemen1, R7 
+MOV R9,4
+STOREi rakam2, R9 
+LOADi x, R11 
+MOV R12,5
+STOREi x, R13 
+LOADi insidewalla1, R15 
+MOV R16,2
+STOREi insidewalla1, R16 
+LOADi law1, R18 
+MOV R19,1
+STOREi law1, R19 
+LOADf lawmafesh3ayem, R21 
+MOV Rf1,1.100000
+STOREf lawmafesh3ayem, R21 
+LOADi insideshoflykeda2, R23 
+LOADi insidewalla2, R24 
+LOADi shoflykedaCond2, R25 
+LOADi a, R26 
+LOADi x, R27 
+LOADi z, R28 
+LOADb R29,insidemenLoop
+MOV R30,5
+STOREi z, R30 
+LOADi garabkedalaw, R32 
+LOADi garabkedalawmafesh, R33 
+LOADf insidetalama, R34 
+LOADi insideshoflykeda, R35 

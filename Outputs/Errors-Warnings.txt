@@ -1,2 +1,0 @@
-Error: syntax error at line number 14
-Error: syntax error at line number 53

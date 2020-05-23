@@ -17,6 +17,7 @@
  } 
 
 
+
 int count1=0; int count2=0;int ops=0; 
 
  void sendtotest(nodeType* nptr,int operand)
@@ -238,7 +239,6 @@ nodeType* search_symboltable(ArrayList*st,nodeType *Nptr,int line)
             }
             if(strcmp(Nptr->id.name,nextdata->id.name)==0) // if there exists a variable with the name needed
             { 
-                fprintf(fpp,"found %s! ", Nptr->id.name);
                     nextdata->index=i;
                     return nextdata;// return the index
                 
@@ -263,12 +263,11 @@ nodeType* get_info(ArrayList*st,nodeType* Nptr,int line)
     nextdata=search_symboltable(st,Nptr,line);
     if(nextdata!=NULL)
     {
-        fprintf(fpp,"getting variable %s \n",Nptr->id.name);
         return nextdata;
     }
     else 
     {
-        fprintf(fpp,"variable %s wasn't found in the symbol table rip\n",Nptr->id.name);
+        fprintf(fpp,"variable %s wasn't found in the symbol table \n",Nptr->id.name);
         panic(line);
     }
     return NULL;

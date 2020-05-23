@@ -9,10 +9,11 @@ men (menCond1 = 0 5alsana menCond1 < 5 5alsana menCond1=menCond1+1) {
 	insidemen1 = insidemen1+1 5alsana
 }
 
-talama (rakam1 < 10) {
-	rakam rakam1 = 4
-}
 
+talama (rakam1 < 10) {
+	rakam rakam2 = 4 5alsana
+
+}
 
 
 
@@ -50,18 +51,18 @@ walla {
 
 
 rakam errHand1 5alsana
-rakam errHand2 = errHand1 + 2 5alsana     // Semantic Error
-3ayem errHand3 = True 5alsana // Semantic Error
+rakam errHand2 = errHand1 + 2 5alsana     
+3ayem errHand3 = True 5alsana 
 1aqs
-1qww 5alsana			// Lexical Error 
-rakam 2 5alsana			// Syntax Error 
-rakam 2abs 5alsana		// Lexical Error 
-bolbol law 5alsana		// Syntax Error 
-3ayem lawmafesh 5alsana 	// Syntax Error
+1qww 5alsana			 
+rakam 2 5alsana			
+rakam 2abs 5alsana		 
+bolbol law 5alsana		 
+3ayem lawmafesh 5alsana
 
 shoflykeda (shoflykedaCond2 == 5) {
-	rakam 3ayem	
-}				// Syntax Error
+	rakam 3ayem	5alsana
+}				
 rakam x 5alsana
 
 rakam z 5alsana

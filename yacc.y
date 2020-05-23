@@ -80,7 +80,7 @@ code : code line {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"cod
 line        : exp
             {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"line: exp( )\n");}
             | error SEMICOLON 
-            | error CURLY_CLOSE 
+            | error CURLY_CLOSE
             ;
 
 switchcase  : SWITCH BRACKET_OPEN Condition BRACKET_CLOSE newscope_open switchstmt newscope_close
@@ -126,8 +126,6 @@ Whileloop   : WHILE BRACKET_OPEN Condition BRACKET_CLOSE newscope_open statments
 
 Forloop     : FOR BRACKET_OPEN IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE newscope_open statments newscope_close
             {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Forloop: FOR( ) BRACKET_OPEN IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
-            |FOR BRACKET_OPEN datatype IDENTIFIER OPERATOR_ASSIGNMENT VALUE_INT SEMICOLON Condition SEMICOLON IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic  BRACKET_CLOSE newscope_open statments newscope_close
-            {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"Forloop: FOR( ) BRACKET_OPEN datatype( ) IDENTIFIER( ) OPERATOR_ASSIGNMENT VALUE_INT( ) SEMICOLON condition( ) SEMICOLON IDENTIFIER( ) OPERATOR_ASSIGNMENT Arithmetic( ) BRACKET_CLOSE newscope_open statments( ) newscope_close lineNumber(%d)\n",yylineno);}
             ;
 
 newscope_open:  CURLY_OPEN
@@ -414,8 +412,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 Ntype->typeofvariable=Id;
@@ -489,8 +487,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 Ntype->typeofvariable=Id;
@@ -517,12 +515,11 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 } 
                 Ntype->id.type=$1;
-                fprintf(fpp,"type %d\n",Ntype->id.type);
                 Ntype->id.check=load;
                 sendtotest(Ntype,-1);
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -573,7 +570,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 if(check!=NULL)
                 {
                     FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -591,7 +588,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 nodeType* Ntype1;
                 Ntype1=malloc(sizeof(nodeType));
                 Ntype->id.scope=scopenumber;
-                FILE *fpp = fopen("Outputs/SymbolTable.txt","a"); fprintf(fpp,"scope = %d\n",Ntype->id.scope);
+                FILE *fpp = fopen("Outputs/SymbolTable.txt","a"); 
+                fprintf(fpp,"scope = %d\n",Ntype->id.scope);
                 Const* ptr;
                 ptr=$4;
                 Ntype1->con=*ptr;
@@ -607,7 +605,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 if(check!=NULL)
                 {
                     FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -632,7 +630,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 if(check!=NULL)
                 {
                     FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -662,8 +660,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE * fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -698,8 +696,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -733,8 +731,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -767,7 +765,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 if(check!=NULL)
                 {
                     FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -792,7 +790,7 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 if(check!=NULL)
                 {
                     FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a"); 
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 Ntype->id.check= load;
@@ -845,8 +843,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -878,8 +876,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
 
@@ -912,8 +910,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -943,8 +941,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -970,8 +968,8 @@ exp         :IDENTIFIER OPERATOR_ASSIGNMENT Arithmetic SEMICOLON
                 check = search_symboltable(tableptr,Ntype,yylineno);
                 if(check!=NULL)
                 {
-                    FILE *fpp = fopen("Outputs/SymbolTable.txt","a");
-                    fprintf(fpp,"redeclaration of the variable %s error\n",Ntype->id.name);
+                    FILE *fpp = fopen("Outputs/Errors-Warnings.txt","a");
+                    fprintf(fpp,"redeclaration of the variable %s error line number %d  \n",Ntype->id.name,yylineno);
                     panic(yylineno);
                 }
                 $$=add_to_symboltable(tableptr,Ntype,yylineno);
