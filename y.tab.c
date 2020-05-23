@@ -556,9 +556,9 @@ static const yytype_uint16 yyrline[] =
      131,   137,   144,   149,   154,   158,   160,   164,   166,   168,
      170,   172,   174,   176,   178,   180,   182,   184,   192,   212,
      232,   252,   271,   283,   299,   314,   332,   334,   346,   354,
-     400,   474,   504,   530,   550,   583,   617,   642,   674,   712,
-     745,   778,   804,   825,   857,   891,   923,   956,   980,  1004,
-    1007,  1010,  1012,  1015,  1019,  1025
+     400,   474,   504,   529,   549,   582,   616,   641,   673,   711,
+     744,   777,   803,   824,   856,   890,   922,   955,   979,  1003,
+    1006,  1009,  1011,  1014,  1018,  1024
 };
 #endif
 
@@ -2146,7 +2146,6 @@ yyreduce:
                     panic(yylineno);
                 } 
                 Ntype->id.type=(yyvsp[(1) - (3)].type);
-                fprintf(fpp,"type %d\n",Ntype->id.type);
                 Ntype->id.check=load;
                 sendtotest(Ntype,-1);
                 (yyval.nPtr)=add_to_symboltable(tableptr,Ntype,yylineno);
@@ -2156,7 +2155,7 @@ yyreduce:
     break;
 
   case 53:
-#line 531 "yacc.y"
+#line 530 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2178,7 +2177,7 @@ yyreduce:
     break;
 
   case 54:
-#line 551 "yacc.y"
+#line 550 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2213,7 +2212,7 @@ yyreduce:
     break;
 
   case 55:
-#line 584 "yacc.y"
+#line 583 "yacc.y"
     {
                 
                 nodeType* check;
@@ -2250,7 +2249,7 @@ yyreduce:
     break;
 
   case 56:
-#line 618 "yacc.y"
+#line 617 "yacc.y"
     {
                 nodeType* Ntype;
                 nodeType* check;
@@ -2277,7 +2276,7 @@ yyreduce:
     break;
 
   case 57:
-#line 643 "yacc.y"
+#line 642 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2311,7 +2310,7 @@ yyreduce:
     break;
 
   case 58:
-#line 675 "yacc.y"
+#line 674 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2349,7 +2348,7 @@ yyreduce:
     break;
 
   case 59:
-#line 713 "yacc.y"
+#line 712 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2384,7 +2383,7 @@ yyreduce:
     break;
 
   case 60:
-#line 746 "yacc.y"
+#line 745 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2419,7 +2418,7 @@ yyreduce:
     break;
 
   case 61:
-#line 779 "yacc.y"
+#line 778 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2448,7 +2447,7 @@ yyreduce:
     break;
 
   case 62:
-#line 805 "yacc.y"
+#line 804 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2472,7 +2471,7 @@ yyreduce:
     break;
 
   case 63:
-#line 826 "yacc.y"
+#line 825 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2506,7 +2505,7 @@ yyreduce:
     break;
 
   case 64:
-#line 858 "yacc.y"
+#line 857 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2542,7 +2541,7 @@ yyreduce:
     break;
 
   case 65:
-#line 892 "yacc.y"
+#line 891 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2577,7 +2576,7 @@ yyreduce:
     break;
 
   case 66:
-#line 924 "yacc.y"
+#line 923 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2611,7 +2610,7 @@ yyreduce:
     break;
 
   case 67:
-#line 957 "yacc.y"
+#line 956 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2638,7 +2637,7 @@ yyreduce:
     break;
 
   case 68:
-#line 981 "yacc.y"
+#line 980 "yacc.y"
     {
                 nodeType* Ntype;
                 Ntype=malloc(sizeof(nodeType));
@@ -2664,32 +2663,32 @@ yyreduce:
     break;
 
   case 69:
-#line 1005 "yacc.y"
+#line 1004 "yacc.y"
     {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: ifstatment( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 70:
-#line 1008 "yacc.y"
+#line 1007 "yacc.y"
     {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: Whileloop( )lineNumber(%d)\n",yylineno);}
     break;
 
   case 71:
-#line 1011 "yacc.y"
+#line 1010 "yacc.y"
     {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: switchcase( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 72:
-#line 1013 "yacc.y"
+#line 1012 "yacc.y"
     {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: repuntil( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 73:
-#line 1016 "yacc.y"
+#line 1015 "yacc.y"
     {FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"exp: Forloop( ) lineNumber(%d)\n",yylineno);}
     break;
 
   case 74:
-#line 1020 "yacc.y"
+#line 1019 "yacc.y"
     {
             
              FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"datatype: TYPE_INT( )\n");
@@ -2698,7 +2697,7 @@ yyreduce:
     break;
 
   case 75:
-#line 1026 "yacc.y"
+#line 1025 "yacc.y"
     {
             
             FILE *fpp = fopen("Outputs/Parsing.txt","a"); fprintf(fpp,"datatype: TYPE_FLOAT( )\n");
@@ -2708,7 +2707,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2712 "y.tab.c"
+#line 2711 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2922,7 +2921,7 @@ yyreturn:
 }
 
 
-#line 1035 "yacc.y"
+#line 1034 "yacc.y"
 
 
 void yyerror(char *s){

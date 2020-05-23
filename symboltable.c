@@ -17,7 +17,6 @@
  } 
 
 
-
 int count1=0; int count2=0;int ops=0; 
 
  void sendtotest(nodeType* nptr,int operand)
@@ -302,7 +301,7 @@ nodeType* add_to_symboltable(ArrayList* st, nodeType *Nptr,int line)
     
          if(nextdata->id.type!=Nptr->id.othertype)
         {
-            fprintf(fpp,"different types ?\n");
+            fprintf(fpp,"different types \n");
             panic(line);
         }
         if(Nptr->constant)

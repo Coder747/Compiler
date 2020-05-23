@@ -59,7 +59,6 @@ rakam 2 5alsana
 rakam 2abs 5alsana		 
 bolbol law 5alsana		 
 3ayem lawmafesh 5alsana
-
 shoflykeda (shoflykedaCond2 == 5) {
 	rakam 3ayem	5alsana
 }				
